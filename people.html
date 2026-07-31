@@ -111,7 +111,7 @@
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
                 <span class="section-tag">Our People</span>
-                <h2>Graduate Students</h2>
+                <h2>Team</h2>
                 <p>Meet our researchers driving innovation in precision agriculture.</p>
             </div>
 
@@ -220,9 +220,6 @@
                 if (alumni.length > 0) {
                     html += `
                         <h3 class="section-title">🎓 Alumni</h3>
-                        <p style="text-align: center; color: var(--gray);">
-                            MS Students at Chungnam National University, Daejeon, South Korea
-                        </p>
                         <div class="grad-student-grid">
                     `;
                     alumni.forEach(m => {
@@ -247,7 +244,7 @@
             // Render on load
             renderTeam();
 
-            // Re-render when localStorage changes (if admin updates in another tab)
+            // Re-render when localStorage changes
             window.addEventListener('storage', function(e) {
                 if (e.key === 'spal_admin_data') {
                     renderTeam();
