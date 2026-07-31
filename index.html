@@ -10,9 +10,6 @@
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- NAVIGATION                                 -->
-    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -33,9 +30,6 @@
         </div>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- HERO SECTION                               -->
-    <!-- ========================================== -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -84,9 +78,6 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -115,46 +106,19 @@
         </div>
     </footer>
 
-    <!-- ========================================== -->
-    <!-- ADMIN DATA LOADER (Must be included)       -->
-    <!-- ========================================== -->
     <script>
-        // ==========================================
-        // LOAD ADMIN DATA ON WEBSITE
-        // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔄 Loading admin data...');
-            
-            // Load page data
             const pageData = localStorage.getItem('spal_page_data');
-            console.log('📦 Page Data:', pageData);
-            
             if (pageData) {
                 try {
                     const data = JSON.parse(pageData);
-                    console.log('✅ Data loaded:', data);
-                    
-                    // Update Home stats
-                    const stats = ['home_projects', 'home_pubs', 'home_team', 'home_ongoing'];
-                    stats.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el && data[id] !== undefined) {
-                            el.textContent = data[id];
-                            console.log(`✅ Updated ${id}: ${data[id]}`);
-                        }
-                    });
-                    
-                    // Update Hero description
                     const desc = document.getElementById('hero-desc');
-                    if (desc && data.home_desc) {
-                        desc.textContent = data.home_desc;
-                        console.log('✅ Updated hero description');
-                    }
-                } catch(e) {
-                    console.error('❌ Error loading data:', e);
-                }
-            } else {
-                console.log('⚠️ No page data found in localStorage');
+                    if (desc && data.home_desc) desc.textContent = data.home_desc;
+                    ['home_projects', 'home_pubs', 'home_team', 'home_ongoing'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && data[id] !== undefined) el.textContent = data[id];
+                    });
+                } catch(e) {}
             }
         });
     </script>
