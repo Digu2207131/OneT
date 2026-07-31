@@ -214,4 +214,26 @@
             }
 
             // Load awards
-            const awardData = localStorage.getItem('
+            const awardData = localStorage.getItem('spal_admin_data');
+            if (awardData) {
+                try {
+                    const data = JSON.parse(awardData);
+                    if (data.awards && data.awards.length > 0) {
+                        const container = document.getElementById('awards-container');
+                        if (container) {
+                            let html = '<ul class="award-list">';
+                            data.awards.forEach(a => {
+                                html += `<li>🏆 ${a.title}</li>`;
+                            });
+                            html += '</ul>';
+                            container.innerHTML = html;
+                        }
+                    }
+                } catch(e) {}
+            }
+        });
+    </script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
