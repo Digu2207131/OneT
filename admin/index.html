@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPAL Lab – Admin Login</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -16,97 +17,41 @@
             padding: 20px;
         }
         .container {
-            text-align: center;
             background: white;
-            padding: 50px 40px;
-            border-radius: 24px;
+            padding: 40px;
+            border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            max-width: 420px;
+            max-width: 400px;
             width: 100%;
+            text-align: center;
         }
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-        h1 {
-            color: #064A32;
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            color: #6c757d;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        .login-box {
-            margin-top: 10px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-        .login-box input {
+        .logo { font-size: 48px; margin-bottom: 10px; }
+        h1 { color: #064A32; font-size: 24px; }
+        p { color: #6c757d; font-size: 14px; margin-bottom: 25px; }
+        input {
             width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 15px;
-            margin-bottom: 16px;
-            transition: 0.3s;
-            box-sizing: border-box;
+            margin-bottom: 15px;
         }
-        .login-box input:focus {
-            outline: none;
-            border-color: #0A6847;
-            box-shadow: 0 0 0 4px rgba(10,104,71,0.1);
-        }
-        .btn {
+        input:focus { border-color: #0A6847; outline: none; }
+        button {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #0A6847;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn:hover {
-            background: #064A32;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(10,104,71,0.3);
-        }
-        .error-msg {
-            color: #dc3545;
-            font-size: 13px;
-            margin-bottom: 15px;
-            display: none;
-            padding: 8px 12px;
-            background: #fde8e8;
             border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        .error-msg.show {
-            display: block;
-        }
-        .security-note {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 20px;
-        }
-        .security-note strong {
-            color: #0A6847;
-        }
-        .security-note .change-hint {
-            display: block;
-            font-size: 11px;
-            color: #999;
-            margin-top: 4px;
-        }
-        .footer-text {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #ccc;
-        }
+        button:hover { background: #064A32; }
+        .error { color: #dc3545; font-size: 13px; margin-bottom: 10px; display: none; }
+        .hint { font-size: 12px; color: #aaa; margin-top: 15px; }
+        .hint strong { color: #0A6847; }
     </style>
 </head>
 <body>
@@ -114,65 +59,40 @@
     <div class="container">
         <div class="logo">🔐</div>
         <h1>SPAL Admin</h1>
-        <p class="subtitle">Enter your credentials to manage the website</p>
+        <p>Enter password to manage content</p>
 
-        <div class="login-box">
-            <div class="error-msg" id="errorMsg">❌ Invalid password. Please try again.</div>
-            <input type="password" id="adminPassword" placeholder="Enter admin password" />
-            <button class="btn" onclick="login()">Login</button>
-        </div>
+        <div class="error" id="errorMsg">❌ Wrong password!</div>
+        <input type="password" id="adminPass" placeholder="Enter password" />
+        <button onclick="login()">Login</button>
 
-        <div class="security-note">
-            <strong>🔑 Default Password: spal2025</strong>
-            <span class="change-hint">Change it in the dashboard after login</span>
-        </div>
-
-        <div class="footer-text">
-            &copy; 2025 Smart Precision Agriculture Lab
+        <div class="hint">
+            Default: <strong>spal2025</strong>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // ADMIN PASSWORD – Stored in localStorage
-        // ==========================================
-        // Default password: spal2025
-        // Change it in the dashboard
-
         function login() {
-            const password = document.getElementById('adminPassword').value;
-            const errorMsg = document.getElementById('errorMsg');
-
-            // Get stored password (or use default)
-            let storedPassword = localStorage.getItem('admin_password');
-            if (!storedPassword) {
+            const pass = document.getElementById('adminPass').value;
+            const error = document.getElementById('errorMsg');
+            let stored = localStorage.getItem('admin_password');
+            if (!stored) {
                 localStorage.setItem('admin_password', 'spal2025');
-                storedPassword = 'spal2025';
+                stored = 'spal2025';
             }
-
-            if (password === storedPassword) {
+            if (pass === stored) {
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 window.location.href = 'dashboard.html';
             } else {
-                errorMsg.classList.add('show');
-                setTimeout(() => { errorMsg.classList.remove('show'); }, 3000);
+                error.style.display = 'block';
+                setTimeout(() => { error.style.display = 'none'; }, 3000);
             }
         }
-
-        // Enter key support
-        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+        document.getElementById('adminPass').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
         });
-
-        // Check if already logged in
         if (sessionStorage.getItem('adminLoggedIn') === 'true') {
             window.location.href = 'dashboard.html';
         }
-
-        // Focus on password field
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('adminPassword').focus();
-        });
     </script>
 
 </body>
