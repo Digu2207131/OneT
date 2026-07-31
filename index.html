@@ -42,22 +42,22 @@
                 <div class="hero-text">
                     <span class="hero-badge">🔬 Research Lab</span>
                     <h1>Smart Precision <span class="highlight">Agriculture</span> Lab</h1>
-                    <p>Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</p>
+                    <p id="hero-desc">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</p>
                     <div class="hero-stats">
                         <div class="stat-card">
-                            <span class="stat-number" data-target="15">0</span>
+                            <span class="stat-number" id="home_projects">15</span>
                             <span class="stat-label">Research Projects</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" data-target="45">0</span>
+                            <span class="stat-number" id="home_pubs">45</span>
                             <span class="stat-label">Publications</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" data-target="12">0</span>
+                            <span class="stat-number" id="home_team">12</span>
                             <span class="stat-label">Team Members</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" data-target="8">0</span>
+                            <span class="stat-number" id="home_ongoing">8</span>
                             <span class="stat-label">Ongoing Projects</span>
                         </div>
                     </div>
@@ -114,6 +114,50 @@
             </div>
         </div>
     </footer>
+
+    <!-- ========================================== -->
+    <!-- ADMIN DATA LOADER (Must be included)       -->
+    <!-- ========================================== -->
+    <script>
+        // ==========================================
+        // LOAD ADMIN DATA ON WEBSITE
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 Loading admin data...');
+            
+            // Load page data
+            const pageData = localStorage.getItem('spal_page_data');
+            console.log('📦 Page Data:', pageData);
+            
+            if (pageData) {
+                try {
+                    const data = JSON.parse(pageData);
+                    console.log('✅ Data loaded:', data);
+                    
+                    // Update Home stats
+                    const stats = ['home_projects', 'home_pubs', 'home_team', 'home_ongoing'];
+                    stats.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && data[id] !== undefined) {
+                            el.textContent = data[id];
+                            console.log(`✅ Updated ${id}: ${data[id]}`);
+                        }
+                    });
+                    
+                    // Update Hero description
+                    const desc = document.getElementById('hero-desc');
+                    if (desc && data.home_desc) {
+                        desc.textContent = data.home_desc;
+                        console.log('✅ Updated hero description');
+                    }
+                } catch(e) {
+                    console.error('❌ Error loading data:', e);
+                }
+            } else {
+                console.log('⚠️ No page data found in localStorage');
+            }
+        });
+    </script>
 
     <script src="js/script.js"></script>
 </body>
