@@ -40,7 +40,6 @@
             font-family: Arial, sans-serif;
         }
         .field textarea { min-height: 60px; resize: vertical; }
-        .field select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         .item-list { margin-top: 10px; }
@@ -57,7 +56,6 @@
         .item .info .text { flex: 1; }
         .item .info .text strong { font-size: 14px; display: block; }
         .item .info .text .detail { font-size: 12px; color: #666; }
-        .item .actions { display: flex; gap: 5px; }
         .item .actions button {
             padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;
         }
@@ -140,10 +138,48 @@
             </div>
         </div>
 
+        <!-- Image Upload -->
+        <div class="section">
+            <h2>🖼️ Upload Image</h2>
+            <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+                <div style="flex:1;">
+                    <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png,.gif,.webp,.svg" />
+                    <button class="btn-add" onclick="uploadImage()" style="margin-top:10px;">📤 Upload</button>
+                </div>
+                <div id="uploadStatus" style="font-size:14px; color:#666;"></div>
+            </div>
+            <div id="uploadPreview" style="margin-top:15px;"></div>
+        </div>
+
+        <!-- Password Change -->
+        <div class="password-section" style="background:#fff3cd; border:2px solid #ffc107; border-radius:10px; padding:20px; margin-bottom:20px;">
+            <h2 style="color:#856404; border-bottom-color:#ffc107;">🔐 Change Password</h2>
+            <div class="row">
+                <div class="field">
+                    <label>Current Password</label>
+                    <input type="password" id="current_pass" placeholder="Current password" />
+                </div>
+                <div class="field">
+                    <label>New Password</label>
+                    <input type="password" id="new_pass" placeholder="New password" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirm_pass" placeholder="Confirm new password" />
+                </div>
+                <div style="display:flex; align-items:flex-end; padding-bottom:12px;">
+                    <button class="btn-add" onclick="changePassword()">Change Password</button>
+                </div>
+            </div>
+            <div id="passStatus" style="font-size:13px; margin-top:5px;"></div>
+        </div>
+
         <!-- HOME -->
         <div class="section">
-            <h2>🏠 Home Page</h2>
-            <div class="field"><label>Hero Description</label><textarea id="home_desc" rows="2">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</textarea></div>
+            <h2>🏠 Home</h2>
+            <div class="field"><label>Hero Description</label><textarea id="home_desc" rows="2">Developing AI-powered drone systems and image processing solutions for sustainable agriculture.</textarea></div>
             <div class="row">
                 <div class="field"><label>Projects</label><input type="number" id="home_projects" value="15" /></div>
                 <div class="field"><label>Publications</label><input type="number" id="home_pubs" value="45" /></div>
@@ -175,17 +211,17 @@
             <div class="field"><label>Bio</label><textarea id="pi_bio" rows="3">Dr. Md. Shaha Nur Kabir is a Professor and Principal Investigator of SPAL.</textarea></div>
         </div>
 
-        <!-- TEAM MEMBERS -->
+        <!-- TEAM -->
         <div class="section">
             <h2>👥 Team Members</h2>
             <div class="team-subsection">
-                <h3>🟢 Current Members</h3>
-                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add Current</button>
+                <h3>🟢 Current</h3>
+                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add</button>
                 <div id="currentTeamList" class="item-list"></div>
             </div>
             <div class="team-subsection" style="margin-top:30px; padding-top:20px; border-top:2px solid #eef2f7;">
                 <h3>🎓 Alumni</h3>
-                <button class="btn-add" onclick="openModal('team', null, 'alumni')">+ Add Alumni</button>
+                <button class="btn-add" onclick="openModal('team', null, 'alumni')">+ Add</button>
                 <div id="alumniTeamList" class="item-list"></div>
             </div>
         </div>
@@ -193,21 +229,21 @@
         <!-- PUBLICATIONS -->
         <div class="section">
             <h2>📄 Publications</h2>
-            <button class="btn-add" onclick="openModal('publication')">+ Add Publication</button>
+            <button class="btn-add" onclick="openModal('publication')">+ Add</button>
             <div id="pubList" class="item-list"></div>
         </div>
 
         <!-- NEWS -->
         <div class="section">
             <h2>📰 News</h2>
-            <button class="btn-add" onclick="openModal('news')">+ Add News</button>
+            <button class="btn-add" onclick="openModal('news')">+ Add</button>
             <div id="newsList" class="item-list"></div>
         </div>
 
         <!-- AWARDS -->
         <div class="section">
             <h2>🏆 Awards</h2>
-            <button class="btn-add" onclick="openModal('award')">+ Add Award</button>
+            <button class="btn-add" onclick="openModal('award')">+ Add</button>
             <div id="awardList" class="item-list"></div>
         </div>
 
@@ -253,6 +289,31 @@
         };
 
         let modalType = '', editId = null, modalCategory = null;
+
+        // ==========================================
+        // PASSWORD CHANGE
+        // ==========================================
+        function changePassword() {
+            const current = document.getElementById('current_pass').value;
+            const newPass = document.getElementById('new_pass').value;
+            const confirmPass = document.getElementById('confirm_pass').value;
+            const status = document.getElementById('passStatus');
+
+            let stored = localStorage.getItem('admin_password');
+            if (!stored) { localStorage.setItem('admin_password', 'spal2025'); stored = 'spal2025'; }
+
+            if (current !== stored) { status.innerHTML = '❌ Current password incorrect!'; status.style.color = '#dc3545'; return; }
+            if (newPass.length < 4) { status.innerHTML = '❌ Password must be at least 4 characters!'; status.style.color = '#dc3545'; return; }
+            if (newPass !== confirmPass) { status.innerHTML = '❌ Passwords do not match!'; status.style.color = '#dc3545'; return; }
+
+            localStorage.setItem('admin_password', newPass);
+            status.innerHTML = '✅ Password changed successfully!';
+            status.style.color = '#0A6847';
+            document.getElementById('current_pass').value = '';
+            document.getElementById('new_pass').value = '';
+            document.getElementById('confirm_pass').value = '';
+            showToast('✅ Password changed!', 'success');
+        }
 
         // ==========================================
         // LOAD / SAVE
@@ -330,7 +391,6 @@
         }
 
         function renderTeam() {
-            // Current members
             const currentContainer = document.getElementById('currentTeamList');
             const currentMembers = data.team.filter(m => m.category === 'current');
             if (currentMembers.length === 0) {
@@ -358,7 +418,6 @@
                 currentContainer.innerHTML = html;
             }
 
-            // Alumni
             const alumniContainer = document.getElementById('alumniTeamList');
             const alumniMembers = data.team.filter(m => m.category === 'alumni');
             if (alumniMembers.length === 0) {
@@ -391,58 +450,56 @@
             const container = document.getElementById('newsList');
             if (!data.news || data.news.length === 0) {
                 container.innerHTML = '<p style="color:#999; padding:10px;">No news.</p>';
-                return;
-            }
-            let html = '';
-            data.news.forEach(item => {
-                const image = item.image || '';
-                html += `
-                    <div class="item">
-                        <div class="info">
-                            ${image ? `<img src="../images/${image}" alt="${item.title}" onerror="this.style.display='none'" />` : ''}
-                            <div class="text">
-                                <strong>${item.title}</strong>
-                                <div class="detail">${item.date} · ${item.author}</div>
+            } else {
+                let html = '';
+                data.news.forEach(item => {
+                    const image = item.image || '';
+                    html += `
+                        <div class="item">
+                            <div class="info">
+                                ${image ? `<img src="../images/${image}" alt="${item.title}" onerror="this.style.display='none'" />` : ''}
+                                <div class="text">
+                                    <strong>${item.title}</strong>
+                                    <div class="detail">${item.date} · ${item.author}</div>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn-edit" onclick="openModal('news', ${item.id})">Edit</button>
+                                <button class="btn-delete" onclick="deleteItem('news', ${item.id})">Delete</button>
                             </div>
                         </div>
-                        <div class="actions">
-                            <button class="btn-edit" onclick="openModal('news', ${item.id})">Edit</button>
-                            <button class="btn-delete" onclick="deleteItem('news', ${item.id})">Delete</button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
+                    `;
+                });
+                container.innerHTML = html;
+            }
         }
 
         function renderList(id, items, type) {
             const container = document.getElementById(id);
             if (!items || items.length === 0) {
                 container.innerHTML = '<p style="color:#999; padding:10px;">No items.</p>';
-                return;
-            }
-            let html = '';
-            items.forEach(item => {
-                let name = item.name || item.title || '';
-                let detail = item.role || item.authors || item.date || '';
-                let doi = item.doi ? `<span style="font-size:11px; color:#0A6847;">DOI: ${item.doi}</span>` : '';
-                html += `
-                    <div class="item">
-                        <div class="info">
-                            <div class="text">
-                                <strong>${name}</strong>
-                                <div class="detail">${detail}</div>
-                                ${doi ? `<div style="font-size:11px; color:#0A6847;">${doi}</div>` : ''}
+            } else {
+                let html = '';
+                items.forEach(item => {
+                    let name = item.name || item.title || '';
+                    let detail = item.role || item.authors || item.date || '';
+                    html += `
+                        <div class="item">
+                            <div class="info">
+                                <div class="text">
+                                    <strong>${name}</strong>
+                                    <div class="detail">${detail}</div>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn-edit" onclick="openModal('${type}', ${item.id})">Edit</button>
+                                <button class="btn-delete" onclick="deleteItem('${type}', ${item.id})">Delete</button>
                             </div>
                         </div>
-                        <div class="actions">
-                            <button class="btn-edit" onclick="openModal('${type}', ${item.id})">Edit</button>
-                            <button class="btn-delete" onclick="deleteItem('${type}', ${item.id})">Delete</button>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
+                    `;
+                });
+                container.innerHTML = html;
+            }
         }
 
         // ==========================================
@@ -488,7 +545,6 @@
                         <div style="margin-top:5px;">
                             ${image ? `<img src="../images/${image}" class="image-preview" id="imagePreview" onerror="this.style.display='none'" />` : `<img src="" class="image-preview" id="imagePreview" style="display:none;" />`}
                         </div>
-                        <div style="font-size:12px; color:#666; margin-top:5px;">Supported: JPG, PNG, JPEG</div>
                     </div>
                 `;
             } else if (type === 'publication') {
@@ -519,9 +575,8 @@
                         <div style="margin-top:5px;">
                             ${image ? `<img src="../images/${image}" class="image-preview" id="imagePreview" onerror="this.style.display='none'" />` : `<img src="" class="image-preview" id="imagePreview" style="display:none;" />`}
                         </div>
-                        <div style="font-size:12px; color:#666; margin-top:5px;">Supported: JPG, PNG, JPEG</div>
                     </div>
-                    <div class="field"><label>Link (URL)</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
+                    <div class="field"><label>Link</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
                     <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="10.1234/example" /></div>
                 `;
             } else if (type === 'award') {
@@ -629,6 +684,57 @@
             showToast('🗑️ Deleted!', 'success');
         }
 
+        // ==========================================
+        // IMAGE UPLOAD
+        // ==========================================
+        function uploadImage() {
+            const fileInput = document.getElementById('imageUpload');
+            const status = document.getElementById('uploadStatus');
+            const preview = document.getElementById('uploadPreview');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                status.innerHTML = '❌ Please select an image first.';
+                status.style.color = '#dc3545';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            status.innerHTML = '⏳ Uploading...';
+            status.style.color = '#0A6847';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" style="max-width:200px; max-height:200px; border-radius:8px; border:2px solid #0A6847;" />`;
+            };
+            reader.readAsDataURL(file);
+            
+            fetch('https://kabir-sir-lab.onrender.com/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    status.innerHTML = `✅ ${data.message}`;
+                    status.style.color = '#0A6847';
+                    fileInput.value = '';
+                } else {
+                    status.innerHTML = `❌ ${data.error || 'Upload failed'}`;
+                    status.style.color = '#dc3545';
+                }
+            })
+            .catch(error => {
+                status.innerHTML = `❌ Error: ${error.message}`;
+                status.style.color = '#dc3545';
+            });
+        }
+
+        // ==========================================
+        // TOAST
+        // ==========================================
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
             t.textContent = msg;
