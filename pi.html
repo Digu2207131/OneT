@@ -10,9 +10,6 @@
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- NAVIGATION                                 -->
-    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -33,9 +30,6 @@
         </div>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- PI CONTENT                                 -->
-    <!-- ========================================== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
@@ -47,22 +41,13 @@
                     <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
                 </div>
                 <div class="pi-info">
-                    <h3>Dr. Md. Shaha Nur Kabir</h3>
-                    <p class="pi-role">Professor &amp; Principal Investigator</p>
-                    <p class="pi-dept">
-                        Department of Agricultural &amp; Industrial Engineering (AIE)<br />
-                        Faculty of Engineering<br />
-                        Hajee Mohammad Danesh Science &amp; Technology University, Dinajpur
-                    </p>
-                    <p class="pi-bio">
-                        Dr. Md. Shaha Nur Kabir is a Professor and the Principal Investigator of the 
-                        Smart Precision Agriculture Lab (SPAL). He leads cutting-edge research in precision 
-                        agriculture technologies, focusing on AI, drone systems, and machine vision for 
-                        sustainable agricultural practices.
-                    </p>
+                    <h3 id="pi-name">Dr. Md. Shaha Nur Kabir</h3>
+                    <p class="pi-role" id="pi-title">Professor &amp; Principal Investigator</p>
+                    <p class="pi-dept" id="pi-dept">Department of Agricultural &amp; Industrial Engineering (AIE)<br />Faculty of Engineering<br />Hajee Mohammad Danesh Science &amp; Technology University, Dinajpur</p>
+                    <p class="pi-bio" id="pi-bio">Dr. Md. Shaha Nur Kabir is a Professor and the Principal Investigator of the Smart Precision Agriculture Lab (SPAL). He leads cutting-edge research in precision agriculture technologies, focusing on AI, drone systems, and machine vision for sustainable agricultural practices.</p>
                     <div class="pi-contact">
-                        <span><i class="fas fa-envelope"></i> kabir1982@hstu.ac.bd</span>
-                        <span><i class="fas fa-phone"></i> +8801737676930</span>
+                        <span><i class="fas fa-envelope"></i> <span id="pi-email">kabir1982@hstu.ac.bd</span></span>
+                        <span><i class="fas fa-phone"></i> <span id="pi-phone">+8801737676930</span></span>
                     </div>
                     <div class="pi-social">
                         <a href="https://www.researchgate.net/profile/Md_Kabir16" target="_blank"><i class="fab fa-researchgate"></i></a>
@@ -77,9 +62,6 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -107,6 +89,30 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageData = localStorage.getItem('spal_page_data');
+            if (pageData) {
+                try {
+                    const data = JSON.parse(pageData);
+                    const elements = {
+                        'pi-name': 'pi_name',
+                        'pi-title': 'pi_title',
+                        'pi-dept': 'pi_dept',
+                        'pi-email': 'pi_email',
+                        'pi-phone': 'pi_phone',
+                        'pi-bio': 'pi_bio'
+                    };
+                    Object.keys(elements).forEach(id => {
+                        const el = document.getElementById(id);
+                        const key = elements[id];
+                        if (el && data[key]) el.textContent = data[key];
+                    });
+                } catch(e) {}
+            }
+        });
+    </script>
 
     <script src="js/script.js"></script>
 </body>
