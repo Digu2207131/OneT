@@ -69,13 +69,19 @@
         }
         .btn-add:hover { background: #064A32; }
 
+        .category-badge {
+            display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: bold;
+        }
+        .category-badge.current { background: #e8f5e9; color: #0A6847; }
+        .category-badge.alumni { background: #fff3e0; color: #e65100; }
+
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%;
+            background: white; padding: 30px; border-radius: 10px; max-width: 550px; width: 90%;
             max-height: 90vh; overflow-y: auto;
         }
         .modal-content h2 { margin-bottom: 15px; color: #0A6847; }
@@ -84,7 +90,9 @@
             padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px;
         }
         .btn-modal-save { background: #0A6847; color: white; }
+        .btn-modal-save:hover { background: #064A32; }
         .btn-modal-cancel { background: #ccc; color: #333; }
+        .btn-modal-cancel:hover { background: #bbb; }
 
         .toast {
             position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
@@ -134,6 +142,19 @@
                 </div>
             </div>
             <div id="passStatus" style="font-size:13px; margin-top:5px;"></div>
+        </div>
+
+        <!-- Image Upload Note -->
+        <div class="section">
+            <h2>🖼️ Image Upload</h2>
+            <p style="color:#666; font-size:14px;">
+                📤 To add images, upload them directly to the <strong>images/</strong> folder in your GitHub repository.
+                <br>Then use the filename (e.g., <strong>image.jpg</strong>) in the image field below.
+            </p>
+            <div style="background:#e8f5e9; padding:15px; border-radius:8px; margin-top:10px;">
+                <strong>📁 images/</strong> folder in GitHub
+                <br><span style="font-size:13px; color:#666;">Upload images here → then use filename in admin panel</span>
+            </div>
         </div>
 
         <!-- HOME -->
@@ -228,7 +249,7 @@
         // JSONBIN CONFIGURATION
         // ==========================================
         const BIN_ID = '6a6cebf2da38895dfea9c438';
-        const API_KEY = 'YOUR_API_KEY_HERE'; // ← Replace with your API Key!
+        const API_KEY = '$2a$10$JBQB8l/d6lBlHbjzrZWU.eznCJarIMuZgfYV4VVEEuBqFyZhASMaS';
 
         // ==========================================
         // DATA
@@ -301,7 +322,12 @@
                 },
                 body: dataStr
             })
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 401) {
+                    throw new Error('Invalid API Key!');
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.message === 'success' || data.message === 'record') {
                     console.log('✅ Synced to JSONBin!', data);
@@ -344,6 +370,30 @@
             });
         }
 
+        function testAPIKey() {
+            fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: { 'X-Master-Key': API_KEY }
+            })
+            .then(res => {
+                if (res.status === 401) {
+                    showToast('❌ Invalid API Key!', 'error');
+                    console.error('❌ Invalid API Key!');
+                } else if (res.status === 200) {
+                    showToast('✅ API Key is valid!', 'success');
+                    console.log('✅ API Key is valid!');
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.record) {
+                    console.log('✅ Bin data loaded:', data.record);
+                }
+            })
+            .catch(err => {
+                console.error('API Key test error:', err);
+            });
+        }
+
         // ==========================================
         // LOAD / SAVE
         // ==========================================
@@ -363,6 +413,8 @@
             }
             loadFields();
             renderAll();
+            // Test API Key on load
+            testAPIKey();
         }
 
         function saveData() {
@@ -445,7 +497,7 @@
                         <div class="item">
                             <div class="info">
                                 <strong>${item.name}</strong>
-                                <span class="detail">${item.role} · <span style="background:#e8f5e9; padding:2px 12px; border-radius:12px; font-size:11px;">Current</span></span>
+                                <span class="detail">${item.role} · <span class="category-badge current">Current</span></span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('team', ${item.id})">Edit</button>
@@ -468,7 +520,7 @@
                         <div class="item">
                             <div class="info">
                                 <strong>${item.name}</strong>
-                                <span class="detail">${item.role} · <span style="background:#fff3e0; padding:2px 12px; border-radius:12px; font-size:11px;">Alumni</span></span>
+                                <span class="detail">${item.role} · <span class="category-badge alumni">Alumni</span></span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('team', ${item.id})">Edit</button>
@@ -563,6 +615,10 @@
                             <option value="alumni" ${categoryValue === 'alumni' ? 'selected' : ''}>Alumni</option>
                         </select>
                     </div>
+                    <div class="field">
+                        <label>Image</label>
+                        <input type="text" id="f_image" value="${item ? item.image || '' : ''}" placeholder="e.g. faruk.jpg" />
+                    </div>
                 `;
             } else if (type === 'publication') {
                 title.textContent = id ? '✏️ Edit Publication' : '📄 Add Publication';
@@ -581,6 +637,7 @@
                     <div class="field"><label>Date</label><input type="date" id="f_date" value="${item ? item.date : ''}" /></div>
                     <div class="field"><label>Content</label><textarea id="f_content">${item ? item.content : ''}</textarea></div>
                     <div class="field"><label>Author</label><input type="text" id="f_author" value="${item ? item.author : ''}" /></div>
+                    <div class="field"><label>Image</label><input type="text" id="f_image" value="${item ? item.image || ''}" placeholder="e.g. news1.jpg" /></div>
                     <div class="field"><label>Link</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
                     <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="10.1234/example" /></div>
                 `;
@@ -613,7 +670,8 @@
                     name: document.getElementById('f_name').value,
                     role: document.getElementById('f_role').value,
                     bio: document.getElementById('f_bio').value,
-                    category: document.getElementById('f_category').value
+                    category: document.getElementById('f_category').value,
+                    image: document.getElementById('f_image').value || 'default.jpg'
                 };
             } else if (type === 'publication') {
                 newItem = {
@@ -628,6 +686,7 @@
                     date: document.getElementById('f_date').value,
                     content: document.getElementById('f_content').value,
                     author: document.getElementById('f_author').value,
+                    image: document.getElementById('f_image').value || '',
                     link: document.getElementById('f_link').value || '',
                     doi: document.getElementById('f_doi').value || ''
                 };
@@ -679,25 +738,9 @@
         });
 
         // ==========================================
-        // AUTO-SYNC ON SAVE
-        // ==========================================
-        const originalSaveAll = saveAll;
-        saveAll = function() {
-            originalSaveAll();
-            // Don't auto-sync to cloud - user clicks Sync button manually
-        };
-
-        // ==========================================
-        // LOAD CLOUD DATA ON STARTUP
+        // INIT
         // ==========================================
         loadData();
-
-        // Check if cloud data exists on load
-        console.log('☁️ JSONBin ID:', BIN_ID);
-        console.log('🔐 API Key set:', API_KEY !== '$2a$10$JBQB8l/d6lBlHbjzrZWU.eznCJarIMuZgfYV4VVEEuBqFyZhASMaS');
-        if (API_KEY === '$2a$10$JBQB8l/d6lBlHbjzrZWU.eznCJarIMuZgfYV4VVEEuBqFyZhASMaS') {
-            console.warn('⚠️ Please set your JSONBin API Key!');
-        }
     </script>
 
 </body>
