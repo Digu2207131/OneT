@@ -19,10 +19,10 @@
         }
         .btn-save { background: #FFC107; color: #333; }
         .btn-save:hover { background: #e0a800; }
-        .btn-export { background: #17a2b8; color: white; }
-        .btn-export:hover { background: #138496; }
-        .btn-import { background: #6f42c1; color: white; }
-        .btn-import:hover { background: #5a32a3; }
+        .btn-sync { background: #17a2b8; color: white; }
+        .btn-sync:hover { background: #138496; }
+        .btn-load { background: #6f42c1; color: white; }
+        .btn-load:hover { background: #5a32a3; }
         .btn-view { background: white; color: #0A6847; }
         .btn-view:hover { background: #e0e0e0; }
         .btn-logout { background: #dc3545; color: white; }
@@ -52,14 +52,9 @@
             padding: 10px 15px; background: #f9f9f9; border-radius: 5px; margin-bottom: 5px;
             border: 1px solid #eee;
         }
-        .item .info { flex: 1; display: flex; align-items: center; gap: 12px; }
-        .item .info img {
-            width: 50px; height: 50px; border-radius: 50%; object-fit: cover;
-            border: 2px solid #0A6847; background: #e8f5e9;
-        }
-        .item .info .text { flex: 1; }
-        .item .info .text strong { font-size: 14px; display: block; }
-        .item .info .text .detail { font-size: 12px; color: #666; }
+        .item .info { flex: 1; }
+        .item .info strong { font-size: 14px; display: block; }
+        .item .info .detail { font-size: 12px; color: #666; }
         .item .actions { display: flex; gap: 5px; }
         .item .actions button {
             padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;
@@ -74,30 +69,13 @@
         }
         .btn-add:hover { background: #064A32; }
 
-        .category-badge {
-            display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: bold;
-        }
-        .category-badge.current { background: #e8f5e9; color: #0A6847; }
-        .category-badge.alumni { background: #fff3e0; color: #e65100; }
-
-        .image-preview {
-            width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-            border: 2px solid #0A6847; margin-top: 5px;
-        }
-        .image-upload-wrapper {
-            display: flex; align-items: center; gap: 15px; flex-wrap: wrap;
-        }
-        .image-upload-wrapper input[type="file"] {
-            padding: 8px; border: 1px dashed #0A6847; border-radius: 5px;
-        }
-
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: white; padding: 30px; border-radius: 10px; max-width: 550px; width: 90%;
+            background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%;
             max-height: 90vh; overflow-y: auto;
         }
         .modal-content h2 { margin-bottom: 15px; color: #0A6847; }
@@ -106,9 +84,7 @@
             padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px;
         }
         .btn-modal-save { background: #0A6847; color: white; }
-        .btn-modal-save:hover { background: #064A32; }
         .btn-modal-cancel { background: #ccc; color: #333; }
-        .btn-modal-cancel:hover { background: #bbb; }
 
         .toast {
             position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
@@ -125,7 +101,6 @@
             .row { grid-template-columns: 1fr; }
             .header { flex-direction: column; text-align: center; }
             .item { flex-direction: column; text-align: center; }
-            .item .info { flex-direction: column; }
         }
     </style>
 </head>
@@ -137,10 +112,9 @@
         <div class="header">
             <h1>🌱 SPAL Admin</h1>
             <div>
-                <button class="btn btn-save" onclick="saveAll()">💾 Save All</button>
-                <button class="btn btn-export" onclick="exportData()">📤 Export</button>
-                <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📥 Import</button>
-                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
+                <button class="btn btn-save" onclick="saveAll()">💾 Save</button>
+                <button class="btn btn-sync" onclick="saveToJSONBin()">☁️ Sync to Cloud</button>
+                <button class="btn btn-load" onclick="loadFromJSONBin()">⬇️ Load from Cloud</button>
                 <button class="btn btn-view" onclick="window.open('../index.html','_blank')">👁️ View</button>
                 <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
             </div>
@@ -160,19 +134,6 @@
                 </div>
             </div>
             <div id="passStatus" style="font-size:13px; margin-top:5px;"></div>
-        </div>
-
-        <!-- Image Upload Note -->
-        <div class="section">
-            <h2>🖼️ Image Upload</h2>
-            <p style="color:#666; font-size:14px;">
-                📤 To add images, upload them directly to the <strong>images/</strong> folder in your GitHub repository.
-                <br>Then use the filename (e.g., <strong>image.jpg</strong>) in the image field below.
-            </p>
-            <div style="background:#e8f5e9; padding:15px; border-radius:8px; margin-top:10px;">
-                <strong>📁 images/</strong> folder in GitHub
-                <br><span style="font-size:13px; color:#666;">Upload images here → then use filename in admin panel</span>
-            </div>
         </div>
 
         <!-- HOME -->
@@ -210,7 +171,7 @@
             <div class="field"><label>Bio</label><textarea id="pi_bio" rows="3">Dr. Md. Shaha Nur Kabir is a Professor and Principal Investigator of SPAL.</textarea></div>
         </div>
 
-        <!-- TEAM MEMBERS -->
+        <!-- TEAM -->
         <div class="section">
             <h2>👥 Team Members</h2>
             <div class="team-subsection">
@@ -264,17 +225,23 @@
 
     <script>
         // ==========================================
+        // JSONBIN CONFIGURATION
+        // ==========================================
+        const BIN_ID = '6a6cebf2da38895dfea9c438';
+        const API_KEY = 'YOUR_API_KEY_HERE'; // ← Replace with your API Key!
+
+        // ==========================================
         // DATA
         // ==========================================
         let data = {
             team: [
-                { id: 1, name: 'Md Faruk Hossain', role: 'Research Assistant', bio: 'AIoT, Smart Farming', category: 'current', image: 'faruk.jpg' },
-                { id: 2, name: 'Kazi Md Mehedi Hasan', role: 'Research Assistant', bio: 'IoT, Sensor Networks', category: 'current', image: 'mehedi.jpg' },
-                { id: 3, name: 'Rayhan Mahmud', role: 'Research Assistant', bio: 'Drone Systems, ML', category: 'current', image: 'rayhan.jpg' },
-                { id: 4, name: 'Digonta Chandra Roy', role: 'Research Assistant', bio: 'AI, Drone Systems', category: 'current', image: 'digonta.jpg' },
-                { id: 5, name: 'Md Mamunur Rashid', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni', image: 'rashid.jpg' },
-                { id: 6, name: 'Md Ashikur Rahman', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni', image: 'ashikur.jpg' },
-                { id: 7, name: 'Md Sakib Robin', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni', image: 'robin.jpg' }
+                { id: 1, name: 'Md Faruk Hossain', role: 'Research Assistant', bio: 'AIoT, Smart Farming', category: 'current' },
+                { id: 2, name: 'Kazi Md Mehedi Hasan', role: 'Research Assistant', bio: 'IoT, Sensor Networks', category: 'current' },
+                { id: 3, name: 'Rayhan Mahmud', role: 'Research Assistant', bio: 'Drone Systems, ML', category: 'current' },
+                { id: 4, name: 'Digonta Chandra Roy', role: 'Research Assistant', bio: 'AI, Drone Systems', category: 'current' },
+                { id: 5, name: 'Md Mamunur Rashid', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni' },
+                { id: 6, name: 'Md Ashikur Rahman', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni' },
+                { id: 7, name: 'Md Sakib Robin', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni' }
             ],
             publications: [
                 { id: 1, title: 'Smart Evaporative Cooling Storage System', authors: 'Mahmud, M.R., et al.', journal: 'IOCAG 2025', year: 2025 }
@@ -315,19 +282,96 @@
         }
 
         // ==========================================
+        // JSONBIN FUNCTIONS
+        // ==========================================
+        function saveToJSONBin() {
+            const dataStr = localStorage.getItem('spal_admin_data');
+            if (!dataStr) {
+                showToast('❌ No data to sync!', 'error');
+                return;
+            }
+
+            showToast('☁️ Syncing to cloud...', 'success');
+
+            fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': API_KEY
+                },
+                body: dataStr
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message === 'success' || data.message === 'record') {
+                    console.log('✅ Synced to JSONBin!', data);
+                    showToast('✅ Synced to cloud!', 'success');
+                } else {
+                    console.error('Sync error:', data);
+                    showToast('❌ Sync failed: ' + JSON.stringify(data), 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Sync error:', err);
+                showToast('❌ Sync error: ' + err.message, 'error');
+            });
+        }
+
+        function loadFromJSONBin() {
+            showToast('⬇️ Loading from cloud...', 'success');
+
+            fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: { 'X-Master-Key': API_KEY }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.record && data.record.team) {
+                    localStorage.setItem('spal_admin_data', JSON.stringify(data.record));
+                    // Update local data
+                    data = data.record;
+                    renderAll();
+                    loadFields();
+                    console.log('✅ Loaded from cloud!', data);
+                    showToast('✅ Data loaded from cloud!', 'success');
+                } else {
+                    console.warn('No cloud data:', data);
+                    showToast('⚠️ No cloud data found.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Load error:', err);
+                showToast('❌ Load error: ' + err.message, 'error');
+            });
+        }
+
+        // ==========================================
         // LOAD / SAVE
         // ==========================================
         function loadData() {
             try {
                 const saved = localStorage.getItem('spal_admin_data');
-                if (saved) { data = JSON.parse(saved); }
-            } catch(e) {}
+                if (saved) {
+                    data = JSON.parse(saved);
+                    console.log('✅ Data loaded from localStorage:', data);
+                } else {
+                    // Save initial data
+                    localStorage.setItem('spal_admin_data', JSON.stringify(data));
+                }
+            } catch(e) {
+                console.warn('Load error:', e);
+                localStorage.setItem('spal_admin_data', JSON.stringify(data));
+            }
             loadFields();
             renderAll();
         }
 
         function saveData() {
-            try { localStorage.setItem('spal_admin_data', JSON.stringify(data)); } catch(e) {}
+            try {
+                localStorage.setItem('spal_admin_data', JSON.stringify(data));
+                console.log('✅ Data saved to localStorage:', data);
+            } catch(e) {
+                showToast('❌ Error saving!', 'error');
+            }
         }
 
         function savePageFields() {
@@ -376,71 +420,7 @@
         function saveAll() {
             saveData();
             savePageFields();
-            showToast('✅ All saved!', 'success');
-        }
-
-        // ==========================================
-        // EXPORT DATA
-        // ==========================================
-        function exportData() {
-            const pageData = localStorage.getItem('spal_page_data');
-            const adminData = localStorage.getItem('spal_admin_data');
-            
-            const exportObj = {
-                exportedAt: new Date().toISOString(),
-                version: '1.0',
-                pageData: pageData ? JSON.parse(pageData) : null,
-                adminData: adminData ? JSON.parse(adminData) : null
-            };
-            
-            const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `spal_data_backup_${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast('✅ Data exported!', 'success');
-        }
-
-        // ==========================================
-        // IMPORT DATA
-        // ==========================================
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (!imported.pageData && !imported.adminData) {
-                        showToast('❌ Invalid file format!', 'error');
-                        return;
-                    }
-                    if (!confirm('This will overwrite ALL current data. Continue?')) return;
-                    
-                    if (imported.pageData) {
-                        localStorage.setItem('spal_page_data', JSON.stringify(imported.pageData));
-                    }
-                    if (imported.adminData) {
-                        localStorage.setItem('spal_admin_data', JSON.stringify(imported.adminData));
-                        if (imported.adminData.team) data.team = imported.adminData.team;
-                        if (imported.adminData.publications) data.publications = imported.adminData.publications;
-                        if (imported.adminData.news) data.news = imported.adminData.news;
-                        if (imported.adminData.awards) data.awards = imported.adminData.awards;
-                    }
-                    
-                    showToast('✅ Data imported! Refreshing...', 'success');
-                    setTimeout(() => { location.reload(); }, 1500);
-                } catch (err) {
-                    showToast('❌ Error: ' + err.message, 'error');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
+            showToast('✅ Saved to local!', 'success');
         }
 
         // ==========================================
@@ -454,7 +434,6 @@
         }
 
         function renderTeam() {
-            // Current members
             const currentContainer = document.getElementById('currentTeamList');
             const currentMembers = data.team.filter(m => m.category === 'current');
             if (currentMembers.length === 0) {
@@ -462,15 +441,11 @@
             } else {
                 let html = '';
                 currentMembers.forEach(item => {
-                    const image = item.image || 'default.jpg';
                     html += `
                         <div class="item">
                             <div class="info">
-                                <img src="../images/${image}" alt="${item.name}" onerror="this.src='../images/default.jpg'" />
-                                <div class="text">
-                                    <strong>${item.name}</strong>
-                                    <div class="detail">${item.role} · <span class="category-badge current">Current</span></div>
-                                </div>
+                                <strong>${item.name}</strong>
+                                <span class="detail">${item.role} · <span style="background:#e8f5e9; padding:2px 12px; border-radius:12px; font-size:11px;">Current</span></span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('team', ${item.id})">Edit</button>
@@ -482,7 +457,6 @@
                 currentContainer.innerHTML = html;
             }
 
-            // Alumni
             const alumniContainer = document.getElementById('alumniTeamList');
             const alumniMembers = data.team.filter(m => m.category === 'alumni');
             if (alumniMembers.length === 0) {
@@ -490,15 +464,11 @@
             } else {
                 let html = '';
                 alumniMembers.forEach(item => {
-                    const image = item.image || 'default.jpg';
                     html += `
                         <div class="item">
                             <div class="info">
-                                <img src="../images/${image}" alt="${item.name}" onerror="this.src='../images/default.jpg'" />
-                                <div class="text">
-                                    <strong>${item.name}</strong>
-                                    <div class="detail">${item.role} · <span class="category-badge alumni">Alumni</span></div>
-                                </div>
+                                <strong>${item.name}</strong>
+                                <span class="detail">${item.role} · <span style="background:#fff3e0; padding:2px 12px; border-radius:12px; font-size:11px;">Alumni</span></span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('team', ${item.id})">Edit</button>
@@ -518,15 +488,11 @@
             } else {
                 let html = '';
                 data.news.forEach(item => {
-                    const image = item.image || '';
                     html += `
                         <div class="item">
                             <div class="info">
-                                ${image ? `<img src="../images/${image}" alt="${item.title}" onerror="this.style.display='none'" />` : ''}
-                                <div class="text">
-                                    <strong>${item.title}</strong>
-                                    <div class="detail">${item.date} · ${item.author}</div>
-                                </div>
+                                <strong>${item.title}</strong>
+                                <span class="detail">${item.date} · ${item.author}</span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('news', ${item.id})">Edit</button>
@@ -551,10 +517,8 @@
                     html += `
                         <div class="item">
                             <div class="info">
-                                <div class="text">
-                                    <strong>${name}</strong>
-                                    <div class="detail">${detail}</div>
-                                </div>
+                                <strong>${name}</strong>
+                                <span class="detail">${detail}</span>
                             </div>
                             <div class="actions">
                                 <button class="btn-edit" onclick="openModal('${type}', ${item.id})">Edit</button>
@@ -568,7 +532,7 @@
         }
 
         // ==========================================
-        // MODAL – Add/Edit/Delete
+        // MODAL
         // ==========================================
         function openModal(type, id = null, category = null) {
             modalType = type;
@@ -587,7 +551,6 @@
             let fields = '';
             if (type === 'team') {
                 title.textContent = id ? '✏️ Edit Team Member' : '👥 Add Team Member';
-                const image = item ? item.image : '';
                 const categoryValue = item ? item.category : (category || 'current');
                 fields = `
                     <div class="field"><label>Name</label><input type="text" id="f_name" value="${item ? item.name : ''}" /></div>
@@ -600,17 +563,6 @@
                             <option value="alumni" ${categoryValue === 'alumni' ? 'selected' : ''}>Alumni</option>
                         </select>
                     </div>
-                    <div class="field">
-                        <label>Image</label>
-                        <div class="image-upload-wrapper">
-                            <input type="file" id="f_image_file" accept=".jpg,.jpeg,.png" />
-                            <span style="font-size:12px; color:#666;">or enter filename:</span>
-                            <input type="text" id="f_image" value="${image}" placeholder="e.g. faruk.jpg" style="width:200px;" />
-                        </div>
-                        <div style="margin-top:5px;">
-                            ${image ? `<img src="../images/${image}" class="image-preview" id="imagePreview" onerror="this.style.display='none'" />` : `<img src="" class="image-preview" id="imagePreview" style="display:none;" />`}
-                        </div>
-                    </div>
                 `;
             } else if (type === 'publication') {
                 title.textContent = id ? '✏️ Edit Publication' : '📄 Add Publication';
@@ -622,7 +574,6 @@
                 `;
             } else if (type === 'news') {
                 title.textContent = id ? '✏️ Edit News' : '📰 Add News';
-                const image = item ? item.image : '';
                 const link = item ? item.link : '';
                 const doi = item ? item.doi : '';
                 fields = `
@@ -630,10 +581,6 @@
                     <div class="field"><label>Date</label><input type="date" id="f_date" value="${item ? item.date : ''}" /></div>
                     <div class="field"><label>Content</label><textarea id="f_content">${item ? item.content : ''}</textarea></div>
                     <div class="field"><label>Author</label><input type="text" id="f_author" value="${item ? item.author : ''}" /></div>
-                    <div class="field">
-                        <label>Image</label>
-                        <input type="text" id="f_image" value="${image}" placeholder="e.g. news1.jpg" />
-                    </div>
                     <div class="field"><label>Link</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
                     <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="10.1234/example" /></div>
                 `;
@@ -646,23 +593,6 @@
 
             body.innerHTML = fields;
             modal.classList.add('active');
-
-            const fileInput = document.getElementById('f_image_file');
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            const preview = document.getElementById('imagePreview');
-                            preview.src = ev.target.result;
-                            preview.style.display = 'block';
-                            document.getElementById('f_image').value = file.name;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
         }
 
         function closeModal() {
@@ -679,18 +609,11 @@
 
             let newItem = {};
             if (type === 'team') {
-                const imageField = document.getElementById('f_image');
-                const fileInput = document.getElementById('f_image_file');
-                let imageValue = imageField.value || 'default.jpg';
-                if (fileInput && fileInput.files.length > 0) {
-                    imageValue = fileInput.files[0].name;
-                }
                 newItem = {
                     name: document.getElementById('f_name').value,
                     role: document.getElementById('f_role').value,
                     bio: document.getElementById('f_bio').value,
-                    category: document.getElementById('f_category').value,
-                    image: imageValue
+                    category: document.getElementById('f_category').value
                 };
             } else if (type === 'publication') {
                 newItem = {
@@ -700,18 +623,11 @@
                     year: parseInt(document.getElementById('f_year').value) || null
                 };
             } else if (type === 'news') {
-                const imageField = document.getElementById('f_image');
-                const fileInput = document.getElementById('f_image_file');
-                let imageValue = imageField.value || '';
-                if (fileInput && fileInput.files.length > 0) {
-                    imageValue = fileInput.files[0].name;
-                }
                 newItem = {
                     title: document.getElementById('f_title').value,
                     date: document.getElementById('f_date').value,
                     content: document.getElementById('f_content').value,
                     author: document.getElementById('f_author').value,
-                    image: imageValue,
                     link: document.getElementById('f_link').value || '',
                     doi: document.getElementById('f_doi').value || ''
                 };
@@ -733,9 +649,6 @@
             showToast('✅ Saved!', 'success');
         }
 
-        // ==========================================
-        // DELETE ITEM
-        // ==========================================
         function deleteItem(type, id) {
             if (!confirm('Delete this item?')) return;
             const list = data[type + 's'] || data[type];
@@ -765,7 +678,26 @@
             if (e.target === this) closeModal();
         });
 
+        // ==========================================
+        // AUTO-SYNC ON SAVE
+        // ==========================================
+        const originalSaveAll = saveAll;
+        saveAll = function() {
+            originalSaveAll();
+            // Don't auto-sync to cloud - user clicks Sync button manually
+        };
+
+        // ==========================================
+        // LOAD CLOUD DATA ON STARTUP
+        // ==========================================
         loadData();
+
+        // Check if cloud data exists on load
+        console.log('☁️ JSONBin ID:', BIN_ID);
+        console.log('🔐 API Key set:', API_KEY !== '$2a$10$JBQB8l/d6lBlHbjzrZWU.eznCJarIMuZgfYV4VVEEuBqFyZhASMaS');
+        if (API_KEY === '$2a$10$JBQB8l/d6lBlHbjzrZWU.eznCJarIMuZgfYV4VVEEuBqFyZhASMaS') {
+            console.warn('⚠️ Please set your JSONBin API Key!');
+        }
     </script>
 
 </body>
