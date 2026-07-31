@@ -1,0 +1,159 @@
+# ============================================
+# BACKEND CONFIGURATION
+# ============================================
+backend:
+  name: github
+  repo: Digu2207131/kabir-sir-lab
+  branch: main
+
+# ============================================
+# MEDIA / IMAGE SETTINGS
+# ============================================
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# ============================================
+# LOCAL BACKEND (For development without GitHub)
+# ============================================
+# local_backend:
+#   url: http://localhost:8080/api/v1
+#   allowed_hosts: ["localhost"]
+
+# ============================================
+# COLLECTIONS
+# ============================================
+collections:
+
+  # ==========================================
+  # 1. SUPERVISOR
+  # ==========================================
+  - name: "supervisor"
+    label: "👨‍🏫 Supervisor"
+    folder: "_data/supervisor"
+    create: true
+    delete: false
+    format: "json"
+    slug: "supervisor"
+    fields:
+      - {label: "Name", name: "name", widget: "string", required: true}
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Department", name: "department", widget: "text", required: true}
+      - {label: "Email", name: "email", widget: "string", required: true}
+      - {label: "Phone", name: "phone", widget: "string", required: true}
+      - {label: "Bio", name: "bio", widget: "text", required: true}
+      - {label: "Image", name: "image", widget: "image", default: "supervisor.jpg", required: false}
+      - label: "Research Interests"
+        name: "interests"
+        widget: "list"
+        default: ["Smart Farming using AI", "Precision Agriculture Technologies"]
+        required: false
+      - label: "Education"
+        name: "education"
+        widget: "list"
+        default: ["Doctor of Philosophy, 2015 – Chungnam National University, South Korea"]
+        required: false
+      - label: "Social Links"
+        name: "social"
+        widget: "object"
+        required: false
+        fields:
+          - {label: "ResearchGate", name: "researchgate", widget: "string", required: false}
+          - {label: "Academia.edu", name: "academia", widget: "string", required: false}
+          - {label: "LinkedIn", name: "linkedin", widget: "string", required: false}
+          - {label: "Facebook", name: "facebook", widget: "string", required: false}
+          - {label: "Twitter", name: "twitter", widget: "string", required: false}
+
+  # ==========================================
+  # 2. TEAM MEMBERS
+  # ==========================================
+  - name: "team"
+    label: "👥 Team Members"
+    folder: "_data/team"
+    create: true
+    delete: true
+    format: "json"
+    slug: "{{name}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string", required: true}
+      - {label: "Role", name: "role", widget: "string", required: true}
+      - {label: "Bio", name: "bio", widget: "text", required: true}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - {label: "Current Member", value: "current"}
+          - {label: "Alumni", value: "alumni"}
+        default: "current"
+        required: true
+      - {label: "Order", name: "order", widget: "number", default: 0, required: false}
+
+  # ==========================================
+  # 3. PUBLICATIONS
+  # ==========================================
+  - name: "publications"
+    label: "📄 Publications"
+    folder: "_data/publications"
+    create: true
+    delete: true
+    format: "json"
+    slug: "{{year}}-{{title}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Authors", name: "authors", widget: "string", required: true}
+      - {label: "Journal / Conference", name: "journal", widget: "string", required: true}
+      - {label: "Year", name: "year", widget: "number", valueType: "int", required: true}
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - {label: "Conference Paper", value: "conference"}
+          - {label: "Journal Paper", value: "journal"}
+          - {label: "Poster", value: "poster"}
+        default: "conference"
+        required: true
+      - {label: "DOI", name: "doi", widget: "string", required: false}
+      - {label: "Link (URL)", name: "link", widget: "string", required: false}
+      - {label: "PDF File", name: "pdf", widget: "file", required: false}
+
+  # ==========================================
+  # 4. NEWS / UPDATES
+  # ==========================================
+  - name: "news"
+    label: "📰 News"
+    folder: "_data/news"
+    create: true
+    delete: true
+    format: "json"
+    slug: "{{date}}-{{title}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, required: true}
+      - {label: "Content", name: "content", widget: "markdown", required: true}
+      - {label: "Author", name: "author", widget: "string", default: "SPAL Lab", required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+
+  # ==========================================
+  # 5. RESEARCH AREAS
+  # ==========================================
+  - name: "research"
+    label: "🔬 Research Areas"
+    folder: "_data/research"
+    create: true
+    delete: true
+    format: "json"
+    slug: "{{title}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Icon", name: "icon", widget: "string", default: "🚁", required: false}
+      - {label: "Description", name: "description", widget: "text", required: true}
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - {label: "Active", value: "active"}
+          - {label: "Ongoing", value: "ongoing"}
+          - {label: "Completed", value: "completed"}
+        default: "active"
+        required: true
+      - {label: "Image", name: "image", widget: "image", required: false}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPAL Lab – Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0faf5 0%, #e8f5e9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 420px;
+            width: 100%;
+        }
+        .login-container .logo {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .login-container h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #064A32;
+            margin-bottom: 5px;
+        }
+        .login-container p {
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        .login-container input:focus {
+            outline: none;
+            border-color: #0A6847;
+            box-shadow: 0 0 0 4px rgba(10,104,71,0.1);
+        }
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background: #0A6847;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-container button:hover {
+            background: #064A32;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(10,104,71,0.3);
+        }
+        .error-msg {
+            color: #dc3545;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .security-note {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 20px;
+        }
+        .security-note strong {
+            color: #0A6847;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo">🔐</div>
+        <h1>SPAL Admin</h1>
+        <p>Enter your credentials to manage the website</p>
+
+        <div class="error-msg" id="errorMsg">❌ Invalid password. Please try again.</div>
+
+        <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
+        <button onclick="login()">Login</button>
+
+        <div class="security-note">
+            Default password: <strong>spal2025</strong>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ADMIN PASSWORD
+        // ==========================================
+        const ADMIN_PASSWORD = 'spal2025'; // Change this!
+
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                errorMsg.style.display = 'block';
+                setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
+            }
+        }
+
+        // Enter key support
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        // Check if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+
+</body>
+</html>
