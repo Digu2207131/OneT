@@ -210,17 +210,17 @@
             <div class="field"><label>Bio</label><textarea id="pi_bio" rows="3">Dr. Md. Shaha Nur Kabir is a Professor and Principal Investigator of SPAL.</textarea></div>
         </div>
 
-        <!-- TEAM -->
+        <!-- TEAM MEMBERS -->
         <div class="section">
             <h2>👥 Team Members</h2>
             <div class="team-subsection">
-                <h3>🟢 Current</h3>
-                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add</button>
+                <h3>🟢 Current Members</h3>
+                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add Current</button>
                 <div id="currentTeamList" class="item-list"></div>
             </div>
             <div class="team-subsection" style="margin-top:30px; padding-top:20px; border-top:2px solid #eef2f7;">
                 <h3>🎓 Alumni</h3>
-                <button class="btn-add" onclick="openModal('team', null, 'alumni')">+ Add</button>
+                <button class="btn-add" onclick="openModal('team', null, 'alumni')">+ Add Alumni</button>
                 <div id="alumniTeamList" class="item-list"></div>
             </div>
         </div>
@@ -454,6 +454,7 @@
         }
 
         function renderTeam() {
+            // Current members
             const currentContainer = document.getElementById('currentTeamList');
             const currentMembers = data.team.filter(m => m.category === 'current');
             if (currentMembers.length === 0) {
@@ -481,6 +482,7 @@
                 currentContainer.innerHTML = html;
             }
 
+            // Alumni
             const alumniContainer = document.getElementById('alumniTeamList');
             const alumniMembers = data.team.filter(m => m.category === 'alumni');
             if (alumniMembers.length === 0) {
@@ -566,7 +568,7 @@
         }
 
         // ==========================================
-        // MODAL
+        // MODAL – Add/Edit/Delete
         // ==========================================
         function openModal(type, id = null, category = null) {
             modalType = type;
@@ -601,6 +603,8 @@
                     <div class="field">
                         <label>Image</label>
                         <div class="image-upload-wrapper">
+                            <input type="file" id="f_image_file" accept=".jpg,.jpeg,.png" />
+                            <span style="font-size:12px; color:#666;">or enter filename:</span>
                             <input type="text" id="f_image" value="${image}" placeholder="e.g. faruk.jpg" style="width:200px;" />
                         </div>
                         <div style="margin-top:5px;">
@@ -642,6 +646,23 @@
 
             body.innerHTML = fields;
             modal.classList.add('active');
+
+            const fileInput = document.getElementById('f_image_file');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            const preview = document.getElementById('imagePreview');
+                            preview.src = ev.target.result;
+                            preview.style.display = 'block';
+                            document.getElementById('f_image').value = file.name;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
         }
 
         function closeModal() {
@@ -658,12 +679,18 @@
 
             let newItem = {};
             if (type === 'team') {
+                const imageField = document.getElementById('f_image');
+                const fileInput = document.getElementById('f_image_file');
+                let imageValue = imageField.value || 'default.jpg';
+                if (fileInput && fileInput.files.length > 0) {
+                    imageValue = fileInput.files[0].name;
+                }
                 newItem = {
                     name: document.getElementById('f_name').value,
                     role: document.getElementById('f_role').value,
                     bio: document.getElementById('f_bio').value,
                     category: document.getElementById('f_category').value,
-                    image: document.getElementById('f_image').value || 'default.jpg'
+                    image: imageValue
                 };
             } else if (type === 'publication') {
                 newItem = {
@@ -673,12 +700,18 @@
                     year: parseInt(document.getElementById('f_year').value) || null
                 };
             } else if (type === 'news') {
+                const imageField = document.getElementById('f_image');
+                const fileInput = document.getElementById('f_image_file');
+                let imageValue = imageField.value || '';
+                if (fileInput && fileInput.files.length > 0) {
+                    imageValue = fileInput.files[0].name;
+                }
                 newItem = {
                     title: document.getElementById('f_title').value,
                     date: document.getElementById('f_date').value,
                     content: document.getElementById('f_content').value,
                     author: document.getElementById('f_author').value,
-                    image: document.getElementById('f_image').value || '',
+                    image: imageValue,
                     link: document.getElementById('f_link').value || '',
                     doi: document.getElementById('f_doi').value || ''
                 };
@@ -700,6 +733,9 @@
             showToast('✅ Saved!', 'success');
         }
 
+        // ==========================================
+        // DELETE ITEM
+        // ==========================================
         function deleteItem(type, id) {
             if (!confirm('Delete this item?')) return;
             const list = data[type + 's'] || data[type];
