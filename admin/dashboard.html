@@ -36,13 +36,10 @@
         .item-list { margin-top: 10px; }
         .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #f9f9f9; border-radius: 5px; margin-bottom: 5px; border: 1px solid #eee; }
         .item .info { flex: 1; display: flex; align-items: center; gap: 12px; }
-        .item .info img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #0A6847; background: #e8f5e9; }
+        .item .info img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #0A6847; background: #e8f5e9; }
         .item .info .text { flex: 1; }
         .item .info .text strong { font-size: 14px; display: block; }
         .item .info .text .detail { font-size: 12px; color: #666; }
-        .item .info .text .links { font-size: 12px; color: #0A6847; margin-top: 2px; }
-        .item .info .text .links a { color: #0A6847; text-decoration: none; }
-        .item .info .text .links a:hover { text-decoration: underline; }
         .item .actions { display: flex; gap: 5px; }
         .item .actions button { padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
         .btn-edit { background: #ffc107; color: #333; }
@@ -71,6 +68,22 @@
         .btn-modal-cancel { background: #ccc; color: #333; }
         .btn-modal-cancel:hover { background: #bbb; }
 
+        /* Password Change Section */
+        .password-section {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .password-section h2 { color: #856404; border-bottom-color: #ffc107; }
+        .password-section .field label { color: #856404; }
+        .password-section .btn-change-pass { background: #ffc107; color: #333; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .password-section .btn-change-pass:hover { background: #e0a800; }
+        .pass-status { font-size: 13px; margin-top: 5px; }
+        .pass-status.success { color: #0A6847; }
+        .pass-status.error { color: #dc3545; }
+
         .toast { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; color: white; font-weight: bold; display: none; z-index: 999; }
         .toast.success { background: #0A6847; }
         .toast.error { background: #dc3545; }
@@ -97,6 +110,33 @@
                 <button class="btn btn-view" onclick="window.open('../index.html','_blank')">👁️ View Site</button>
                 <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
             </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PASSWORD CHANGE SECTION                      -->
+        <!-- ========================================== -->
+        <div class="password-section">
+            <h2>🔐 Change Admin Password</h2>
+            <div class="row">
+                <div class="field">
+                    <label>Current Password</label>
+                    <input type="password" id="current_pass" placeholder="Enter current password" />
+                </div>
+                <div class="field">
+                    <label>New Password</label>
+                    <input type="password" id="new_pass" placeholder="Enter new password (min 4 characters)" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirm_pass" placeholder="Confirm new password" />
+                </div>
+                <div style="display: flex; align-items: flex-end; padding-bottom: 12px;">
+                    <button class="btn-change-pass" onclick="changePassword()">🔑 Change Password</button>
+                </div>
+            </div>
+            <div id="passStatus" class="pass-status"></div>
         </div>
 
         <!-- ========================================== -->
@@ -160,7 +200,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- PUBLICATIONS (with DOI)                     -->
+        <!-- PUBLICATIONS                                -->
         <!-- ========================================== -->
         <div class="section">
             <h2>📄 Publications</h2>
@@ -169,7 +209,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- NEWS (with Image, Hyperlink, DOI)           -->
+        <!-- NEWS                                        -->
         <!-- ========================================== -->
         <div class="section">
             <h2>📰 News</h2>
@@ -230,6 +270,59 @@
         };
 
         let modalType = '', editId = null, modalCategory = null;
+
+        // ==========================================
+        // PASSWORD CHANGE FUNCTION
+        // ==========================================
+        function changePassword() {
+            const current = document.getElementById('current_pass').value;
+            const newPass = document.getElementById('new_pass').value;
+            const confirmPass = document.getElementById('confirm_pass').value;
+            const statusDiv = document.getElementById('passStatus');
+
+            // Get stored password (or use default)
+            let storedPassword = localStorage.getItem('admin_password');
+            if (!storedPassword) {
+                localStorage.setItem('admin_password', 'spal2025');
+                storedPassword = 'spal2025';
+            }
+
+            // Validate
+            if (current !== storedPassword) {
+                statusDiv.className = 'pass-status error';
+                statusDiv.textContent = '❌ Current password is incorrect!';
+                return;
+            }
+
+            if (newPass.length < 4) {
+                statusDiv.className = 'pass-status error';
+                statusDiv.textContent = '❌ New password must be at least 4 characters!';
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                statusDiv.className = 'pass-status error';
+                statusDiv.textContent = '❌ Passwords do not match!';
+                return;
+            }
+
+            // Save new password
+            localStorage.setItem('admin_password', newPass);
+            statusDiv.className = 'pass-status success';
+            statusDiv.textContent = '✅ Password changed successfully!';
+
+            // Clear fields
+            document.getElementById('current_pass').value = '';
+            document.getElementById('new_pass').value = '';
+            document.getElementById('confirm_pass').value = '';
+
+            showToast('✅ Password changed successfully!', 'success');
+        }
+
+        // Enter key support for password change
+        document.getElementById('confirm_pass').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') changePassword();
+        });
 
         // ==========================================
         // LOAD / SAVE
