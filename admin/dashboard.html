@@ -9,7 +9,6 @@
         body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
         .container { max-width: 1100px; margin: 0 auto; }
 
-        /* Header */
         .header { background: #0A6847; color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
         .header h1 { font-size: 24px; }
         .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -21,23 +20,15 @@
         .btn-logout { background: #dc3545; color: white; }
         .btn-logout:hover { background: #c82333; }
 
-        /* Sections */
         .section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .section h2 { margin-bottom: 15px; color: #0A6847; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 
-        /* Fields */
         .field { margin-bottom: 12px; }
         .field label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 14px; }
         .field input, .field textarea, .field select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         .field textarea { min-height: 60px; resize: vertical; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-        /* Image Upload */
-        .image-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #0A6847; margin-top: 5px; }
-        .image-upload-wrapper { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .image-upload-wrapper input[type="file"] { padding: 8px; border: 1px dashed #0A6847; border-radius: 5px; }
-
-        /* Item List */
         .item-list { margin-top: 10px; }
         .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #f9f9f9; border-radius: 5px; margin-bottom: 5px; border: 1px solid #eee; }
         .item .info { flex: 1; display: flex; align-items: center; gap: 12px; }
@@ -54,7 +45,6 @@
         .btn-add { background: #0A6847; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; }
         .btn-add:hover { background: #064A32; }
 
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 550px; width: 90%; max-height: 90vh; overflow-y: auto; }
         .modal-content h2 { margin-bottom: 15px; color: #0A6847; }
@@ -63,7 +53,6 @@
         .btn-modal-save { background: #0A6847; color: white; }
         .btn-modal-cancel { background: #ccc; }
 
-        /* Toast */
         .toast { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; color: white; font-weight: bold; display: none; z-index: 999; }
         .toast.success { background: #0A6847; }
         .toast.error { background: #dc3545; }
@@ -75,7 +64,6 @@
 
     <div class="container">
 
-        <!-- Header -->
         <div class="header">
             <h1>🌱 SPAL Admin Panel</h1>
             <div class="header-actions">
@@ -85,9 +73,7 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- HOME                                        -->
-        <!-- ========================================== -->
+        <!-- HOME -->
         <div class="section">
             <h2>🏠 Home Page</h2>
             <div class="field"><label>Hero Description</label><textarea id="home_desc" rows="2">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</textarea></div>
@@ -99,9 +85,7 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- ABOUT                                       -->
-        <!-- ========================================== -->
+        <!-- ABOUT -->
         <div class="section">
             <h2>📖 About Page</h2>
             <div class="field"><label>Mission</label><textarea id="about_mission" rows="2">To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.</textarea></div>
@@ -109,9 +93,7 @@
             <div class="field"><label>What We Do</label><input type="text" id="about_work" value="Develop AI models | Design autonomous drone systems | Deploy IoT sensors | Predictive modeling | Sustainable farming" /></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PI                                          -->
-        <!-- ========================================== -->
+        <!-- PI -->
         <div class="section">
             <h2>👨‍🏫 Principal Investigator</h2>
             <div class="row">
@@ -128,36 +110,28 @@
             <div class="field"><label>Education</label><input type="text" id="pi_education" value="PhD (2015) - Chungnam National University | M.S. (2008) - BAU | B.Sc. (2006) - BAU" /></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TEAM MEMBERS (With Image Upload)            -->
-        <!-- ========================================== -->
+        <!-- TEAM -->
         <div class="section">
             <h2>👥 Team Members</h2>
             <button class="btn-add" onclick="openModal('team')">+ Add Member</button>
             <div id="teamList" class="item-list"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PUBLICATIONS                                -->
-        <!-- ========================================== -->
+        <!-- PUBLICATIONS -->
         <div class="section">
             <h2>📄 Publications</h2>
             <button class="btn-add" onclick="openModal('publication')">+ Add Publication</button>
             <div id="pubList" class="item-list"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- NEWS                                        -->
-        <!-- ========================================== -->
+        <!-- NEWS -->
         <div class="section">
             <h2>📰 News</h2>
             <button class="btn-add" onclick="openModal('news')">+ Add News</button>
             <div id="newsList" class="item-list"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- AWARDS                                      -->
-        <!-- ========================================== -->
+        <!-- AWARDS -->
         <div class="section">
             <h2>🏆 Awards</h2>
             <button class="btn-add" onclick="openModal('award')">+ Add Award</button>
@@ -166,9 +140,7 @@
 
     </div>
 
-    <!-- ========================================== -->
-    <!-- MODAL                                       -->
-    <!-- ========================================== -->
+    <!-- MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 id="modalTitle">Add New</h2>
@@ -180,16 +152,9 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- ========================================== -->
-    <!-- SCRIPT                                     -->
-    <!-- ========================================== -->
     <script>
-        // ==========================================
-        // DATA
-        // ==========================================
         let data = {
             team: [
                 { id: 1, name: 'Md Faruk Hossain', role: 'Research Assistant', bio: 'AIoT, Smart Farming', category: 'current', image: 'faruk.jpg' },
@@ -210,27 +175,19 @@
             ]
         };
 
-        let modalType = '',
-            editId = null;
+        let modalType = '', editId = null;
 
-        // ==========================================
-        // LOAD / SAVE
-        // ==========================================
         function loadData() {
             try {
                 const saved = localStorage.getItem('spal_admin_data');
                 if (saved) { data = JSON.parse(saved); }
-            } catch (e) { console.warn('Load error:', e); }
+            } catch (e) {}
             renderAll();
             loadFields();
         }
 
         function saveData() {
-            try {
-                localStorage.setItem('spal_admin_data', JSON.stringify(data));
-            } catch (e) {
-                showToast('❌ Cannot save! Please allow localStorage.', 'error');
-            }
+            try { localStorage.setItem('spal_admin_data', JSON.stringify(data)); } catch (e) {}
         }
 
         function savePageFields() {
@@ -277,7 +234,7 @@
                     document.getElementById('pi_interests').value = d.pi_interests || '';
                     document.getElementById('pi_education').value = d.pi_education || '';
                 }
-            } catch (e) { console.warn('Load fields error:', e); }
+            } catch (e) {}
         }
 
         function saveAll() {
@@ -286,9 +243,6 @@
             showToast('✅ All content saved successfully!', 'success');
         }
 
-        // ==========================================
-        // RENDER
-        // ==========================================
         function renderAll() {
             renderTeam();
             renderList('pubList', data.publications, 'publication');
@@ -352,9 +306,6 @@
             container.innerHTML = html;
         }
 
-        // ==========================================
-        // MODAL
-        // ==========================================
         function openModal(type, id = null) {
             modalType = type;
             editId = id;
@@ -387,7 +338,7 @@
                         <label>Image (filename, e.g. faruk.jpg)</label>
                         <input type="text" id="f_image" value="${image}" placeholder="faruk.jpg" />
                         <div style="margin-top:5px; font-size:12px; color:#666;">Place image in <strong>images/</strong> folder</div>
-                        ${image ? `<img src="../images/${image}" class="image-preview" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid #0A6847;margin-top:5px;" onerror="this.style.display='none'" />` : ''}
+                        ${image ? `<img src="../images/${image}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid #0A6847;margin-top:5px;" onerror="this.style.display='none'" />` : ''}
                     </div>
                 `;
             } else if (type === 'publication') {
@@ -478,9 +429,6 @@
             showToast('🗑️ Deleted!', 'success');
         }
 
-        // ==========================================
-        // TOAST
-        // ==========================================
         function showToast(msg, type = 'success') {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -489,22 +437,15 @@
             setTimeout(() => { t.style.display = 'none'; }, 3000);
         }
 
-        // ==========================================
-        // LOGOUT
-        // ==========================================
         function logout() {
             sessionStorage.removeItem('adminLoggedIn');
             window.location.href = 'index.html';
         }
 
-        // Close modal on outside click
         document.getElementById('modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // ==========================================
-        // INIT
-        // ==========================================
         loadData();
     </script>
 
