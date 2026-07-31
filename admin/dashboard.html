@@ -19,10 +19,14 @@
         }
         .btn-save { background: #FFC107; color: #333; }
         .btn-save:hover { background: #e0a800; }
-        .btn-logout { background: #dc3545; color: white; }
-        .btn-logout:hover { background: #c82333; }
+        .btn-export { background: #17a2b8; color: white; }
+        .btn-export:hover { background: #138496; }
+        .btn-import { background: #6f42c1; color: white; }
+        .btn-import:hover { background: #5a32a3; }
         .btn-view { background: white; color: #0A6847; }
         .btn-view:hover { background: #e0e0e0; }
+        .btn-logout { background: #dc3545; color: white; }
+        .btn-logout:hover { background: #c82333; }
 
         .section {
             background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;
@@ -35,7 +39,7 @@
 
         .field { margin-bottom: 12px; }
         .field label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 4px; }
-        .field input, .field textarea {
+        .field input, .field textarea, .field select {
             width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;
             font-family: Arial, sans-serif;
         }
@@ -56,6 +60,7 @@
         .item .info .text { flex: 1; }
         .item .info .text strong { font-size: 14px; display: block; }
         .item .info .text .detail { font-size: 12px; color: #666; }
+        .item .actions { display: flex; gap: 5px; }
         .item .actions button {
             padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;
         }
@@ -133,47 +138,41 @@
             <h1>🌱 SPAL Admin</h1>
             <div>
                 <button class="btn btn-save" onclick="saveAll()">💾 Save All</button>
+                <button class="btn btn-export" onclick="exportData()">📤 Export</button>
+                <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📥 Import</button>
+                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
                 <button class="btn btn-view" onclick="window.open('../index.html','_blank')">👁️ View</button>
                 <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
             </div>
         </div>
 
-        <!-- Image Upload -->
-        <div class="section">
-            <h2>🖼️ Upload Image</h2>
-            <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
-                <div style="flex:1;">
-                    <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png,.gif,.webp,.svg" />
-                    <button class="btn-add" onclick="uploadImage()" style="margin-top:10px;">📤 Upload</button>
-                </div>
-                <div id="uploadStatus" style="font-size:14px; color:#666;"></div>
-            </div>
-            <div id="uploadPreview" style="margin-top:15px;"></div>
-        </div>
-
         <!-- Password Change -->
-        <div class="password-section" style="background:#fff3cd; border:2px solid #ffc107; border-radius:10px; padding:20px; margin-bottom:20px;">
+        <div class="section" style="background:#fff3cd; border:2px solid #ffc107;">
             <h2 style="color:#856404; border-bottom-color:#ffc107;">🔐 Change Password</h2>
             <div class="row">
-                <div class="field">
-                    <label>Current Password</label>
-                    <input type="password" id="current_pass" placeholder="Current password" />
-                </div>
-                <div class="field">
-                    <label>New Password</label>
-                    <input type="password" id="new_pass" placeholder="New password" />
-                </div>
+                <div class="field"><label>Current Password</label><input type="password" id="current_pass" placeholder="Current password" /></div>
+                <div class="field"><label>New Password</label><input type="password" id="new_pass" placeholder="New password" /></div>
             </div>
             <div class="row">
-                <div class="field">
-                    <label>Confirm New Password</label>
-                    <input type="password" id="confirm_pass" placeholder="Confirm new password" />
-                </div>
+                <div class="field"><label>Confirm New Password</label><input type="password" id="confirm_pass" placeholder="Confirm new password" /></div>
                 <div style="display:flex; align-items:flex-end; padding-bottom:12px;">
                     <button class="btn-add" onclick="changePassword()">Change Password</button>
                 </div>
             </div>
             <div id="passStatus" style="font-size:13px; margin-top:5px;"></div>
+        </div>
+
+        <!-- Image Upload Note -->
+        <div class="section">
+            <h2>🖼️ Image Upload</h2>
+            <p style="color:#666; font-size:14px;">
+                📤 To add images, upload them directly to the <strong>images/</strong> folder in your GitHub repository.
+                <br>Then use the filename (e.g., <strong>image.jpg</strong>) in the image field below.
+            </p>
+            <div style="background:#e8f5e9; padding:15px; border-radius:8px; margin-top:10px;">
+                <strong>📁 images/</strong> folder in GitHub
+                <br><span style="font-size:13px; color:#666;">Upload images here → then use filename in admin panel</span>
+            </div>
         </div>
 
         <!-- HOME -->
@@ -381,6 +380,70 @@
         }
 
         // ==========================================
+        // EXPORT DATA
+        // ==========================================
+        function exportData() {
+            const pageData = localStorage.getItem('spal_page_data');
+            const adminData = localStorage.getItem('spal_admin_data');
+            
+            const exportObj = {
+                exportedAt: new Date().toISOString(),
+                version: '1.0',
+                pageData: pageData ? JSON.parse(pageData) : null,
+                adminData: adminData ? JSON.parse(adminData) : null
+            };
+            
+            const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `spal_data_backup_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ Data exported!', 'success');
+        }
+
+        // ==========================================
+        // IMPORT DATA
+        // ==========================================
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!imported.pageData && !imported.adminData) {
+                        showToast('❌ Invalid file format!', 'error');
+                        return;
+                    }
+                    if (!confirm('This will overwrite ALL current data. Continue?')) return;
+                    
+                    if (imported.pageData) {
+                        localStorage.setItem('spal_page_data', JSON.stringify(imported.pageData));
+                    }
+                    if (imported.adminData) {
+                        localStorage.setItem('spal_admin_data', JSON.stringify(imported.adminData));
+                        if (imported.adminData.team) data.team = imported.adminData.team;
+                        if (imported.adminData.publications) data.publications = imported.adminData.publications;
+                        if (imported.adminData.news) data.news = imported.adminData.news;
+                        if (imported.adminData.awards) data.awards = imported.adminData.awards;
+                    }
+                    
+                    showToast('✅ Data imported! Refreshing...', 'success');
+                    setTimeout(() => { location.reload(); }, 1500);
+                } catch (err) {
+                    showToast('❌ Error: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ==========================================
         // RENDER
         // ==========================================
         function renderAll() {
@@ -538,8 +601,6 @@
                     <div class="field">
                         <label>Image</label>
                         <div class="image-upload-wrapper">
-                            <input type="file" id="f_image_file" accept=".jpg,.jpeg,.png" />
-                            <span style="font-size:12px; color:#666;">or enter filename:</span>
                             <input type="text" id="f_image" value="${image}" placeholder="e.g. faruk.jpg" style="width:200px;" />
                         </div>
                         <div style="margin-top:5px;">
@@ -567,14 +628,7 @@
                     <div class="field"><label>Author</label><input type="text" id="f_author" value="${item ? item.author : ''}" /></div>
                     <div class="field">
                         <label>Image</label>
-                        <div class="image-upload-wrapper">
-                            <input type="file" id="f_image_file" accept=".jpg,.jpeg,.png" />
-                            <span style="font-size:12px; color:#666;">or enter filename:</span>
-                            <input type="text" id="f_image" value="${image}" placeholder="e.g. news1.jpg" style="width:200px;" />
-                        </div>
-                        <div style="margin-top:5px;">
-                            ${image ? `<img src="../images/${image}" class="image-preview" id="imagePreview" onerror="this.style.display='none'" />` : `<img src="" class="image-preview" id="imagePreview" style="display:none;" />`}
-                        </div>
+                        <input type="text" id="f_image" value="${image}" placeholder="e.g. news1.jpg" />
                     </div>
                     <div class="field"><label>Link</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
                     <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="10.1234/example" /></div>
@@ -588,23 +642,6 @@
 
             body.innerHTML = fields;
             modal.classList.add('active');
-
-            const fileInput = document.getElementById('f_image_file');
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(ev) {
-                            const preview = document.getElementById('imagePreview');
-                            preview.src = ev.target.result;
-                            preview.style.display = 'block';
-                            document.getElementById('f_image').value = file.name;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
         }
 
         function closeModal() {
@@ -621,18 +658,12 @@
 
             let newItem = {};
             if (type === 'team') {
-                const imageField = document.getElementById('f_image');
-                const fileInput = document.getElementById('f_image_file');
-                let imageValue = imageField.value || 'default.jpg';
-                if (fileInput && fileInput.files.length > 0) {
-                    imageValue = fileInput.files[0].name;
-                }
                 newItem = {
                     name: document.getElementById('f_name').value,
                     role: document.getElementById('f_role').value,
                     bio: document.getElementById('f_bio').value,
                     category: document.getElementById('f_category').value,
-                    image: imageValue
+                    image: document.getElementById('f_image').value || 'default.jpg'
                 };
             } else if (type === 'publication') {
                 newItem = {
@@ -642,18 +673,12 @@
                     year: parseInt(document.getElementById('f_year').value) || null
                 };
             } else if (type === 'news') {
-                const imageField = document.getElementById('f_image');
-                const fileInput = document.getElementById('f_image_file');
-                let imageValue = imageField.value || '';
-                if (fileInput && fileInput.files.length > 0) {
-                    imageValue = fileInput.files[0].name;
-                }
                 newItem = {
                     title: document.getElementById('f_title').value,
                     date: document.getElementById('f_date').value,
                     content: document.getElementById('f_content').value,
                     author: document.getElementById('f_author').value,
-                    image: imageValue,
+                    image: document.getElementById('f_image').value || '',
                     link: document.getElementById('f_link').value || '',
                     doi: document.getElementById('f_doi').value || ''
                 };
@@ -682,54 +707,6 @@
             saveData();
             renderAll();
             showToast('🗑️ Deleted!', 'success');
-        }
-
-        // ==========================================
-        // IMAGE UPLOAD
-        // ==========================================
-        function uploadImage() {
-            const fileInput = document.getElementById('imageUpload');
-            const status = document.getElementById('uploadStatus');
-            const preview = document.getElementById('uploadPreview');
-            
-            if (!fileInput.files || fileInput.files.length === 0) {
-                status.innerHTML = '❌ Please select an image first.';
-                status.style.color = '#dc3545';
-                return;
-            }
-            
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('image', file);
-            
-            status.innerHTML = '⏳ Uploading...';
-            status.style.color = '#0A6847';
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.innerHTML = `<img src="${e.target.result}" style="max-width:200px; max-height:200px; border-radius:8px; border:2px solid #0A6847;" />`;
-            };
-            reader.readAsDataURL(file);
-            
-            fetch('https://kabir-sir-lab.onrender.com/api/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    status.innerHTML = `✅ ${data.message}`;
-                    status.style.color = '#0A6847';
-                    fileInput.value = '';
-                } else {
-                    status.innerHTML = `❌ ${data.error || 'Upload failed'}`;
-                    status.style.color = '#dc3545';
-                }
-            })
-            .catch(error => {
-                status.innerHTML = `❌ Error: ${error.message}`;
-                status.style.color = '#dc3545';
-            });
         }
 
         // ==========================================
