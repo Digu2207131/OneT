@@ -7,12 +7,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .publication-list { max-width: 100%; }
+        .publication-item { display: flex; gap: 20px; padding: 20px; background: var(--white); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); transition: 0.3s; }
+        .publication-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .pub-icon { font-size: 24px; color: var(--primary); flex-shrink: 0; }
+        .pub-content h4 { font-size: 16px; margin-bottom: 4px; font-weight: 600; }
+        .pub-authors { font-size: 14px; color: var(--gray); }
+        .pub-journal { font-size: 13px; color: var(--gray); font-style: italic; margin: 4px 0 10px; }
+        .pub-links { display: flex; gap: 12px; }
+        .pub-link { font-size: 12px; font-weight: 600; color: var(--primary); padding: 2px 12px; border: 1.5px solid var(--primary); border-radius: 4px; transition: 0.3s; text-decoration: none; }
+        .pub-link:hover { background: var(--primary); color: var(--white); }
+        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .news-card { background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid #eef2f7; transition: 0.3s; }
+        .news-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .news-card h4 { margin-bottom: 5px; }
+        .news-card .date { font-size: 12px; color: var(--gray); }
+        .news-card .content { font-size: 14px; color: var(--gray); margin-top: 8px; }
+        .award-list { list-style: none; padding: 0; }
+        .award-list li { padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray); }
+        @media (max-width: 768px) { .news-grid { grid-template-columns: 1fr; } .publication-item { flex-direction: column; } }
+    </style>
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- NAVIGATION                                 -->
-    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -33,9 +51,6 @@
         </div>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- NEWS & MEDIA CONTENT                       -->
-    <!-- ========================================== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
@@ -46,7 +61,7 @@
             <!-- Publications -->
             <div style="margin-bottom: 40px;">
                 <h3 style="color: var(--primary-dark); font-size: 22px;">📄 Publications</h3>
-                <div class="publication-list">
+                <div id="publications-container">
                     <div class="publication-item">
                         <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
                         <div class="pub-content">
@@ -86,40 +101,32 @@
             <!-- Awards -->
             <div style="margin-bottom: 40px;">
                 <h3 style="color: var(--primary-dark); font-size: 22px;">🏆 Awards &amp; Achievements</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray);">
-                        🏅 Best Paper Award – IOCAG 2025
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray);">
-                        🏅 Research Excellence Award – HSTU, 2024
-                    </li>
-                    <li style="padding: 12px 0; font-size: 16px; color: var(--gray);">
-                        🏅 Innovation in Agriculture Award – BARC, 2023
-                    </li>
-                </ul>
+                <div id="awards-container">
+                    <ul class="award-list">
+                        <li>🏅 Best Paper Award – IOCAG 2025</li>
+                        <li>🏅 Research Excellence Award – HSTU, 2024</li>
+                        <li>🏅 Innovation in Agriculture Award – BARC, 2023</li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Media Coverage -->
+            <!-- News -->
             <div>
-                <h3 style="color: var(--primary-dark); font-size: 22px;">📺 Media Coverage</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray);">
-                        📰 "AI in Agriculture" – The Daily Star, 2025
-                    </li>
-                    <li style="padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray);">
-                        📰 "Drone Technology for Smart Farming" – Bangladesh Agricultural News, 2024
-                    </li>
-                    <li style="padding: 12px 0; font-size: 16px; color: var(--gray);">
-                        📰 "Precision Agriculture Lab at HSTU" – Dinajpur Times, 2024
-                    </li>
-                </ul>
+                <h3 style="color: var(--primary-dark); font-size: 22px;">📰 News</h3>
+                <div id="news-container">
+                    <div class="news-grid">
+                        <div class="news-card">
+                            <h4>SPAL Lab Launch</h4>
+                            <p class="date">2025-01-15 · Admin</p>
+                            <p class="content">Smart Precision Agriculture Lab officially launched at HSTU.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -148,41 +155,63 @@
         </div>
     </footer>
 
-    <style>
-        .publication-list { max-width: 100%; }
-        .publication-item {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            background: var(--white);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-            transition: 0.3s;
-        }
-        .publication-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .pub-icon { font-size: 24px; color: var(--primary); flex-shrink: 0; }
-        .pub-content h4 { font-size: 16px; margin-bottom: 4px; font-weight: 600; }
-        .pub-authors { font-size: 14px; color: var(--gray); }
-        .pub-journal { font-size: 13px; color: var(--gray); font-style: italic; margin: 4px 0 10px; }
-        .pub-links { display: flex; gap: 12px; }
-        .pub-link {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--primary);
-            padding: 2px 12px;
-            border: 1.5px solid var(--primary);
-            border-radius: 4px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .pub-link:hover { background: var(--primary); color: var(--white); }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load publications
+            const pubData = localStorage.getItem('spal_admin_data');
+            if (pubData) {
+                try {
+                    const data = JSON.parse(pubData);
+                    if (data.publications && data.publications.length > 0) {
+                        const container = document.getElementById('publications-container');
+                        if (container) {
+                            let html = '';
+                            data.publications.forEach(p => {
+                                html += `
+                                    <div class="publication-item">
+                                        <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
+                                        <div class="pub-content">
+                                            <h4>${p.title}</h4>
+                                            <p class="pub-authors">${p.authors}</p>
+                                            <p class="pub-journal">${p.journal} (${p.year})</p>
+                                            <div class="pub-links">
+                                                ${p.link ? `<a href="${p.link}" target="_blank" class="pub-link">View Paper</a>` : ''}
+                                                <a href="#" class="pub-link">DOI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            container.innerHTML = html;
+                        }
+                    }
+                } catch(e) {}
+            }
 
-        @media (max-width: 600px) {
-            .publication-item { flex-direction: column; }
-        }
-    </style>
+            // Load news
+            const newsData = localStorage.getItem('spal_admin_data');
+            if (newsData) {
+                try {
+                    const data = JSON.parse(newsData);
+                    if (data.news && data.news.length > 0) {
+                        const container = document.getElementById('news-container');
+                        if (container) {
+                            let html = '<div class="news-grid">';
+                            data.news.forEach(n => {
+                                html += `
+                                    <div class="news-card">
+                                        <h4>${n.title}</h4>
+                                        <p class="date">${n.date} · ${n.author}</p>
+                                        <p class="content">${n.content}</p>
+                                    </div>
+                                `;
+                            });
+                            html += '</div>';
+                            container.innerHTML = html;
+                        }
+                    }
+                } catch(e) {}
+            }
 
-    <script src="js/script.js"></script>
-</body>
-</html>
+            // Load awards
+            const awardData = localStorage.getItem('
