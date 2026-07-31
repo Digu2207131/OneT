@@ -1,27 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPAL Lab – Admin Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0faf5 0%, #e8f5e9 100%);
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0faf5 0%, #e8f5e9 100%);
+            margin: 0;
             padding: 20px;
         }
-        .login-container {
+        .container {
+            text-align: center;
             background: white;
             padding: 50px 40px;
             border-radius: 24px;
@@ -29,24 +24,27 @@
             max-width: 420px;
             width: 100%;
         }
-        .login-container .logo {
-            text-align: center;
+        .logo {
             font-size: 48px;
             margin-bottom: 10px;
         }
-        .login-container h1 {
-            text-align: center;
-            font-size: 24px;
+        h1 {
             color: #064A32;
+            font-size: 28px;
             margin-bottom: 5px;
         }
-        .login-container p {
-            text-align: center;
+        .subtitle {
             color: #6c757d;
             font-size: 14px;
             margin-bottom: 30px;
         }
-        .login-container input {
+        .login-box {
+            margin-top: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .login-box input {
             width: 100%;
             padding: 14px 18px;
             border: 2px solid #e0e0e0;
@@ -54,13 +52,14 @@
             font-size: 15px;
             margin-bottom: 16px;
             transition: 0.3s;
+            box-sizing: border-box;
         }
-        .login-container input:focus {
+        .login-box input:focus {
             outline: none;
             border-color: #0A6847;
             box-shadow: 0 0 0 4px rgba(10,104,71,0.1);
         }
-        .login-container button {
+        .btn {
             width: 100%;
             padding: 14px;
             background: #0A6847;
@@ -72,7 +71,7 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .login-container button:hover {
+        .btn:hover {
             background: #064A32;
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(10,104,71,0.3);
@@ -80,12 +79,16 @@
         .error-msg {
             color: #dc3545;
             font-size: 13px;
-            text-align: center;
             margin-bottom: 15px;
             display: none;
+            padding: 8px 12px;
+            background: #fde8e8;
+            border-radius: 8px;
+        }
+        .error-msg.show {
+            display: block;
         }
         .security-note {
-            text-align: center;
             font-size: 12px;
             color: #aaa;
             margin-top: 20px;
@@ -93,41 +96,66 @@
         .security-note strong {
             color: #0A6847;
         }
+        .security-note .change-hint {
+            display: block;
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+        .footer-text {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
+    <div class="container">
         <div class="logo">🔐</div>
         <h1>SPAL Admin</h1>
-        <p>Enter your credentials to manage the website</p>
+        <p class="subtitle">Enter your credentials to manage the website</p>
 
-        <div class="error-msg" id="errorMsg">❌ Invalid password. Please try again.</div>
-
-        <input type="password" id="adminPassword" placeholder="Enter Admin Password" />
-        <button onclick="login()">Login</button>
+        <div class="login-box">
+            <div class="error-msg" id="errorMsg">❌ Invalid password. Please try again.</div>
+            <input type="password" id="adminPassword" placeholder="Enter admin password" />
+            <button class="btn" onclick="login()">Login</button>
+        </div>
 
         <div class="security-note">
-            Default password: <strong>spal2025</strong>
+            <strong>🔑 Default Password: spal2025</strong>
+            <span class="change-hint">Change it in the dashboard after login</span>
+        </div>
+
+        <div class="footer-text">
+            &copy; 2025 Smart Precision Agriculture Lab
         </div>
     </div>
 
     <script>
         // ==========================================
-        // ADMIN PASSWORD
+        // ADMIN PASSWORD – Stored in localStorage
         // ==========================================
-        const ADMIN_PASSWORD = 'spal2025'; // Change this!
+        // Default password: spal2025
+        // Change it in the dashboard
 
         function login() {
             const password = document.getElementById('adminPassword').value;
             const errorMsg = document.getElementById('errorMsg');
 
-            if (password === ADMIN_PASSWORD) {
+            // Get stored password (or use default)
+            let storedPassword = localStorage.getItem('admin_password');
+            if (!storedPassword) {
+                localStorage.setItem('admin_password', 'spal2025');
+                storedPassword = 'spal2025';
+            }
+
+            if (password === storedPassword) {
                 sessionStorage.setItem('adminLoggedIn', 'true');
                 window.location.href = 'dashboard.html';
             } else {
-                errorMsg.style.display = 'block';
-                setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
+                errorMsg.classList.add('show');
+                setTimeout(() => { errorMsg.classList.remove('show'); }, 3000);
             }
         }
 
@@ -140,6 +168,11 @@
         if (sessionStorage.getItem('adminLoggedIn') === 'true') {
             window.location.href = 'dashboard.html';
         }
+
+        // Focus on password field
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adminPassword').focus();
+        });
     </script>
 
 </body>
