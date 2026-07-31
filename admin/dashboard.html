@@ -3,88 +3,114 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SPAL Admin – Full Editor</title>
+    <title>SPAL Admin Panel</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
         .container { max-width: 1100px; margin: 0 auto; }
 
-        .header { background: #0A6847; color: white; padding: 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .header h1 { font-size: 24px; }
-        .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; font-size: 14px; }
+        .header {
+            background: #0A6847; color: white; padding: 20px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;
+        }
+        .header h1 { font-size: 22px; }
+        .btn {
+            padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 13px;
+        }
         .btn-save { background: #FFC107; color: #333; }
         .btn-save:hover { background: #e0a800; }
-        .btn-export { background: #17a2b8; color: white; }
-        .btn-export:hover { background: #138496; }
-        .btn-import { background: #6f42c1; color: white; }
-        .btn-import:hover { background: #5a32a3; }
-        .btn-view { background: white; color: #0A6847; }
-        .btn-view:hover { background: #e0e0e0; }
         .btn-logout { background: #dc3545; color: white; }
         .btn-logout:hover { background: #c82333; }
+        .btn-view { background: white; color: #0A6847; }
+        .btn-view:hover { background: #e0e0e0; }
 
-        .section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .section h2 { margin-bottom: 15px; color: #0A6847; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .section {
+            background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #0A6847; border-bottom: 2px solid #e8f5e9; padding-bottom: 10px; margin-bottom: 15px;
+            font-size: 18px;
+        }
 
         .field { margin-bottom: 12px; }
-        .field label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 14px; }
-        .field input, .field textarea, .field select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; font-family: Arial, sans-serif; }
+        .field label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 4px; }
+        .field input, .field textarea {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
         .field textarea { min-height: 60px; resize: vertical; }
+        .field select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
         .item-list { margin-top: 10px; }
-        .item { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: #f9f9f9; border-radius: 5px; margin-bottom: 5px; border: 1px solid #eee; }
+        .item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 15px; background: #f9f9f9; border-radius: 5px; margin-bottom: 5px;
+            border: 1px solid #eee;
+        }
         .item .info { flex: 1; display: flex; align-items: center; gap: 12px; }
-        .item .info img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid #0A6847; background: #e8f5e9; }
+        .item .info img {
+            width: 50px; height: 50px; border-radius: 50%; object-fit: cover;
+            border: 2px solid #0A6847; background: #e8f5e9;
+        }
         .item .info .text { flex: 1; }
         .item .info .text strong { font-size: 14px; display: block; }
         .item .info .text .detail { font-size: 12px; color: #666; }
         .item .actions { display: flex; gap: 5px; }
-        .item .actions button { padding: 4px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
-        .btn-edit { background: #ffc107; color: #333; }
+        .item .actions button {
+            padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600;
+        }
+        .btn-edit { background: #ffc107; }
         .btn-edit:hover { background: #e0a800; }
         .btn-delete { background: #dc3545; color: white; }
         .btn-delete:hover { background: #c82333; }
-        .btn-add { background: #0A6847; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .btn-add {
+            background: #0A6847; color: white; padding: 6px 14px; border: none; border-radius: 5px;
+            cursor: pointer; font-weight: bold; font-size: 13px; margin-top: 10px;
+        }
         .btn-add:hover { background: #064A32; }
 
-        .category-badge { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .category-badge {
+            display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 11px; font-weight: bold;
+        }
         .category-badge.current { background: #e8f5e9; color: #0A6847; }
         .category-badge.alumni { background: #fff3e0; color: #e65100; }
 
-        .image-preview { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #0A6847; margin-top: 5px; }
-        .image-upload-wrapper { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .image-upload-wrapper input[type="file"] { padding: 8px; border: 1px dashed #0A6847; border-radius: 5px; }
+        .image-preview {
+            width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+            border: 2px solid #0A6847; margin-top: 5px;
+        }
+        .image-upload-wrapper {
+            display: flex; align-items: center; gap: 15px; flex-wrap: wrap;
+        }
+        .image-upload-wrapper input[type="file"] {
+            padding: 8px; border: 1px dashed #0A6847; border-radius: 5px;
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000;
+        }
         .modal.active { display: flex; }
-        .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 10px; max-width: 550px; width: 90%;
+            max-height: 90vh; overflow-y: auto;
+        }
         .modal-content h2 { margin-bottom: 15px; color: #0A6847; }
         .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
-        .modal-actions button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .modal-actions button {
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px;
+        }
         .btn-modal-save { background: #0A6847; color: white; }
         .btn-modal-save:hover { background: #064A32; }
         .btn-modal-cancel { background: #ccc; color: #333; }
         .btn-modal-cancel:hover { background: #bbb; }
 
-        /* Password Change Section */
-        .password-section {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px;
+            color: white; font-weight: bold; display: none; z-index: 999;
         }
-        .password-section h2 { color: #856404; border-bottom-color: #ffc107; }
-        .password-section .field label { color: #856404; }
-        .password-section .btn-change-pass { background: #ffc107; color: #333; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; }
-        .password-section .btn-change-pass:hover { background: #e0a800; }
-        .pass-status { font-size: 13px; margin-top: 5px; }
-        .pass-status.success { color: #0A6847; }
-        .pass-status.error { color: #dc3545; }
-
-        .toast { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; color: white; font-weight: bold; display: none; z-index: 999; }
         .toast.success { background: #0A6847; }
         .toast.error { background: #dc3545; }
         .toast.show { display: block; }
@@ -92,7 +118,12 @@
         .team-subsection { margin-top: 20px; }
         .team-subsection h3 { color: #064A32; font-size: 18px; margin-bottom: 10px; }
 
-        @media (max-width: 600px) { .row { grid-template-columns: 1fr; } .header { flex-direction: column; text-align: center; } .item { flex-direction: column; text-align: center; } .item .info { flex-direction: column; } }
+        @media (max-width: 600px) {
+            .row { grid-template-columns: 1fr; }
+            .header { flex-direction: column; text-align: center; }
+            .item { flex-direction: column; text-align: center; }
+            .item .info { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
@@ -101,125 +132,79 @@
 
         <!-- Header -->
         <div class="header">
-            <h1>🌱 SPAL Admin Panel</h1>
-            <div class="header-actions">
+            <h1>🌱 SPAL Admin</h1>
+            <div>
                 <button class="btn btn-save" onclick="saveAll()">💾 Save All</button>
-                <button class="btn btn-export" onclick="exportData()">📤 Export Data</button>
-                <button class="btn btn-import" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
-                <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
-                <button class="btn btn-view" onclick="window.open('../index.html','_blank')">👁️ View Site</button>
+                <button class="btn btn-view" onclick="window.open('../index.html','_blank')">👁️ View</button>
                 <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PASSWORD CHANGE SECTION                      -->
-        <!-- ========================================== -->
-        <div class="password-section">
-            <h2>🔐 Change Admin Password</h2>
-            <div class="row">
-                <div class="field">
-                    <label>Current Password</label>
-                    <input type="password" id="current_pass" placeholder="Enter current password" />
-                </div>
-                <div class="field">
-                    <label>New Password</label>
-                    <input type="password" id="new_pass" placeholder="Enter new password (min 4 characters)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="field">
-                    <label>Confirm New Password</label>
-                    <input type="password" id="confirm_pass" placeholder="Confirm new password" />
-                </div>
-                <div style="display: flex; align-items: flex-end; padding-bottom: 12px;">
-                    <button class="btn-change-pass" onclick="changePassword()">🔑 Change Password</button>
-                </div>
-            </div>
-            <div id="passStatus" class="pass-status"></div>
-        </div>
-
-        <!-- ========================================== -->
-        <!-- HOME                                        -->
-        <!-- ========================================== -->
+        <!-- HOME -->
         <div class="section">
             <h2>🏠 Home Page</h2>
             <div class="field"><label>Hero Description</label><textarea id="home_desc" rows="2">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</textarea></div>
             <div class="row">
-                <div class="field"><label>Research Projects</label><input type="number" id="home_projects" value="15" /></div>
+                <div class="field"><label>Projects</label><input type="number" id="home_projects" value="15" /></div>
                 <div class="field"><label>Publications</label><input type="number" id="home_pubs" value="45" /></div>
-                <div class="field"><label>Team Members</label><input type="number" id="home_team" value="12" /></div>
-                <div class="field"><label>Ongoing Projects</label><input type="number" id="home_ongoing" value="8" /></div>
+                <div class="field"><label>Team</label><input type="number" id="home_team" value="12" /></div>
+                <div class="field"><label>Ongoing</label><input type="number" id="home_ongoing" value="8" /></div>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- ABOUT                                       -->
-        <!-- ========================================== -->
+        <!-- ABOUT -->
         <div class="section">
-            <h2>📖 About Page</h2>
-            <div class="field"><label>Mission</label><textarea id="about_mission" rows="2">To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.</textarea></div>
-            <div class="field"><label>Vision</label><textarea id="about_vision" rows="2">To become a leading research lab in precision agriculture, transforming farming through intelligent systems, drone technology, and data-driven decision making.</textarea></div>
-            <div class="field"><label>What We Do</label><input type="text" id="about_work" value="Develop AI models | Design autonomous drone systems | Deploy IoT sensors | Predictive modeling | Sustainable farming" /></div>
+            <h2>📖 About</h2>
+            <div class="field"><label>Mission</label><textarea id="about_mission" rows="2">To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices.</textarea></div>
+            <div class="field"><label>Vision</label><textarea id="about_vision" rows="2">To become a leading research lab in precision agriculture.</textarea></div>
+            <div class="field"><label>What We Do</label><input type="text" id="about_work" value="Develop AI models | Design drone systems | Deploy IoT sensors" /></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PI                                          -->
-        <!-- ========================================== -->
+        <!-- PI -->
         <div class="section">
-            <h2>👨‍🏫 Principal Investigator</h2>
+            <h2>👨‍🏫 PI</h2>
             <div class="row">
                 <div class="field"><label>Name</label><input type="text" id="pi_name" value="Dr. Md. Shaha Nur Kabir" /></div>
-                <div class="field"><label>Title</label><input type="text" id="pi_title" value="Professor &amp; Principal Investigator" /></div>
+                <div class="field"><label>Title</label><input type="text" id="pi_title" value="Professor &amp; PI" /></div>
             </div>
-            <div class="field"><label>Department</label><input type="text" id="pi_dept" value="Department of Agricultural &amp; Industrial Engineering (AIE), HSTU, Dinajpur" /></div>
+            <div class="field"><label>Department</label><input type="text" id="pi_dept" value="Dept. of AIE, HSTU, Dinajpur" /></div>
             <div class="row">
                 <div class="field"><label>Email</label><input type="email" id="pi_email" value="kabir1982@hstu.ac.bd" /></div>
                 <div class="field"><label>Phone</label><input type="text" id="pi_phone" value="+8801737676930" /></div>
             </div>
-            <div class="field"><label>Bio</label><textarea id="pi_bio" rows="3">Dr. Md. Shaha Nur Kabir is a Professor and the Principal Investigator of the Smart Precision Agriculture Lab (SPAL). He leads cutting-edge research in precision agriculture technologies, focusing on AI, drone systems, and machine vision for sustainable agricultural practices.</textarea></div>
-            <div class="field"><label>Research Interests</label><input type="text" id="pi_interests" value="Smart Farming using AI, Precision Agriculture, Machinery Testing, Controlled Environment Agriculture" /></div>
-            <div class="field"><label>Education</label><input type="text" id="pi_education" value="PhD (2015) - Chungnam National University | M.S. (2008) - BAU | B.Sc. (2006) - BAU" /></div>
+            <div class="field"><label>Bio</label><textarea id="pi_bio" rows="3">Dr. Md. Shaha Nur Kabir is a Professor and Principal Investigator of SPAL.</textarea></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TEAM MEMBERS                               -->
-        <!-- ========================================== -->
+        <!-- TEAM MEMBERS -->
         <div class="section">
             <h2>👥 Team Members</h2>
             <div class="team-subsection">
                 <h3>🟢 Current Members</h3>
-                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add Current Member</button>
+                <button class="btn-add" onclick="openModal('team', null, 'current')">+ Add Current</button>
                 <div id="currentTeamList" class="item-list"></div>
             </div>
-            <div class="team-subsection" style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #eef2f7;">
+            <div class="team-subsection" style="margin-top:30px; padding-top:20px; border-top:2px solid #eef2f7;">
                 <h3>🎓 Alumni</h3>
                 <button class="btn-add" onclick="openModal('team', null, 'alumni')">+ Add Alumni</button>
                 <div id="alumniTeamList" class="item-list"></div>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PUBLICATIONS                                -->
-        <!-- ========================================== -->
+        <!-- PUBLICATIONS -->
         <div class="section">
             <h2>📄 Publications</h2>
             <button class="btn-add" onclick="openModal('publication')">+ Add Publication</button>
             <div id="pubList" class="item-list"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- NEWS                                        -->
-        <!-- ========================================== -->
+        <!-- NEWS -->
         <div class="section">
             <h2>📰 News</h2>
             <button class="btn-add" onclick="openModal('news')">+ Add News</button>
             <div id="newsList" class="item-list"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- AWARDS                                      -->
-        <!-- ========================================== -->
+        <!-- AWARDS -->
         <div class="section">
             <h2>🏆 Awards</h2>
             <button class="btn-add" onclick="openModal('award')">+ Add Award</button>
@@ -228,9 +213,7 @@
 
     </div>
 
-    <!-- ========================================== -->
-    <!-- MODAL                                       -->
-    <!-- ========================================== -->
+    <!-- MODAL -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 id="modalTitle">Add New</h2>
@@ -259,10 +242,10 @@
                 { id: 7, name: 'Md Sakib Robin', role: 'MS Student', bio: 'CNU, South Korea', category: 'alumni', image: 'robin.jpg' }
             ],
             publications: [
-                { id: 1, title: 'Smart Evaporative Cooling Storage System', authors: 'Mahmud, M.R., et al.', journal: 'IOCAG 2025', year: 2025, doi: '10.1234/example' }
+                { id: 1, title: 'Smart Evaporative Cooling Storage System', authors: 'Mahmud, M.R., et al.', journal: 'IOCAG 2025', year: 2025 }
             ],
             news: [
-                { id: 1, title: 'SPAL Lab Launch', date: '2025-01-15', content: 'SPAL officially launched at HSTU.', author: 'Admin', image: 'news1.jpg', link: 'https://example.com/news1', doi: '10.1234/news1' }
+                { id: 1, title: 'SPAL Lab Launch', date: '2025-01-15', content: 'SPAL officially launched.', author: 'Admin' }
             ],
             awards: [
                 { id: 1, title: 'Best Paper Award – IOCAG 2025' }
@@ -272,72 +255,19 @@
         let modalType = '', editId = null, modalCategory = null;
 
         // ==========================================
-        // PASSWORD CHANGE FUNCTION
-        // ==========================================
-        function changePassword() {
-            const current = document.getElementById('current_pass').value;
-            const newPass = document.getElementById('new_pass').value;
-            const confirmPass = document.getElementById('confirm_pass').value;
-            const statusDiv = document.getElementById('passStatus');
-
-            // Get stored password (or use default)
-            let storedPassword = localStorage.getItem('admin_password');
-            if (!storedPassword) {
-                localStorage.setItem('admin_password', 'spal2025');
-                storedPassword = 'spal2025';
-            }
-
-            // Validate
-            if (current !== storedPassword) {
-                statusDiv.className = 'pass-status error';
-                statusDiv.textContent = '❌ Current password is incorrect!';
-                return;
-            }
-
-            if (newPass.length < 4) {
-                statusDiv.className = 'pass-status error';
-                statusDiv.textContent = '❌ New password must be at least 4 characters!';
-                return;
-            }
-
-            if (newPass !== confirmPass) {
-                statusDiv.className = 'pass-status error';
-                statusDiv.textContent = '❌ Passwords do not match!';
-                return;
-            }
-
-            // Save new password
-            localStorage.setItem('admin_password', newPass);
-            statusDiv.className = 'pass-status success';
-            statusDiv.textContent = '✅ Password changed successfully!';
-
-            // Clear fields
-            document.getElementById('current_pass').value = '';
-            document.getElementById('new_pass').value = '';
-            document.getElementById('confirm_pass').value = '';
-
-            showToast('✅ Password changed successfully!', 'success');
-        }
-
-        // Enter key support for password change
-        document.getElementById('confirm_pass').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') changePassword();
-        });
-
-        // ==========================================
         // LOAD / SAVE
         // ==========================================
         function loadData() {
             try {
                 const saved = localStorage.getItem('spal_admin_data');
                 if (saved) { data = JSON.parse(saved); }
-            } catch (e) {}
-            renderAll();
+            } catch(e) {}
             loadFields();
+            renderAll();
         }
 
         function saveData() {
-            try { localStorage.setItem('spal_admin_data', JSON.stringify(data)); } catch (e) {}
+            try { localStorage.setItem('spal_admin_data', JSON.stringify(data)); } catch(e) {}
         }
 
         function savePageFields() {
@@ -355,11 +285,9 @@
                 pi_dept: document.getElementById('pi_dept').value,
                 pi_email: document.getElementById('pi_email').value,
                 pi_phone: document.getElementById('pi_phone').value,
-                pi_bio: document.getElementById('pi_bio').value,
-                pi_interests: document.getElementById('pi_interests').value,
-                pi_education: document.getElementById('pi_education').value
+                pi_bio: document.getElementById('pi_bio').value
             };
-            try { localStorage.setItem('spal_page_data', JSON.stringify(pageData)); } catch (e) {}
+            try { localStorage.setItem('spal_page_data', JSON.stringify(pageData)); } catch(e) {}
         }
 
         function loadFields() {
@@ -381,80 +309,14 @@
                     document.getElementById('pi_email').value = d.pi_email || '';
                     document.getElementById('pi_phone').value = d.pi_phone || '';
                     document.getElementById('pi_bio').value = d.pi_bio || '';
-                    document.getElementById('pi_interests').value = d.pi_interests || '';
-                    document.getElementById('pi_education').value = d.pi_education || '';
                 }
-            } catch (e) {}
+            } catch(e) {}
         }
 
         function saveAll() {
             saveData();
             savePageFields();
-            showToast('✅ All content saved successfully!', 'success');
-        }
-
-        // ==========================================
-        // EXPORT DATA
-        // ==========================================
-        function exportData() {
-            const pageData = localStorage.getItem('spal_page_data');
-            const adminData = localStorage.getItem('spal_admin_data');
-            
-            const exportObj = {
-                exportedAt: new Date().toISOString(),
-                version: '1.0',
-                pageData: pageData ? JSON.parse(pageData) : null,
-                adminData: adminData ? JSON.parse(adminData) : null
-            };
-            
-            const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `spal_data_backup_${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast('✅ Data exported successfully!', 'success');
-        }
-
-        // ==========================================
-        // IMPORT DATA
-        // ==========================================
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (!imported.pageData && !imported.adminData) {
-                        showToast('❌ Invalid file format!', 'error');
-                        return;
-                    }
-                    if (!confirm('This will overwrite ALL current data. Continue?')) return;
-                    
-                    if (imported.pageData) {
-                        localStorage.setItem('spal_page_data', JSON.stringify(imported.pageData));
-                    }
-                    if (imported.adminData) {
-                        localStorage.setItem('spal_admin_data', JSON.stringify(imported.adminData));
-                        if (imported.adminData.team) data.team = imported.adminData.team;
-                        if (imported.adminData.publications) data.publications = imported.adminData.publications;
-                        if (imported.adminData.news) data.news = imported.adminData.news;
-                        if (imported.adminData.awards) data.awards = imported.adminData.awards;
-                    }
-                    
-                    showToast('✅ Data imported! Refreshing...', 'success');
-                    setTimeout(() => { location.reload(); }, 1500);
-                } catch (err) {
-                    showToast('❌ Error: ' + err.message, 'error');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
+            showToast('✅ All saved!', 'success');
         }
 
         // ==========================================
@@ -468,10 +330,11 @@
         }
 
         function renderTeam() {
+            // Current members
             const currentContainer = document.getElementById('currentTeamList');
             const currentMembers = data.team.filter(m => m.category === 'current');
             if (currentMembers.length === 0) {
-                currentContainer.innerHTML = '<p style="color:#999; padding:10px;">No current members added.</p>';
+                currentContainer.innerHTML = '<p style="color:#999; padding:10px;">No current members.</p>';
             } else {
                 let html = '';
                 currentMembers.forEach(item => {
@@ -495,10 +358,11 @@
                 currentContainer.innerHTML = html;
             }
 
+            // Alumni
             const alumniContainer = document.getElementById('alumniTeamList');
             const alumniMembers = data.team.filter(m => m.category === 'alumni');
             if (alumniMembers.length === 0) {
-                alumniContainer.innerHTML = '<p style="color:#999; padding:10px;">No alumni added.</p>';
+                alumniContainer.innerHTML = '<p style="color:#999; padding:10px;">No alumni.</p>';
             } else {
                 let html = '';
                 alumniMembers.forEach(item => {
@@ -526,7 +390,7 @@
         function renderNewsList() {
             const container = document.getElementById('newsList');
             if (!data.news || data.news.length === 0) {
-                container.innerHTML = '<p style="color:#999; padding:10px;">No news added.</p>';
+                container.innerHTML = '<p style="color:#999; padding:10px;">No news.</p>';
                 return;
             }
             let html = '';
@@ -539,10 +403,6 @@
                             <div class="text">
                                 <strong>${item.title}</strong>
                                 <div class="detail">${item.date} · ${item.author}</div>
-                                <div class="links">
-                                    ${item.doi ? `<span>DOI: ${item.doi}</span>` : ''}
-                                    ${item.link ? `<a href="${item.link}" target="_blank">🔗 Link</a>` : ''}
-                                </div>
                             </div>
                         </div>
                         <div class="actions">
@@ -558,21 +418,21 @@
         function renderList(id, items, type) {
             const container = document.getElementById(id);
             if (!items || items.length === 0) {
-                container.innerHTML = '<p style="color:#999; padding:10px;">No items added.</p>';
+                container.innerHTML = '<p style="color:#999; padding:10px;">No items.</p>';
                 return;
             }
             let html = '';
             items.forEach(item => {
-                let info = item.name || item.title || '';
+                let name = item.name || item.title || '';
                 let detail = item.role || item.authors || item.date || '';
                 let doi = item.doi ? `<span style="font-size:11px; color:#0A6847;">DOI: ${item.doi}</span>` : '';
                 html += `
                     <div class="item">
                         <div class="info">
                             <div class="text">
-                                <strong>${info}</strong>
+                                <strong>${name}</strong>
                                 <div class="detail">${detail}</div>
-                                ${doi ? `<div class="links">${doi}</div>` : ''}
+                                ${doi ? `<div style="font-size:11px; color:#0A6847;">${doi}</div>` : ''}
                             </div>
                         </div>
                         <div class="actions">
@@ -614,7 +474,7 @@
                     <div class="field">
                         <label>Category</label>
                         <select id="f_category">
-                            <option value="current" ${categoryValue === 'current' ? 'selected' : ''}>Current Member</option>
+                            <option value="current" ${categoryValue === 'current' ? 'selected' : ''}>Current</option>
                             <option value="alumni" ${categoryValue === 'alumni' ? 'selected' : ''}>Alumni</option>
                         </select>
                     </div>
@@ -633,13 +493,11 @@
                 `;
             } else if (type === 'publication') {
                 title.textContent = id ? '✏️ Edit Publication' : '📄 Add Publication';
-                const doi = item ? item.doi : '';
                 fields = `
                     <div class="field"><label>Title</label><input type="text" id="f_title" value="${item ? item.title : ''}" /></div>
                     <div class="field"><label>Authors</label><input type="text" id="f_authors" value="${item ? item.authors : ''}" /></div>
                     <div class="field"><label>Journal</label><input type="text" id="f_journal" value="${item ? item.journal : ''}" /></div>
                     <div class="field"><label>Year</label><input type="number" id="f_year" value="${item ? item.year : ''}" /></div>
-                    <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="e.g. 10.1234/example" /></div>
                 `;
             } else if (type === 'news') {
                 title.textContent = id ? '✏️ Edit News' : '📰 Add News';
@@ -663,8 +521,8 @@
                         </div>
                         <div style="font-size:12px; color:#666; margin-top:5px;">Supported: JPG, PNG, JPEG</div>
                     </div>
-                    <div class="field"><label>Hyperlink</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com/news" /></div>
-                    <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="e.g. 10.1234/news1" /></div>
+                    <div class="field"><label>Link (URL)</label><input type="url" id="f_link" value="${link}" placeholder="https://example.com" /></div>
+                    <div class="field"><label>DOI</label><input type="text" id="f_doi" value="${doi}" placeholder="10.1234/example" /></div>
                 `;
             } else if (type === 'award') {
                 title.textContent = id ? '✏️ Edit Award' : '🏆 Add Award';
@@ -726,8 +584,7 @@
                     title: document.getElementById('f_title').value,
                     authors: document.getElementById('f_authors').value,
                     journal: document.getElementById('f_journal').value,
-                    year: parseInt(document.getElementById('f_year').value) || null,
-                    doi: document.getElementById('f_doi').value || ''
+                    year: parseInt(document.getElementById('f_year').value) || null
                 };
             } else if (type === 'news') {
                 const imageField = document.getElementById('f_image');
@@ -760,7 +617,7 @@
             saveData();
             renderAll();
             closeModal();
-            showToast('✅ Saved successfully!', 'success');
+            showToast('✅ Saved!', 'success');
         }
 
         function deleteItem(type, id) {
