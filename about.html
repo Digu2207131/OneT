@@ -10,9 +10,6 @@
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- NAVIGATION                                 -->
-    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -33,9 +30,6 @@
         </div>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- ABOUT CONTENT                              -->
-    <!-- ========================================== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
@@ -46,21 +40,17 @@
 
                 <div style="margin-bottom: 40px;">
                     <h3 style="color: var(--primary-dark); font-size: 24px;">🎯 Our Mission</h3>
-                    <p style="font-size: 17px; color: var(--gray); line-height: 1.8;">
-                        To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.
-                    </p>
+                    <p id="about-mission" style="font-size: 17px; color: var(--gray); line-height: 1.8;">To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.</p>
                 </div>
 
                 <div style="margin-bottom: 40px;">
                     <h3 style="color: var(--primary-dark); font-size: 24px;">🌟 Our Vision</h3>
-                    <p style="font-size: 17px; color: var(--gray); line-height: 1.8;">
-                        To become a leading research lab in precision agriculture, transforming farming through intelligent systems, drone technology, and data-driven decision making.
-                    </p>
+                    <p id="about-vision" style="font-size: 17px; color: var(--gray); line-height: 1.8;">To become a leading research lab in precision agriculture, transforming farming through intelligent systems, drone technology, and data-driven decision making.</p>
                 </div>
 
                 <div style="margin-bottom: 40px;">
                     <h3 style="color: var(--primary-dark); font-size: 24px;">🔬 What We Do</h3>
-                    <ul style="list-style: none; padding: 0; font-size: 16px; color: var(--gray); line-height: 2;">
+                    <ul id="about-work" style="list-style: none; padding: 0; font-size: 16px; color: var(--gray); line-height: 2;">
                         <li>✓ Develop AI models for crop disease detection</li>
                         <li>✓ Design autonomous drone spraying systems</li>
                         <li>✓ Deploy IoT sensors for real-time field monitoring</li>
@@ -73,9 +63,6 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -103,6 +90,26 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageData = localStorage.getItem('spal_page_data');
+            if (pageData) {
+                try {
+                    const data = JSON.parse(pageData);
+                    const mission = document.getElementById('about-mission');
+                    if (mission && data.about_mission) mission.textContent = data.about_mission;
+                    const vision = document.getElementById('about-vision');
+                    if (vision && data.about_vision) vision.textContent = data.about_vision;
+                    const work = document.getElementById('about-work');
+                    if (work && data.about_work) {
+                        const items = data.about_work.split('|').map(s => s.trim());
+                        work.innerHTML = items.map(item => `<li>✓ ${item}</li>`).join('');
+                    }
+                } catch(e) {}
+            }
+        });
+    </script>
 
     <script src="js/script.js"></script>
 </body>
