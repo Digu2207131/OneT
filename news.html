@@ -7,30 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <style>
-        .publication-list { max-width: 100%; }
-        .publication-item { display: flex; gap: 20px; padding: 20px; background: var(--white); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); transition: 0.3s; }
-        .publication-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .pub-icon { font-size: 24px; color: var(--primary); flex-shrink: 0; }
-        .pub-content h4 { font-size: 16px; margin-bottom: 4px; font-weight: 600; }
-        .pub-authors { font-size: 14px; color: var(--gray); }
-        .pub-journal { font-size: 13px; color: var(--gray); font-style: italic; margin: 4px 0 10px; }
-        .pub-links { display: flex; gap: 12px; }
-        .pub-link { font-size: 12px; font-weight: 600; color: var(--primary); padding: 2px 12px; border: 1.5px solid var(--primary); border-radius: 4px; transition: 0.3s; text-decoration: none; }
-        .pub-link:hover { background: var(--primary); color: var(--white); }
-        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .news-card { background: var(--white); padding: 20px; border-radius: 12px; border: 1px solid #eef2f7; transition: 0.3s; }
-        .news-card:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .news-card h4 { margin-bottom: 5px; }
-        .news-card .date { font-size: 12px; color: var(--gray); }
-        .news-card .content { font-size: 14px; color: var(--gray); margin-top: 8px; }
-        .award-list { list-style: none; padding: 0; }
-        .award-list li { padding: 12px 0; border-bottom: 1px solid #eef2f7; font-size: 16px; color: var(--gray); }
-        @media (max-width: 768px) { .news-grid { grid-template-columns: 1fr; } .publication-item { flex-direction: column; } }
-    </style>
 </head>
 <body>
 
+    <!-- ========================================== -->
+    <!-- NAVIGATION                                 -->
+    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -51,6 +33,9 @@
         </div>
     </nav>
 
+    <!-- ========================================== -->
+    <!-- NEWS & MEDIA CONTENT                       -->
+    <!-- ========================================== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
@@ -58,75 +43,101 @@
                 <h2>News &amp; Media</h2>
             </div>
 
-            <!-- Publications -->
+            <!-- ========================================== -->
+            <!-- CONFERENCE PAPERS                          -->
+            <!-- ========================================== -->
             <div style="margin-bottom: 40px;">
-                <h3 style="color: var(--primary-dark); font-size: 22px;">📄 Publications</h3>
-                <div id="publications-container">
+                <h3 style="color: var(--primary-dark); font-size: 22px;">📄 Conference Papers</h3>
+                <div class="publication-list">
+
+                    <!-- Paper 1 -->
                     <div class="publication-item">
                         <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
                         <div class="pub-content">
-                            <h4>Development of a Low-Cost, Solar-Powered Smart Evaporative Cooling Storage System</h4>
-                            <p class="pub-authors">Mahmud, M. R., et al. (2025)</p>
-                            <p class="pub-journal">IOCAG 2025, MDPI</p>
+                            <h4>Development of a Low-Cost, Solar-Powered Smart Evaporative Cooling Storage System to Extend the Shelf Life of Fruits and Vegetables in Tropical Regions</h4>
+                            <p class="pub-authors">Mahmud, M. R., Abanty, J. T., Hasan, K. M. M., Rashid, M. M., Rahman, M. A., Roy, D. C., &amp; Kabir, M. S. N.* (2025)</p>
+                            <p class="pub-journal">The 3rd International Online Conference on Agriculture (IOCAG 2025), MDPI</p>
                             <div class="pub-links">
-                                <a href="https://sciforum.net/paper/view/24829" target="_blank" class="pub-link">View Paper</a>
+                                <a href="https://sciforum.net/paper/view/24829" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> View Paper</a>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Paper 2 -->
                     <div class="publication-item">
                         <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
                         <div class="pub-content">
                             <h4>Smartphone-Based Potato Disease Detection Using Image Processing Technique</h4>
-                            <p class="pub-authors">Saha, D., et al. (2025)</p>
-                            <p class="pub-journal">GAUIC 2025, Gazipur</p>
+                            <p class="pub-authors">Saha, D., Wayed, M. T. B., Afsana, M. C., Hossain, M. F., Roy, D. C., Islam, M., &amp; Kabir, M. S. N.* (2025)</p>
+                            <p class="pub-journal">Gazipur Agricultural University International Conference (GAUIC) on Regenerative Agriculture for Sustainable Food Security, December 2025, Gazipur, Bangladesh</p>
                             <div class="pub-links">
+                                <a href="https://www.researchgate.net/publication/398941084_Smartphone-based_potato_disease_detection_using_image_processing_technique" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> ResearchGate</a>
                                 <a href="#" class="pub-link">DOI</a>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Paper 3 -->
                     <div class="publication-item">
                         <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
                         <div class="pub-content">
-                            <h4>AIoT System for Real-Time Smart Monitoring of Rice Field Conditions</h4>
-                            <p class="pub-authors">Hossain, M. F., et al. (2025)</p>
-                            <p class="pub-journal">GAUIC 2025, Gazipur</p>
+                            <h4>Artificial Intelligence of Things (AIoT) System for Real-Time Smart Monitoring of Rice Field Conditions</h4>
+                            <p class="pub-authors">Hossain, M. F., Islam, M. R., Sultana, S., Roy, D. C., Mahmud, M. R., Huda, M. N., &amp; Kabir, M. S. N.* (2025)</p>
+                            <p class="pub-journal">Gazipur Agricultural University International Conference (GAUIC) on Regenerative Agriculture for Sustainable Food Security, December 2025, Gazipur, Bangladesh</p>
                             <div class="pub-links">
+                                <a href="https://www.researchgate.net/publication/398940812_Artificial_Intelligence_o_f_Things_AloT_system_for_real-time_smart_monitoring_o_f_rice_field_conditions" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> ResearchGate</a>
                                 <a href="#" class="pub-link">DOI</a>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
-            <!-- Awards -->
+            <!-- ========================================== -->
+            <!-- POSTER PRESENTATIONS                       -->
+            <!-- ========================================== -->
             <div style="margin-bottom: 40px;">
-                <h3 style="color: var(--primary-dark); font-size: 22px;">🏆 Awards &amp; Achievements</h3>
-                <div id="awards-container">
-                    <ul class="award-list">
-                        <li>🏅 Best Paper Award – IOCAG 2025</li>
-                        <li>🏅 Research Excellence Award – HSTU, 2024</li>
-                        <li>🏅 Innovation in Agriculture Award – BARC, 2023</li>
-                    </ul>
-                </div>
-            </div>
+                <h3 style="color: var(--primary-dark); font-size: 22px;">📊 Poster Presentations</h3>
+                <div class="publication-list">
 
-            <!-- News -->
-            <div>
-                <h3 style="color: var(--primary-dark); font-size: 22px;">📰 News</h3>
-                <div id="news-container">
-                    <div class="news-grid">
-                        <div class="news-card">
-                            <h4>SPAL Lab Launch</h4>
-                            <p class="date">2025-01-15 · Admin</p>
-                            <p class="content">Smart Precision Agriculture Lab officially launched at HSTU.</p>
+                    <!-- Poster 1 -->
+                    <div class="publication-item">
+                        <div class="pub-icon"><i class="fas fa-poster"></i></div>
+                        <div class="pub-content">
+                            <h4>Smartphone-Based Image Processing Algorithms for Nitrogen Deficiency Detection in Rice Plants</h4>
+                            <p class="pub-authors">Sultana, S., Islam, M. R., Rahman, M. A., Roy, D. C., Hossain, A., Milufarzana, &amp; Kabir, M. S. N.* (2025)</p>
+                            <p class="pub-journal">International Conference on Life Sciences (ICLS 2025): Current Research, Innovations, and Future Perspectives, October 17–18, 2025, Sylhet, Bangladesh</p>
+                            <div class="pub-links">
+                                <a href="https://www.researchgate.net/publication/396930076_Smartphone-Based_Image_Processing_Algorithms_for_Nitrogen_Deficiency_Detection_in_Rice_Plants" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> ResearchGate</a>
+                                <a href="#" class="pub-link">View Poster</a>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Poster 2 -->
+                    <div class="publication-item">
+                        <div class="pub-icon"><i class="fas fa-poster"></i></div>
+                        <div class="pub-content">
+                            <h4>Solar-Powered Wireless Sensor Networks for Real-Time Monitoring and Management of Rice Field Conditions</h4>
+                            <p class="pub-authors">Islam, M. R., Akther, M. F., Sultana, S., Mahmud, R., Roy, D. C., Tapu, M. F. A., &amp; Kabir, M. S. N.* (2025)</p>
+                            <p class="pub-journal">International Conference on Life Sciences (ICLS 2025): Current Research, Innovations, and Future Perspectives, October 17–18, 2025, Sylhet, Bangladesh</p>
+                            <div class="pub-links">
+                                <a href="https://www.researchgate.net/publication/396948185_Solar-Powered_Wireless_Sensor_Networks_for_Real-Time_Monitoring_and_Management_of_Rice_Field_Conditions" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> ResearchGate</a>
+                                <a href="#" class="pub-link">View Poster</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
         </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- FOOTER                                     -->
+    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -155,84 +166,40 @@
         </div>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load publications
-            const pubData = localStorage.getItem('spal_admin_data');
-            if (pubData) {
-                try {
-                    const data = JSON.parse(pubData);
-                    if (data.publications && data.publications.length > 0) {
-                        const container = document.getElementById('publications-container');
-                        if (container) {
-                            let html = '';
-                            data.publications.forEach(p => {
-                                html += `
-                                    <div class="publication-item">
-                                        <div class="pub-icon"><i class="fas fa-file-alt"></i></div>
-                                        <div class="pub-content">
-                                            <h4>${p.title}</h4>
-                                            <p class="pub-authors">${p.authors}</p>
-                                            <p class="pub-journal">${p.journal} (${p.year})</p>
-                                            <div class="pub-links">
-                                                ${p.link ? `<a href="${p.link}" target="_blank" class="pub-link">View Paper</a>` : ''}
-                                                <a href="#" class="pub-link">DOI</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-                            container.innerHTML = html;
-                        }
-                    }
-                } catch(e) {}
-            }
+    <style>
+        .publication-list { max-width: 100%; }
+        .publication-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .publication-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .pub-icon { font-size: 24px; color: var(--primary); flex-shrink: 0; }
+        .pub-content h4 { font-size: 16px; margin-bottom: 4px; font-weight: 600; }
+        .pub-authors { font-size: 14px; color: var(--gray); }
+        .pub-journal { font-size: 13px; color: var(--gray); font-style: italic; margin: 4px 0 10px; }
+        .pub-links { display: flex; gap: 12px; }
+        .pub-link {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            padding: 2px 12px;
+            border: 1.5px solid var(--primary);
+            border-radius: 4px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .pub-link:hover { background: var(--primary); color: var(--white); }
 
-            // Load news
-            const newsData = localStorage.getItem('spal_admin_data');
-            if (newsData) {
-                try {
-                    const data = JSON.parse(newsData);
-                    if (data.news && data.news.length > 0) {
-                        const container = document.getElementById('news-container');
-                        if (container) {
-                            let html = '<div class="news-grid">';
-                            data.news.forEach(n => {
-                                html += `
-                                    <div class="news-card">
-                                        <h4>${n.title}</h4>
-                                        <p class="date">${n.date} · ${n.author}</p>
-                                        <p class="content">${n.content}</p>
-                                    </div>
-                                `;
-                            });
-                            html += '</div>';
-                            container.innerHTML = html;
-                        }
-                    }
-                } catch(e) {}
-            }
-
-            // Load awards
-            const awardData = localStorage.getItem('spal_admin_data');
-            if (awardData) {
-                try {
-                    const data = JSON.parse(awardData);
-                    if (data.awards && data.awards.length > 0) {
-                        const container = document.getElementById('awards-container');
-                        if (container) {
-                            let html = '<ul class="award-list">';
-                            data.awards.forEach(a => {
-                                html += `<li>🏆 ${a.title}</li>`;
-                            });
-                            html += '</ul>';
-                            container.innerHTML = html;
-                        }
-                    }
-                } catch(e) {}
-            }
-        });
-    </script>
+        @media (max-width: 600px) {
+            .publication-item { flex-direction: column; }
+        }
+    </style>
 
     <script src="js/script.js"></script>
 </body>
