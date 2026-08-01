@@ -18,10 +18,30 @@ CORS(app)
 firebase_ready = False
 
 def init_firebase():
-    """Initialize Firebase from environment or file"""
+    """Initialize Firebase from service account file"""
     global firebase_ready
     
-    # Try 1: Load from environment variable
+    # Try to load from serviceAccountKey.json in the same directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    cred_path = os.path.join(current_dir, 'serviceAccountKey.json')
+    
+    print(f'🔍 Looking for service account at: {cred_path}')
+    
+    if os.path.exists(cred_path):
+        try:
+            cred = credentials.Certificate(cred_path)
+            firebase_admin.initialize_app(cred, {
+                'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
+            })
+            print('✅ Firebase initialized successfully from file!')
+            firebase_ready = True
+            return
+        except Exception as e:
+            print(f'❌ Error initializing from file: {e}')
+    else:
+        print(f'❌ Service account file not found at: {cred_path}')
+    
+    # Try environment variable as fallback
     firebase_json = os.getenv('FIREBASE_SERVICE_ACCOUNT')
     if firebase_json:
         try:
@@ -34,23 +54,9 @@ def init_firebase():
             firebase_ready = True
             return
         except Exception as e:
-            print(f'⚠️ Error initializing from environment: {e}')
+            print(f'❌ Error initializing from environment: {e}')
     
-    # Try 2: Load from file
-    cred_path = os.getenv('FIREBASE_CREDENTIALS', 'serviceAccountKey.json')
-    if os.path.exists(cred_path):
-        try:
-            cred = credentials.Certificate(cred_path)
-            firebase_admin.initialize_app(cred, {
-                'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
-            })
-            print(f'✅ Firebase initialized from file: {cred_path}')
-            firebase_ready = True
-            return
-        except Exception as e:
-            print(f'⚠️ Error initializing from file: {e}')
-    
-    # Try 3: Load from Firebase config (client SDK)
+    # Try direct config as last resort
     try:
         firebase_config = {
             "apiKey": "AIzaSyBcwLsODrVRzw6MlUluBs3U7JaKf1fWm0A",
@@ -62,7 +68,7 @@ def init_firebase():
             "appId": "1:899013208966:web:0f199c781ea07cd53c9a07"
         }
         
-        # Try to initialize with project ID
+        # Initialize with project ID (limited access)
         firebase_admin.initialize_app(options={
             'projectId': firebase_config['projectId'],
             'databaseURL': firebase_config['databaseURL']
@@ -71,7 +77,7 @@ def init_firebase():
         firebase_ready = True
         return
     except Exception as e:
-        print(f'⚠️ Firebase init error: {e}')
+        print(f'❌ Firebase init error: {e}')
     
     print('⚠️ Running in local-only mode')
     firebase_ready = False
@@ -98,9 +104,10 @@ def get_data():
             print(f'⚠️ Firebase read error: {e}')
     
     # Fallback to local JSON
-    if os.path.exists('data.json'):
+    data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json')
+    if os.path.exists(data_file):
         try:
-            with open('data.json', 'r') as f:
+            with open(data_file, 'r') as f:
                 local_data = json.load(f)
                 if local_data and local_data.get('team'):
                     print('📥 Data loaded from local file')
@@ -123,7 +130,8 @@ def save_data(data):
     
     # Always save locally as backup
     try:
-        with open('data.json', 'w') as f:
+        data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json')
+        with open(data_file, 'w') as f:
             json.dump(data, f, indent=2)
         print('✅ Saved to local file!')
     except Exception as e:
@@ -186,7 +194,7 @@ def index():
 def status():
     return jsonify({
         'firebase_ready': firebase_ready,
-        'data_file_exists': os.path.exists('data.json')
+        'data_file_exists': os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data.json'))
     })
 
 # ==========================================
@@ -352,7 +360,7 @@ def add_award():
     
     return jsonify({'success': True, 'data': new_award}), 201
 
-@app.route('/api/awards/<int:id>', methods=['DELETE'])
+@app.route('/api/awards/<int:id>', methods(['DELETE'])
 def delete_award(id):
     data = get_data()
     original_len = len(data.get('awards', []))
