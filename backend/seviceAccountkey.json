@@ -1,3 +1,8 @@
+# Navigate to backend folder
+cd /c/Users/DIGONTO\ ROY/OneT/backend
+
+# Create the file
+cat > serviceAccountKey.json << 'EOF'
 {
   "type": "service_account",
   "project_id": "spal-lab-data",
@@ -11,3 +16,7 @@
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40spal-lab-data.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 }
+EOF
+
+# Verify the file was created
+ls -la serviceAccountKey.json
