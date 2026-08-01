@@ -3,20 +3,309 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SPAL – Smart Precision Agriculture Lab</title>
+    <title>SPAL Lab – Smart Precision Agriculture Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+        .navbar .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Brand on top */
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1a3b2b;
+            text-decoration: none;
+        }
+        .brand-icon {
+            font-size: 1.4rem;
+        }
+        .brand-text {
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== MENU - ALWAYS VISIBLE ===== */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #2b6e4f;
+            border-bottom-color: #2b6e4f;
+        }
+
+        /* ===== HIDE HAMBURGER ===== */
+        .hamburger {
+            display: none !important;
+        }
+
+        /* ===== RESPONSIVE - ALL VISIBLE ===== */
+        @media (max-width: 480px) {
+            .navbar .container {
+                padding: 0 10px;
+                gap: 6px;
+            }
+            .nav-brand {
+                font-size: 1.1rem;
+            }
+            .brand-icon {
+                font-size: 1.2rem;
+            }
+            .nav-menu {
+                gap: 6px 12px;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-menu a {
+                font-size: 0.75rem;
+                padding: 4px 6px;
+                white-space: nowrap;
+            }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #f0f7f4 0%, #e6f0ed 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #0f2b20;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        .hero-content h1 span {
+            color: #2b6e4f;
+        }
+        .hero-content p {
+            font-size: 1.05rem;
+            color: #3d5a4c;
+            margin: 16px 0 24px;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .stat-item {
+            background: white;
+            padding: 16px 12px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .stat-item .number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1a4b3a;
+            display: block;
+        }
+        .stat-item .label {
+            font-size: 0.7rem;
+            color: #4a5a52;
+            font-weight: 500;
+        }
+        .hero-image {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"><rect width="400" height="300" fill="%23eef5f2"/><text x="80" y="150" font-family="Inter, sans-serif" font-size="32" fill="%231a4b3a" font-weight="600">🌱 SPAL</text><text x="60" y="200" font-family="Inter, sans-serif" font-size="18" fill="%233d5a4c">Smart Precision Agriculture Lab</text></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-image {
+                min-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 140px 16px 40px;
+            }
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+            .stat-item .number {
+                font-size: 1.2rem;
+            }
+            .stat-item .label {
+                font-size: 0.65rem;
+            }
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-item {
+                padding: 12px 10px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f261e;
+            color: #cdddd6;
+            padding: 40px 0 20px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+        }
+        .footer-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: white;
+        }
+        .footer-brand p {
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-links a {
+            color: #bcd0c6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social a {
+            color: #bcd0c6;
+            margin-left: 14px;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid #2a463a;
+            padding-top: 16px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .footer-links {
+                gap: 12px;
+            }
+            .footer-social a {
+                margin-left: 0;
+                margin-right: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <nav class="navbar" id="navbar">
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar">
         <div class="container">
-            <div class="nav-brand">
+            <a href="index.html" class="nav-brand">
                 <span class="brand-icon">🌱</span>
                 <span class="brand-text">SPAL</span>
-            </div>
+            </a>
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -25,68 +314,46 @@
                 <li><a href="people.html">People</a></li>
                 <li><a href="news.html">News & Media</a></li>
             </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span><span></span><span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-text">
-                    <span class="hero-badge">🔬 Research Lab</span>
-                    <h1>Smart Precision <span class="highlight">Agriculture</span> Lab</h1>
-                    <p id="hero-desc">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</p>
-                    <div class="hero-stats">
-                        <div class="stat-card">
-                            <span class="stat-number" id="home_projects">15+</span>
-                            <span class="stat-label">Research Projects</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number" id="home_pubs">10</span>
-                            <span class="stat-label">Publications</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number" id="home_team">6</span>
-                            <span class="stat-label">Team Members</span>
-                        </div>
-                        <div class="stat-card">
-                            <span class="stat-number" id="home_ongoing">6</span>
-                            <span class="stat-label">Ongoing Projects</span>
-                        </div>
+                <h1>Smart <span>Precision</span> Agriculture Lab</h1>
+                <p>Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="number">15+</span>
+                        <span class="label">Research Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="number">10</span>
+                        <span class="label">Publications</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="number">6</span>
+                        <span class="label">Team Members</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="number">6</span>
+                        <span class="label">Ongoing Projects</span>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="hero-profile-card">
-                        <div class="hero-profile-avatar">
-                            <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
-                        </div>
-                        <h3>Dr. Md. Shaha Nur Kabir</h3>
-                        <p class="hero-profile-role">Professor &amp; Principal Investigator</p>
-                        <p class="hero-profile-dept">Department of Agricultural &amp; Industrial Engineering</p>
-                        <div class="hero-profile-social">
-                            <a href="https://www.researchgate.net/profile/Md_Kabir16" target="_blank"><i class="fab fa-researchgate"></i></a>
-                            <a href="https://hstu.academia.edu/MdKabir" target="_blank"><i class="fas fa-university"></i></a>
-                            <a href="https://www.linkedin.com/in/md-shaha-nur-kabir-60720723/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="https://www.facebook.com/shaha.rinku" target="_blank"><i class="fab fa-facebook"></i></a>
-                            <a href="https://twitter.com/kabircnu?lang=en" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="mailto:kabir1982@hstu.ac.bd"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="hero-image">
+                <!-- Image placeholder -->
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <span class="brand-icon">🌱</span>
-                    <span class="brand-text">SPAL</span>
+                    <span class="brand-text">🌱 SPAL</span>
                     <p>Smart Precision Agriculture Lab</p>
                 </div>
                 <div class="footer-links">
@@ -109,22 +376,15 @@
         </div>
     </footer>
 
+    <!-- ===== SCRIPT ===== -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pageData = localStorage.getItem('spal_page_data');
-            if (pageData) {
-                try {
-                    const data = JSON.parse(pageData);
-                    const desc = document.getElementById('hero-desc');
-                    if (desc && data.home_desc) desc.textContent = data.home_desc;
-                    ['home_projects', 'home_pubs', 'home_team', 'home_ongoing'].forEach(id => {
-                        const el = document.getElementById(id);
-                        if (el && data[id] !== undefined) el.textContent = data[id];
-                    });
-                } catch(e) {}
+        // No hamburger needed - everything is visible!
+        // Just a small script to highlight active page
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
             }
         });
     </script>
-    <script src="js/script.js"></script>
 </body>
 </html>
