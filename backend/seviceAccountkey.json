@@ -1,8 +1,4 @@
-# Navigate to backend folder
-cd /c/Users/DIGONTO\ ROY/OneT/backend
 
-# Create the file
-cat > serviceAccountKey.json << 'EOF'
 {
   "type": "service_account",
   "project_id": "spal-lab-data",
@@ -18,5 +14,4 @@ cat > serviceAccountKey.json << 'EOF'
 }
 EOF
 
-# Verify the file was created
-ls -la serviceAccountKey.json
+
