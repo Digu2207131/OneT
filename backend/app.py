@@ -6,7 +6,6 @@ from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, db
 from dotenv import load_dotenv
-import uuid
 
 load_dotenv()
 
@@ -14,38 +13,19 @@ app = Flask(__name__)
 CORS(app)
 
 # ==========================================
-# FIREBASE CONFIGURATION (DIRECT)
+# FIREBASE INITIALIZATION
 # ==========================================
-# Your Firebase config from earlier
-FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyBcwLsODrVRzw6MlUluBs3U7JaKf1fWm0A",
-    "authDomain": "spal-lab-data.firebaseapp.com",
-    "databaseURL": "https://spal-lab-data-default-rtdb.firebaseio.com",
-    "projectId": "spal-lab-data",
-    "storageBucket": "spal-lab-data.firebasestorage.app",
-    "messagingSenderId": "899013208966",
-    "appId": "1:899013208966:web:0f199c781ea07cd53c9a07"
-}
+# Use the service account key file
+cred_path = os.getenv('FIREBASE_CREDENTIALS', 'serviceAccountKey.json')
 
-# Initialize Firebase (using service account or direct config)
-try:
-    # Try using service account first (more secure)
-    cred_path = os.getenv('FIREBASE_CREDENTIALS', 'serviceAccountKey.json')
-    if os.path.exists(cred_path):
-        cred = credentials.Certificate(cred_path)
-        firebase_admin.initialize_app(cred, {
-            'databaseURL': FIREBASE_CONFIG['databaseURL']
-        })
-        print('✅ Firebase initialized with service account!')
-    else:
-        # Fallback: Use project ID (limited access)
-        firebase_admin.initialize_app(options={
-            'projectId': FIREBASE_CONFIG['projectId'],
-            'databaseURL': FIREBASE_CONFIG['databaseURL']
-        })
-        print('✅ Firebase initialized with project ID!')
-except Exception as e:
-    print(f'⚠️ Firebase init error: {e}')
+if os.path.exists(cred_path):
+    cred = credentials.Certificate(cred_path)
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
+    })
+    print('✅ Firebase initialized with service account!')
+else:
+    print(f'⚠️ Firebase credentials not found at {cred_path}')
     print('⚠️ Running in local-only mode')
 
 # ==========================================
@@ -161,7 +141,6 @@ def add_team_member():
     if not new_member.get('name'):
         return jsonify({'error': 'Name is required'}), 400
     
-    # Generate ID
     max_id = max([m.get('id', 0) for m in data.get('team', [])]) if data.get('team') else 0
     new_member['id'] = max_id + 1
     new_member['created_at'] = datetime.now().isoformat()
