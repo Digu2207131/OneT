@@ -360,7 +360,7 @@ def add_award():
     
     return jsonify({'success': True, 'data': new_award}), 201
 
-@app.route('/api/awards/<int:id>', methods(['DELETE'])
+@app.route('/api/awards/<int:id>', methods=['DELETE'])
 def delete_award(id):
     data = get_data()
     original_len = len(data.get('awards', []))
