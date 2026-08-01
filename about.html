@@ -6,17 +6,468 @@
     <title>About – SPAL Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        :root {
+            --primary-dark: #0f2b20;
+            --primary-green: #1a4b3a;
+            --primary-light: #2b6e4f;
+            --gray: #3d5a4c;
+            --light-bg: #f7fafc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 14px 0;
+            transition: 0.2s;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: #1a3b2b;
+        }
+        .brand-icon {
+            font-size: 1.8rem;
+        }
+        .brand-text {
+            letter-spacing: -0.5px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #2b6e4f;
+            border-bottom-color: #2b6e4f;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2.5px;
+            background: #1a202c;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                padding: 24px;
+                gap: 18px;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+                border-top: 1px solid #edf2f7;
+            }
+            .nav-menu.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding-top: 80px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-tag {
+            display: inline-block;
+            background: #e6f0ed;
+            color: #1a4b3a;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0f2b20;
+            letter-spacing: -1px;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: #4a5a52;
+            max-width: 640px;
+            margin: 12px auto 0;
+        }
+
+        /* ===== ABOUT CONTENT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .about-text h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f2b20;
+            letter-spacing: -0.5px;
+        }
+        .about-text p {
+            font-size: 1.05rem;
+            color: #3d5a4c;
+            line-height: 1.8;
+        }
+        .about-image {
+            background: #eef5f2;
+            border-radius: 24px;
+            overflow: hidden;
+            min-height: 400px;
+            background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop&crop=center');
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stat-card {
+            background: white;
+            padding: 32px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #edf2f7;
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,40,20,0.08);
+        }
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #1a4b3a;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.95rem;
+            color: #4a5a52;
+            margin-top: 4px;
+        }
+        .stat-icon {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ===== MISSION CARDS ===== */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mission-card {
+            background: white;
+            padding: 32px 28px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            border: 1px solid #edf2f7;
+            transition: 0.3s;
+        }
+        .mission-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,40,20,0.1);
+        }
+        .mission-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .mission-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f2b20;
+            margin-bottom: 10px;
+        }
+        .mission-card p {
+            color: #3d5a4c;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ===== VALUES SECTION ===== */
+        .values-section {
+            margin-top: 60px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 24px;
+        }
+        .value-item {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            border-left: 4px solid #2b6e4f;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: 0.3s;
+        }
+        .value-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0,40,20,0.08);
+        }
+        .value-item h4 {
+            font-size: 1.1rem;
+            color: #0f2b20;
+            margin-bottom: 6px;
+        }
+        .value-item p {
+            font-size: 0.9rem;
+            color: #4a5a52;
+        }
+
+        /* ===== RESEARCH FOCUS BANNER ===== */
+        .focus-banner {
+            background: linear-gradient(135deg, #0f2b20 0%, #1a4b3a 100%);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-top: 60px;
+            color: white;
+            text-align: center;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .focus-banner h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .focus-banner p {
+            font-size: 1.05rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .focus-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .focus-tag {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .about-image {
+                min-height: 280px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .mission-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .focus-banner {
+                padding: 32px 20px;
+            }
+            .focus-banner h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f261e;
+            color: #cdddd6;
+            padding: 48px 0 28px;
+            margin-top: 80px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: center;
+        }
+        .footer-brand .brand-icon {
+            font-size: 2rem;
+        }
+        .footer-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white;
+        }
+        .footer-brand p {
+            margin-top: 6px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links a {
+            color: #bcd0c6;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social a {
+            color: #bcd0c6;
+            margin-left: 18px;
+            font-size: 1.3rem;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid #2a463a;
+            padding-top: 24px;
+            margin-top: 28px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        @media (max-width: 700px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-links {
+                gap: 14px;
+            }
+            .footer-social {
+                margin-top: 6px;
+            }
+            .footer-social a {
+                margin-left: 0;
+                margin-right: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
                 <span class="brand-icon">🌱</span>
                 <span class="brand-text">SPAL</span>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html" class="active">About</a></li>
                 <li><a href="pi.html">PI</a></li>
@@ -30,39 +481,128 @@
         </div>
     </nav>
 
+    <!-- ===== ABOUT CONTENT ===== -->
     <section class="page-content">
-        <div class="container" style="padding: 140px 20px 80px;">
+        <div class="container" style="padding: 140px 20px 60px;">
+            <!-- Header -->
             <div class="section-header">
                 <span class="section-tag">About Us</span>
-                <h2>Our Mission &amp; Vision</h2>
+                <h2>Driving the Future of Agriculture</h2>
+                <p>We combine cutting-edge research with sustainable practices to solve real-world farming challenges.</p>
             </div>
-            <div style="max-width: 800px; margin: 0 auto;">
 
-                <div style="margin-bottom: 40px;">
-                    <h3 style="color: var(--primary-dark); font-size: 24px;">🎯 Our Mission</h3>
-                    <p id="about-mission" style="font-size: 17px; color: var(--gray); line-height: 1.8;">To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.</p>
+            <!-- About Grid -->
+            <div class="about-grid">
+                <div class="about-text">
+                    <div>
+                        <h2>🌾 Who We Are</h2>
+                        <p>The <strong>Smart Precision Agriculture Lab (SPAL)</strong> is a research group dedicated to transforming agriculture through technology. We bring together experts in AI, robotics, IoT, and agronomy to develop solutions that make farming more efficient, sustainable, and profitable.</p>
+                    </div>
+                    <div>
+                        <h2>🚀 What Drives Us</h2>
+                        <p>We believe that the future of food security depends on how well we can integrate technology with traditional farming. Our research focuses on creating practical, scalable solutions that farmers can actually use—from drone-based crop monitoring to AI-powered disease detection.</p>
+                    </div>
+                    <div>
+                        <h2>🔬 Our Approach</h2>
+                        <p>We work closely with farmers, agronomists, and research institutions to ensure our work is grounded in real-world needs. Our interdisciplinary team combines expertise in computer science, engineering, and agricultural sciences to tackle complex challenges from multiple angles.</p>
+                    </div>
                 </div>
-
-                <div style="margin-bottom: 40px;">
-                    <h3 style="color: var(--primary-dark); font-size: 24px;">🌟 Our Vision</h3>
-                    <p id="about-vision" style="font-size: 17px; color: var(--gray); line-height: 1.8;">To become a leading research lab in precision agriculture, transforming farming through intelligent systems, drone technology, and data-driven decision making.</p>
+                <div class="about-image">
+                    <!-- Image placeholder - replace with your own image -->
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background: rgba(15,43,32,0.1); color:#1a4b3a; font-weight:600; font-size:1.2rem; padding:20px; text-align:center; min-height:400px;">
+                        <span>🌱<br>Smart Agriculture<br><span style="font-weight:400; font-size:0.9rem;">Replace this with your lab photo</span></span>
+                    </div>
                 </div>
-
-                <div style="margin-bottom: 40px;">
-                    <h3 style="color: var(--primary-dark); font-size: 24px;">🔬 What We Do</h3>
-                    <ul id="about-work" style="list-style: none; padding: 0; font-size: 16px; color: var(--gray); line-height: 2;">
-                        <li>✓ Develop AI models for crop disease detection</li>
-                        <li>✓ Design autonomous drone spraying systems</li>
-                        <li>✓ Deploy IoT sensors for real-time field monitoring</li>
-                        <li>✓ Create predictive models for agricultural machinery</li>
-                        <li>✓ Promote sustainable and precision farming practices</li>
-                    </ul>
-                </div>
-
             </div>
+
+            <!-- Stats - Updated: 15+ Papers, 5+ Projects, 5+ Countries -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-icon">📄</span>
+                    <span class="stat-number">15+</span>
+                    <span class="stat-label">Research Papers</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🧪</span>
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Active Projects</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🌍</span>
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Countries Reached</span>
+                </div>
+            </div>
+
+            <!-- Mission Cards -->
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <span class="mission-icon">🎯</span>
+                    <h3>Our Mission</h3>
+                    <p>To advance precision agriculture through innovative research, AI-driven technologies, and sustainable farming practices that enhance food security and environmental stewardship.</p>
+                </div>
+                <div class="mission-card">
+                    <span class="mission-icon">🌟</span>
+                    <h3>Our Vision</h3>
+                    <p>To become a leading research lab in precision agriculture, transforming farming through intelligent systems, drone technology, and data-driven decision making.</p>
+                </div>
+                <div class="mission-card">
+                    <span class="mission-icon">💡</span>
+                    <h3>Our Values</h3>
+                    <p>Innovation, sustainability, collaboration, and practical impact. We believe in science that serves farmers and communities.</p>
+                </div>
+            </div>
+
+            <!-- Research Focus Banner -->
+            <div class="focus-banner">
+                <h3>🔬 Our Research Focus</h3>
+                <p>We are committed to developing technologies that address the most pressing challenges in modern agriculture.</p>
+                <div class="focus-tags">
+                    <span class="focus-tag">🚁 Drone Imaging</span>
+                    <span class="focus-tag">🧠 AI Detection</span>
+                    <span class="focus-tag">🌱 Post-Harvest</span>
+                    <span class="focus-tag">💧 Hydroponics</span>
+                    <span class="focus-tag">🤖 Robotics</span>
+                    <span class="focus-tag">📊 Predictive Models</span>
+                </div>
+            </div>
+
+            <!-- Values Section -->
+            <div class="values-section">
+                <h2 style="font-size:1.8rem; font-weight:700; color:#0f2b20; text-align:center; margin-bottom:12px;">Core Research Areas</h2>
+                <p style="text-align:center; color:#4a5a52; max-width:640px; margin:0 auto 24px;">Our work spans across multiple disciplines to create holistic solutions for modern agriculture.</p>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h4>🚁 Drone Technology</h4>
+                        <p>Autonomous drones for spraying, imaging, and field monitoring with real-time data processing.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>🧠 Artificial Intelligence</h4>
+                        <p>Deep learning models for disease detection, yield prediction, and precision agriculture.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>🌱 Post-Harvest Tech</h4>
+                        <p>Smart storage, quality assessment, and supply chain optimization using IoT and sensors.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>💧 Hydroponics</h4>
+                        <p>Soilless farming systems with automated nutrient and climate control.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>🤖 Robotics</h4>
+                        <p>Robotic harvesters, pickers, and autonomous machinery for labor-intensive tasks.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>📊 Data Analytics</h4>
+                        <p>Predictive modelling, sensor fusion, and big data for informed farming decisions.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -91,26 +631,18 @@
         </div>
     </footer>
 
+    <!-- ===== HAMBURGER SCRIPT ===== -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pageData = localStorage.getItem('spal_page_data');
-            if (pageData) {
-                try {
-                    const data = JSON.parse(pageData);
-                    const mission = document.getElementById('about-mission');
-                    if (mission && data.about_mission) mission.textContent = data.about_mission;
-                    const vision = document.getElementById('about-vision');
-                    if (vision && data.about_vision) vision.textContent = data.about_vision;
-                    const work = document.getElementById('about-work');
-                    if (work && data.about_work) {
-                        const items = data.about_work.split('|').map(s => s.trim());
-                        work.innerHTML = items.map(item => `<li>✓ ${item}</li>`).join('');
-                    }
-                } catch(e) {}
-            }
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+            });
         });
     </script>
-
-    <script src="js/script.js"></script>
 </body>
 </html>
