@@ -321,7 +321,7 @@ def add_news():
     
     return jsonify({'success': True, 'data': new_news}), 201
 
-@app.route('/api/news/<int:id>', methods=['DELETE'])
+@app.route('/api/awards/<int:id>', methods=['DELETE'])
 def delete_news(id):
     data = get_data()
     original_len = len(data.get('news', []))
