@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "spal-lab-data",
+  "private_key_id": "dbc1497a9847ff8791331e52ebe1b2c3b9806582",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC5XBLX14Z3Ltvi\nrEZzMOAHfGSbD5bjGrbKTeZ8mWqKKIXi8u0tQYcbo371t7xGwn5EGwNN6tRtVGT+\nFhSIZYrGiPg/F8cX2X7miNKswQ3BT6ve6tq/OfteOylrnJWX9ITAAPIuy6kIAh2w\njzZy2HTXpk07e+Jijao8HNbuwfojClrpn9XWSNGbN4r64OxOsWTivlWHUICgSbvd\nbQqg1KgYLSx8gvfVXCxF4GRzUfyxzu/Pd2aksLH+oo6+I9waA7s57+lUo3NuPPVp\nHxB1xkkooPh1/c08dHAr0q6xFtVC8eUDJ0sHsqFnB1ploEdQto/SrOCjKuenCwAA\nFf1I3g5NAgMBAAECggEACONmYx09oG3WmdPJYqRF8ELBwqgiHYYrAuzU9l9kIXd4\nYn3Ka71U3WyfBBwpL63YRvgr1crcU6XHwsgleE9OMt9fvNhgcdjte3m1VUoomH8M\n7pj0BlY61hwfv1fepuiEJeTY61XuwNvBHejjVoLhddnOoeFhGKxSxnEnlhyNG9/C\nAm+LVbYwYH280fSBhywTUOyu3+FARZkyY+3LYl3kaPESDedLZh7Zl0e14uNRdNnt\nepDbfEb03nbmxcj6zqXCD0gMPnijVukVKfG3Fl5v59NRC0DJ7MCbSow35XnkoFGv\nwF0U8SyAJn70bINZcBylV/sGPlh9n7MMzggNXRTqzQKBgQD0yqy4VAd9eDZnw0hE\nfPULipPlU5vdi/8KmSDRFxLx23BIKPK7H2WOPFXAg9sP90wB+fs/HdwtonqBkegn\nuesF+ihQ/oz3KYvL8Q2CsKUKintBoB9AL3Vy5xVp22n1tfqGMQ3qBaPK4DgSbCPO\ngCbq8MnzFK8MJ1ASA1uQiQFk2wKBgQDB2MQ2WZRlRQeUidh3Kg5CWyW2r2st4phG\n6sXrKMdurdDVfH5jiLMTsHKDqR1BukjegvhQOuN6SifrCJLJiWqd3daXChxErvK/\nnbrT3mOUnpGxivzOtpqXzdy5waL95vBslWQ7sbvVz13kyCfOHapb278ydXsHbHNR\nFhcxd6Xt9wKBgCok1pWpidyVHLDCkyePZ9TD1/CMc3IyDwexE1BMK6vN/se9nQSQ\nRDi3tH+/c7CM/937PsFAD88fgP3bs99bB9Zwmg5PtM88rN/AsXXFmbR14QCMY7T2\nNr9Af5RI/TYbTXVa7q1SqT9dWOn7CjMcJxcdu3cJIZXzErr3LwV0QPQvAoGAFmG/\n7gKT1smMoYL1AnVRpim+BgTlHCwwpueOqKNRu57IIQ45zaZH/vr9jeQl46Ptq/t1\nTlYuU71iNIoN4MVEESw/Dbt2HhwRHTzKCJKB7vQMIHLK09dTrDlxxeTsu+JBWlg5\ndYcFCB/kWHkf13WnaOnLfrj/1pCYFAG39dc5ymsCgYEA7ht48e4ZKdYkAt+0hv+d\nZtcCQoSX23CRVOnCZ/zLvEdXzmAhuag8qhwSilZY6rm5F4zXdlFWqaWflECTQBMU\noS4ctT4iDlaoE6tT2iUDIsRLMM4Bnp4OsmFzzN6xCL5eABmpbf2HBSxiwudVt9JB\nNqzdBcYS6uGiCp9112UKMzs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@spal-lab-data.iam.gserviceaccount.com",
+  "client_id": "101732487401494273725",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40spal-lab-data.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
