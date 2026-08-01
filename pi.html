@@ -6,147 +6,530 @@
     <title>PI – SPAL Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
     <style>
-        .pi-full-profile {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .pi-section {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px solid #eef2f7;
-        }
-        .pi-section h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 12px;
-        }
-        .pi-section ul {
-            list-style: none;
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        .pi-section ul li {
-            padding: 6px 0;
-            padding-left: 24px;
-            position: relative;
-            color: var(--gray);
-            font-size: 15px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
             line-height: 1.6;
         }
-        .pi-section ul li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: var(--primary);
+        :root {
+            --primary-dark: #0f2b20;
+            --primary-green: #1a4b3a;
+            --primary-light: #2b6e4f;
+            --gray: #3d5a4c;
+            --light-bg: #f7fafc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 14px 0;
+            transition: 0.2s;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: #1a3b2b;
+        }
+        .brand-icon {
+            font-size: 1.8rem;
+        }
+        .brand-text {
+            letter-spacing: -0.5px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #2b6e4f;
+            border-bottom-color: #2b6e4f;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2.5px;
+            background: #1a202c;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                padding: 24px;
+                gap: 18px;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+                border-top: 1px solid #edf2f7;
+            }
+            .nav-menu.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding-top: 80px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-tag {
+            display: inline-block;
+            background: #e6f0ed;
+            color: #1a4b3a;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
             font-weight: 700;
+            color: #0f2b20;
+            letter-spacing: -1px;
         }
-        .pi-section .education-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+        .section-header p {
+            font-size: 1.1rem;
+            color: #4a5a52;
+            max-width: 640px;
+            margin: 12px auto 0;
         }
-        .pi-section .education-item:last-child {
-            border-bottom: none;
+
+        /* ===== PI CARD ===== */
+        .pi-card {
+            background: white;
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid #edf2f7;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        .pi-section .education-item h4 {
-            font-size: 16px;
+        .pi-avatar {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #eef5f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e6f0ed;
+        }
+        .pi-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .pi-avatar .placeholder {
+            font-size: 4rem;
+            color: #1a4b3a;
+            opacity: 0.4;
+        }
+        .pi-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .pi-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f2b20;
+            margin-bottom: 2px;
+        }
+        .pi-role {
+            font-size: 1.1rem;
             font-weight: 600;
-            color: var(--dark);
+            color: #2b6e4f;
+            margin-bottom: 4px;
         }
-        .pi-section .education-item p {
-            font-size: 14px;
-            color: var(--gray);
-            margin-top: 2px;
+        .pi-dept {
+            font-size: 0.95rem;
+            color: #4a5a52;
+            line-height: 1.6;
+            margin-bottom: 8px;
         }
-        .pi-section .experience-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+        .pi-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            margin: 4px 0 8px;
         }
-        .pi-section .experience-item:last-child {
-            border-bottom: none;
+        .pi-contact span {
+            font-size: 0.95rem;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .pi-section .experience-item h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
+        .pi-contact span i {
+            color: #2b6e4f;
+            width: 18px;
         }
-        .pi-section .experience-item p {
-            font-size: 14px;
-            color: var(--gray);
-            margin-top: 2px;
+        .pi-social {
+            display: flex;
+            gap: 14px;
+            margin-top: 4px;
+            flex-wrap: wrap;
         }
-        .pi-section .pub-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .pi-section .pub-item:last-child {
-            border-bottom: none;
-        }
-        .pi-section .pub-item .pub-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        .pi-section .pub-item .pub-title a {
-            color: var(--primary);
+        .pi-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #eef5f2;
+            color: #1a4b3a;
+            font-size: 1.1rem;
+            transition: 0.3s;
             text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 8px;
         }
-        .pi-section .pub-item .pub-title a:hover {
-            text-decoration: underline;
+        .pi-social a:hover {
+            background: #1a4b3a;
+            color: white;
+            transform: translateY(-3px);
         }
-        .pi-section .pub-item .pub-detail {
-            font-size: 13px;
-            color: var(--gray);
+
+        /* ===== DETAIL SECTIONS ===== */
+        .detail-section {
+            max-width: 1100px;
+            margin: 40px auto 0;
+            background: white;
+            border-radius: 28px;
+            padding: 36px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid #edf2f7;
         }
-        .pi-section .award-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+        .detail-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f2b20;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .pi-section .award-item:last-child {
+        .detail-section h3 i {
+            color: #2b6e4f;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .detail-grid .col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Research Interests */
+        .interest-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .interest-tag {
+            background: #eef5f2;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #1a4b3a;
+            font-weight: 500;
+            border: 1px solid #dce9e2;
+        }
+
+        /* Education & Experience */
+        .edu-item, .exp-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+        .edu-item:last-child, .exp-item:last-child {
             border-bottom: none;
         }
-        .pi-section .award-item {
-            font-size: 15px;
-            color: var(--gray);
-        }
-        .pi-section .award-item strong {
-            color: var(--dark);
-        }
-        .read-more-link {
-            color: var(--primary);
+        .edu-item .title, .exp-item .title {
             font-weight: 600;
-            font-size: 13px;
-            text-decoration: none;
-            margin-left: 5px;
+            color: #0f2b20;
+            font-size: 1rem;
         }
-        .read-more-link:hover {
+        .edu-item .meta, .exp-item .meta {
+            font-size: 0.9rem;
+            color: #4a5a52;
+            display: block;
+        }
+        .edu-item .year, .exp-item .year {
+            font-size: 0.85rem;
+            color: #2b6e4f;
+            font-weight: 500;
+        }
+
+        /* Awards */
+        .award-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #edf2f7;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .award-item:last-child {
+            border-bottom: none;
+        }
+        .award-item i {
+            color: #f59e0b;
+            font-size: 1.1rem;
+            margin-top: 3px;
+            min-width: 20px;
+        }
+        .award-item .award-text {
+            font-size: 0.95rem;
+            color: #2d3748;
+        }
+        .award-item .award-text strong {
+            color: #0f2b20;
+        }
+
+        /* Projects */
+        .project-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+        }
+        .project-item {
+            padding: 10px 14px;
+            background: #f7fafc;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #2d3748;
+            border-left: 3px solid #2b6e4f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .project-item i {
+            color: #2b6e4f;
+            font-size: 0.8rem;
+        }
+
+        /* Publications */
+        .pub-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .pub-stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f7fafc;
+            padding: 10px 20px;
+            border-radius: 12px;
+        }
+        .pub-stat .number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a4b3a;
+        }
+        .pub-stat .label {
+            font-size: 0.9rem;
+            color: #4a5a52;
+        }
+        .pub-stat a {
+            color: #2b6e4f;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .pub-stat a:hover {
             text-decoration: underline;
         }
 
-        @media (max-width: 768px) {
-            .pi-section ul li {
-                font-size: 14px;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .pi-card {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 28px;
             }
-            .pi-section .education-item h4,
-            .pi-section .experience-item h4 {
-                font-size: 14px;
+            .pi-avatar {
+                max-width: 220px;
+                margin: 0 auto;
+            }
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .project-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .pi-card {
+                padding: 20px;
+            }
+            .detail-section {
+                padding: 24px 20px;
+            }
+            .pub-stats {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .pi-info h3 {
+                font-size: 1.6rem;
+            }
+            .pi-contact {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f261e;
+            color: #cdddd6;
+            padding: 48px 0 28px;
+            margin-top: 60px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: center;
+        }
+        .footer-brand .brand-icon {
+            font-size: 2rem;
+        }
+        .footer-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white;
+        }
+        .footer-brand p {
+            margin-top: 6px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links a {
+            color: #bcd0c6;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social a {
+            color: #bcd0c6;
+            margin-left: 18px;
+            font-size: 1.3rem;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid #2a463a;
+            padding-top: 24px;
+            margin-top: 28px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        @media (max-width: 700px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-links {
+                gap: 14px;
+            }
+            .footer-social {
+                margin-top: 6px;
+            }
+            .footer-social a {
+                margin-left: 0;
+                margin-right: 18px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
                 <span class="brand-icon">🌱</span>
                 <span class="brand-text">SPAL</span>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="pi.html" class="active">PI</a></li>
@@ -160,238 +543,206 @@
         </div>
     </nav>
 
+    <!-- ===== PI CONTENT ===== -->
     <section class="page-content">
-        <div class="container" style="padding: 140px 20px 80px;">
+        <div class="container" style="padding: 140px 20px 60px;">
             <div class="section-header">
-                <span class="section-tag">Our Leader</span>
+                <span class="section-tag">Leader</span>
                 <h2>Principal Investigator</h2>
-                <p>Leading innovation in agricultural technology and precision agriculture</p>
             </div>
 
-            <div class="pi-full-profile">
-
-                <!-- ========================================== -->
-                <!-- PI CARD                                   -->
-                <!-- ========================================== -->
-                <div class="pi-card" style="max-width: 100%;">
-                    <div class="pi-avatar">
-                        <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
+            <!-- PI Card -->
+            <div class="pi-card">
+                <div class="pi-avatar">
+                    <!-- Replace with actual image -->
+                    <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
+                </div>
+                <div class="pi-info">
+                    <h3>Dr. Md. Shaha Nur Kabir</h3>
+                    <p class="pi-role">Professor &amp; Principal Investigator</p>
+                    <p class="pi-dept">
+                        Department of Agricultural &amp; Industrial Engineering (AIE)<br />
+                        Faculty of Engineering<br />
+                        Hajee Mohammad Danesh Science &amp; Technology University, Dinajpur
+                    </p>
+                    <div class="pi-contact">
+                        <span><i class="fas fa-envelope"></i> kabir1982@hstu.ac.bd</span>
+                        <span><i class="fas fa-phone"></i> +8801737676930</span>
                     </div>
-                    <div class="pi-info">
-                        <h3 id="pi-name">Dr. Md. Shaha Nur Kabir</h3>
-                        <p class="pi-role" id="pi-title">Professor</p>
-                        <p class="pi-dept" id="pi-dept">
-                            Department of Agricultural &amp; Industrial Engineering (AIE)<br />
-                            Faculty of Engineering<br />
-                            Hajee Mohammad Danesh Science &amp; Technology University, Dinajpur
-                        </p>
-                        <p class="pi-bio" id="pi-bio">
-                            Dr. Md. Shaha Nur Kabir is a Professor and the Principal Investigator of the
-                            Smart Precision Agriculture Lab (SPAL) at Hajee Mohammad Danesh Science and
-                            Technology University. He leads cutting-edge research in precision agriculture
-                            technologies, focusing on the application of artificial intelligence, drone
-                            systems, and machine vision for sustainable agricultural practices. He has
-                            published numerous research papers in reputed international journals and
-                            conferences.
-                        </p>
-                        <div class="pi-contact">
-                            <span><i class="fas fa-envelope"></i> <span id="pi-email">kabir1982@hstu.ac.bd</span></span>
-                            <span><i class="fas fa-phone"></i> <span id="pi-phone">+8801737676930</span></span>
-                        </div>
-                        <div class="pi-social">
-                            <a href="https://www.researchgate.net/profile/Md_Kabir16" target="_blank"><i class="fab fa-researchgate"></i></a>
-                            <a href="https://hstu.academia.edu/MdKabir" target="_blank"><i class="fas fa-university"></i></a>
-                            <a href="https://www.linkedin.com/in/md-shaha-nur-kabir-60720723/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="https://www.facebook.com/shaha.rinku" target="_blank"><i class="fab fa-facebook"></i></a>
-                            <a href="https://twitter.com/kabircnu?lang=en" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="mailto:kabir1982@hstu.ac.bd"><i class="fas fa-envelope"></i></a>
-                        </div>
+                    <div class="pi-social">
+                        <a href="https://www.researchgate.net/profile/Md_Kabir16" target="_blank"><i class="fab fa-researchgate"></i></a>
+                        <a href="https://hstu.academia.edu/MdKabir" target="_blank"><i class="fas fa-university"></i></a>
+                        <a href="https://www.linkedin.com/in/md-shaha-nur-kabir-60720723/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.facebook.com/shaha.rinku" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com/kabircnu?lang=en" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:kabir1982@hstu.ac.bd"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
-
-                <!-- ========================================== -->
-                <!-- RESEARCH INTERESTS                         -->
-                <!-- ========================================== -->
-                <div class="pi-section">
-                    <h3>🔬 Research Interests</h3>
-                    <ul id="pi-interests-list">
-                        <li>Smart Farming using AI</li>
-                        <li>Precision agriculture technologies</li>
-                        <li>Standardized testing of agricultural machinery</li>
-                        <li>Safety and comfort of agricultural machinery</li>
-                        <li>Controlled environment agriculture</li>
-                        <li>Post-harvest technologies</li>
-                        <li>Supply and value chain analysis of agricultural machineries</li>
-                    </ul>
-                </div>
-
-                <!-- ========================================== -->
-                <!-- EDUCATION                                  -->
-                <!-- ========================================== -->
-                <div class="pi-section">
-                    <h3>🎓 Education</h3>
-                    <div id="pi-education-list">
-                        <div class="education-item">
-                            <h4>Doctor of Philosophy, 2015</h4>
-                            <p>Chungnam National University, Daejeon, Republic of Korea (South Korea)</p>
-                        </div>
-                        <div class="education-item">
-                            <h4>Master of Science (M.S.) in Farm Power and Machinery, 2008</h4>
-                            <p>Bangladesh Agricultural University, Mymensingh, Bangladesh</p>
-                        </div>
-                        <div class="education-item">
-                            <h4>Bachelor of Science (B.Sc.) in Agricultural Engineering, 2006</h4>
-                            <p>Bangladesh Agricultural University, Mymensingh, Bangladesh</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========================================== -->
-                <!-- PROFESSIONAL EXPERIENCES                   -->
-                <!-- ========================================== -->
-                <div class="pi-section">
-                    <h3>💼 Professional Experiences</h3>
-                    <div id="pi-experience-list">
-                        <div class="experience-item">
-                            <h4>Professor (Grade-2)</h4>
-                            <p>Dept. of Agricultural &amp; Industrial Engg, Hajee Mohammad Danesh Science &amp; Technology University (December 18, 2024 to Present)</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Professor (Grade-3)</h4>
-                            <p>Dept. of Agricultural &amp; Industrial Engg, Hajee Mohammad Danesh Science &amp; Technology University (December 18, 2020 to December 17, 2024)</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Associate Professor</h4>
-                            <p>Dept. of Agricultural &amp; Industrial Engg, Hajee Mohammad Danesh Science &amp; Technology University (August 25, 2015 to December 17, 2020)</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Assistant Professor</h4>
-                            <p>Dept. of Agricultural &amp; Industrial Engg, Hajee Mohammad Danesh Science &amp; Technology University (May 06, 2010 to August 24, 2015)</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Lecturer</h4>
-                            <p>Dept. of Agricultural &amp; Industrial Engg, Hajee Mohammad Danesh Science &amp; Technology University (February 20, 2008 to May 05, 2010)</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Agricultural Engineer</h4>
-                            <p>Department of Agricultural Extension, Ministry of Agriculture, Bangladesh (June 23, 2006 to August 01, 2007)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========================================== -->
-                <!-- PUBLICATIONS                               -->
-                <!-- ========================================== -->
-                <div class="pi-section">
-                    <h3>📄 Selected Publications</h3>
-                    <div id="pi-publications-list">
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Remote management and variability assessment of environmental conditions for smart vertical farms: A review
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                IoT-based solar-powered smart irrigation system with solar tracker for rice fields
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Yield monitoring systems for non-grain crops: A review
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Thermal Imaging and Computer Vision Technologies for the Enhancement of Pig Husbandry: A Review
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Layout of Suspension-Type Small-Sized Dehumidifiers Affects Humidity Variability and Energy Consumption in Greenhouses
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Short-range sensing for fruit tree water stress detection and monitoring in orchards: A review
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Leaf Area Prediction of Pennywort Plants Grown in a Plant Factory Using Image Processing and an Artificial Neural Network
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Analysis of quality changes in bell pepper cultivars in response to delayed cooling in a controlled chamber
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Agricultural Mechanization in Bangladesh: Status and Challenges towards Achieving the Sustainable Development Goals (SDGs)
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                Performance Evaluation of Trenchless Subsurface Drainage Piping Machine
-                                <a href="#" class="read-more-link">Read More</a>
-                            </div>
-                        </div>
-                        <div class="pub-item">
-                            <div class="pub-title">
-                                <em>... and many more publications in reputed international journals.</em>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ========================================== -->
-                <!-- AWARDS & SCHOLARSHIPS                      -->
-                <!-- ========================================== -->
-                <div class="pi-section">
-                    <h3>🏆 Awards &amp; Scholarships</h3>
-                    <div id="pi-awards-list">
-                        <div class="award-item">
-                            <strong>Outstanding Overseas Scientist (Invited Scientist)</strong><br />
-                            Funded by: National Research Foundation (NRF) of Korea (Brain Pool Program)
-                        </div>
-                        <div class="award-item">
-                            <strong>Post-doctoral Fellowship</strong><br />
-                            Funded by: Prof. Sun-Ok Chung, Precision Agriculture Lab, Chungnam National University, Republic of Korea (Dec 2017 to September, 2019)
-                        </div>
-                        <div class="award-item">
-                            <strong>Post-doctoral Fellowship</strong><br />
-                            Funded by: Prof. Sun-Ok Chung, Precision Agriculture Lab, Chungnam National University, Republic of Korea (August 2015 to February 2016)
-                        </div>
-                        <div class="award-item">
-                            <strong>Korean Government Scholarship Program - 2011</strong><br />
-                            Funded by: National Institute for International Education (NIIED), Republic of Korea
-                        </div>
-                        <div class="award-item">
-                            <strong>Outstanding Presentation Award</strong><br />
-                            For an oral presentation entitled on "Review on Reliability Rating Test Standards of High Efficiency Large Tractors"<br />
-                            5th Asian Conference on Precision Agriculture (ACPA), June 2013, Jeju, Korea
-                        </div>
-                        <div class="award-item">
-                            <strong>Award of Excellence</strong><br />
-                            In recognition of excellent academic research results, and for improving the reputation of the Agriculture and Life science School of Chungnam National University during doctoral program<br />
-                            President, Agriculture &amp; Life science School, Chungnam National University, Daejeon, Korea
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- RESEARCH INTEREST -->
+            <div class="detail-section">
+                <h3><i class="fas fa-flask"></i> Research Interest</h3>
+                <div class="interest-list">
+                    <span class="interest-tag">Smart Farming using AI</span>
+                    <span class="interest-tag">Precision agriculture technologies</span>
+                    <span class="interest-tag">Standardized testing of agricultural machinery</span>
+                    <span class="interest-tag">Safety and comfort of agricultural machinery</span>
+                    <span class="interest-tag">Controlled environment agriculture</span>
+                    <span class="interest-tag">Post-harvest technologies</span>
+                    <span class="interest-tag">Supply and value chain analysis of agricultural machineries</span>
+                </div>
+            </div>
+
+            <!-- EDUCATION & EXPERIENCE -->
+            <div class="detail-section">
+                <div class="detail-grid">
+                    <!-- Education -->
+                    <div class="col">
+                        <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                        <div class="edu-item">
+                            <div class="title">Doctor of Philosophy</div>
+                            <span class="meta">Chungnam National University, Daejeon, Republic of Korea (South Korea)</span>
+                            <span class="year">2015</span>
+                        </div>
+                        <div class="edu-item">
+                            <div class="title">Master of Science (M.S.) in Farm Power and Machinery</div>
+                            <span class="meta">Bangladesh Agricultural University, Mymensingh, Bangladesh</span>
+                            <span class="year">2008</span>
+                        </div>
+                        <div class="edu-item">
+                            <div class="title">Bachelor of Science (B.Sc.) in Agricultural Engineering</div>
+                            <span class="meta">Bangladesh Agricultural University, Mymensingh, Bangladesh</span>
+                            <span class="year">2006</span>
+                        </div>
+                    </div>
+
+                    <!-- Professional Experience -->
+                    <div class="col">
+                        <h3><i class="fas fa-briefcase"></i> Professional Experience</h3>
+                        <div class="exp-item">
+                            <div class="title">Professor (Grade-2)</div>
+                            <span class="meta">Dept. of Agricultural &amp; Industrial Engg, HSTU</span>
+                            <span class="year">December 18, 2024 — Present</span>
+                        </div>
+                        <div class="exp-item">
+                            <div class="title">Professor (Grade-3)</div>
+                            <span class="meta">Dept. of Agricultural &amp; Industrial Engg, HSTU</span>
+                            <span class="year">December 18, 2020 — December 17, 2024</span>
+                        </div>
+                        <div class="exp-item">
+                            <div class="title">Associate Professor</div>
+                            <span class="meta">Dept. of Agricultural &amp; Industrial Engg, HSTU</span>
+                            <span class="year">August 25, 2015 — December 17, 2020</span>
+                        </div>
+                        <div class="exp-item">
+                            <div class="title">Assistant Professor</div>
+                            <span class="meta">Dept. of Agricultural &amp; Industrial Engg, HSTU</span>
+                            <span class="year">May 06, 2010 — August 24, 2015</span>
+                        </div>
+                        <div class="exp-item">
+                            <div class="title">Lecturer</div>
+                            <span class="meta">Dept. of Agricultural &amp; Industrial Engg, HSTU</span>
+                            <span class="year">February 20, 2008 — May 05, 2010</span>
+                        </div>
+                        <div class="exp-item">
+                            <div class="title">Agricultural Engineer</div>
+                            <span class="meta">Department of Agricultural Extension, Ministry of Agriculture, Bangladesh</span>
+                            <span class="year">June 23, 2006 — August 01, 2007</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PUBLICATIONS -->
+            <div class="detail-section">
+                <h3><i class="fas fa-file-alt"></i> Publications</h3>
+                <div class="pub-stats">
+                    <div class="pub-stat">
+                        <span class="number">47</span>
+                        <span class="label">Journal Papers</span>
+                        <a href="https://hstu.ac.bd/teacher/shahanur_kabir" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                    <div class="pub-stat">
+                        <span class="number">11</span>
+                        <span class="label">Conference Papers</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AWARDS & SCHOLARSHIPS -->
+            <div class="detail-section">
+                <h3><i class="fas fa-trophy"></i> Awards &amp; Scholarships</h3>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>Outstanding Overseas Scientist (Invited Scientist)</strong><br />
+                        Funded by: National Research Foundation (NRF) of Korea (Brain Pool Program)
+                    </div>
+                </div>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>Post-doctoral Fellowship</strong> (Dec 2017 — September 2019)<br />
+                        Funded by: Prof. Sun-Ok Chung, Precision Agriculture Lab, Chungnam National University, Republic of Korea
+                    </div>
+                </div>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>Post-doctoral Fellowship</strong> (August 2015 — February 2016)<br />
+                        Funded by: Prof. Sun-Ok Chung, Precision Agriculture Lab, Chungnam National University, Republic of Korea
+                    </div>
+                </div>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>"Korean Government Scholarship Program"</strong> - 2011<br />
+                        Funded by: National Institute for International Education (NIIED), Republic of Korea
+                    </div>
+                </div>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>"Outstanding Presentation Award"</strong> for an oral presentation entitled "Review on Reliability Rating Test Standards of High Efficiency Large Tractors"<br />
+                        Funded by: 5th Asian Conference on Precision Agriculture (ACPA), June 2013, Jeju, Korea
+                    </div>
+                </div>
+                <div class="award-item">
+                    <i class="fas fa-award"></i>
+                    <div class="award-text">
+                        <strong>"Award of Excellence"</strong> — In recognition of excellent academic research results, and for improving the reputation of the Agriculture and Life science School of Chungnam National University during doctoral program<br />
+                        Funded by: President, Agriculture &amp; Life science School, Chungnam National University, Daejeon, Korea
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECTS (Only Names) -->
+            <div class="detail-section">
+                <h3><i class="fas fa-project-diagram"></i> Research Projects</h3>
+                <div class="project-list">
+                    <div class="project-item"><i class="fas fa-circle"></i> Development of an IoT-based Solar-Powered Smart Greenhouse for Hydroponic Cultivation of Strawberries</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Design and Development of a Mechanical Harvesting System for Litchi Fruits</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Optimization and Advanced Analysis of Solar-Powered Smart Storage Systems for Shelf Life Enhancement of Litchi Fruit</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Enhancing Shelf Life and Postharvest Quality of Litchi Fruit Through a Low-Cost Solar-Powered Smart Storage Structure</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Sensor-based real-time seedling growth and stress symptom detection technology using AI for smart seedling production</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> IoT-based Real-Time Monitoring of Rice Fields using Wireless Sensor Networks and Mobile Applications</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> IoT-based Solar-Powered Smart Irrigation System using a Dual-axis Solar Tracker for Rice Field</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Design and Fabrication of a Single-Row Maize Picker for Small Scale Farming in Bangladesh</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Solar-Powered Smart Irrigation System with Sun Tracking Solar Cell and Soil Moisture Sensors for Agricultural Field</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Lab-Scale Prototype Design and Testing of a Corn Picker</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Design and Construction of a Low-Cost Greenhouse for Hydroponic Cultivation of Fruits and Vegetables</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Development of a Low Cost Evaporative Cooling System for Storage of Fresh Tomato</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Investigation of the Characteristics and Risk Factors Associated with Fetal Farm and Agricultural Injuries in Bangladesh</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Effect of Temperature and Humidity on the Storage Life of Fresh Tomato under Evaporative Cooled Storage Structure</div>
+                    <div class="project-item"><i class="fas fa-circle"></i> Design and Development of a Manually Operated Garlic-Clove Planter</div>
+                </div>
+            </div>
+
         </div>
     </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -420,84 +771,18 @@
         </div>
     </footer>
 
+    <!-- ===== HAMBURGER SCRIPT ===== -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pageData = localStorage.getItem('spal_page_data');
-            if (pageData) {
-                try {
-                    const data = JSON.parse(pageData);
-
-                    // Update main PI info
-                    const elements = {
-                        'pi-name': 'pi_name',
-                        'pi-title': 'pi_title',
-                        'pi-dept': 'pi_dept',
-                        'pi-email': 'pi_email',
-                        'pi-phone': 'pi_phone',
-                        'pi-bio': 'pi_bio'
-                    };
-                    Object.keys(elements).forEach(id => {
-                        const el = document.getElementById(id);
-                        const key = elements[id];
-                        if (el && data[key]) el.textContent = data[key];
-                    });
-
-                    // Update Research Interests
-                    const interestsList = document.getElementById('pi-interests-list');
-                    if (interestsList && data.pi_interests) {
-                        const interests = data.pi_interests.split(',').map(s => s.trim());
-                        interestsList.innerHTML = interests.map(i => `<li>${i}</li>`).join('');
-                    }
-
-                    // Update Education
-                    const eduList = document.getElementById('pi-education-list');
-                    if (eduList && data.pi_education) {
-                        const items = data.pi_education.split('\n').filter(s => s.trim());
-                        eduList.innerHTML = items.map(item => {
-                            const parts = item.split('–');
-                            if (parts.length === 2) {
-                                return `<div class="education-item"><h4>${parts[0].trim()}</h4><p>${parts[1].trim()}</p></div>`;
-                            }
-                            return `<div class="education-item"><h4>${item}</h4></div>`;
-                        }).join('');
-                    }
-
-                    // Update Experience
-                    const expList = document.getElementById('pi-experience-list');
-                    if (expList && data.pi_experience) {
-                        const items = data.pi_experience.split('\n').filter(s => s.trim());
-                        expList.innerHTML = items.map(item => {
-                            const parts = item.split('–');
-                            if (parts.length === 2) {
-                                return `<div class="experience-item"><h4>${parts[0].trim()}</h4><p>${parts[1].trim()}</p></div>`;
-                            }
-                            return `<div class="experience-item"><h4>${item}</h4></div>`;
-                        }).join('');
-                    }
-
-                    // Update Publications
-                    const pubList = document.getElementById('pi-publications-list');
-                    if (pubList && data.pi_publications) {
-                        const items = data.pi_publications.split('\n').filter(s => s.trim());
-                        pubList.innerHTML = items.map(item => {
-                            return `<div class="pub-item"><div class="pub-title">${item.trim()} <a href="#" class="read-more-link">Read More</a></div></div>`;
-                        }).join('');
-                    }
-
-                    // Update Awards
-                    const awardList = document.getElementById('pi-awards-list');
-                    if (awardList && data.pi_awards) {
-                        const items = data.pi_awards.split('\n').filter(s => s.trim());
-                        awardList.innerHTML = items.map(item => {
-                            return `<div class="award-item">${item.trim()}</div>`;
-                        }).join('');
-                    }
-
-                } catch (e) { console.warn('Error loading PI data:', e); }
-            }
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+            });
         });
     </script>
-
-    <script src="js/script.js"></script>
 </body>
 </html>
