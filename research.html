@@ -6,20 +6,337 @@
     <title>Research – SPAL Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- No external style.css – all styles embedded below -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 14px 0;
+            transition: 0.2s;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: #1a3b2b;
+        }
+        .brand-icon {
+            font-size: 1.8rem;
+        }
+        .brand-text {
+            letter-spacing: -0.5px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #2b6e4f;
+            border-bottom-color: #2b6e4f;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2.5px;
+            background: #1a202c;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                padding: 24px;
+                gap: 18px;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+                border-top: 1px solid #edf2f7;
+            }
+            .nav-menu.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding-top: 80px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-tag {
+            display: inline-block;
+            background: #e6f0ed;
+            color: #1a4b3a;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0f2b20;
+            letter-spacing: -1px;
+        }
+        .section-header p {
+            font-size: 1.1rem;
+            color: #4a5a52;
+            max-width: 640px;
+            margin: 12px auto 0;
+        }
+
+        /* ===== RESEARCH GRID ===== */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .research-card {
+            background: white;
+            border-radius: 28px;
+            padding: 28px 24px 32px;
+            box-shadow: 0 10px 30px -8px rgba(0, 20, 10, 0.08);
+            transition: 0.25s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+        }
+        .research-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px -12px rgba(0, 40, 20, 0.15);
+            border-color: #cde0d8;
+        }
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: #eef5f2;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2b6e4f;
+            font-size: 2.8rem;
+            font-weight: 300;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: 0.3s;
+            position: relative;
+        }
+        .card-image i {
+            opacity: 0.4;
+            font-size: 3.6rem;
+            color: #2b6e4f;
+        }
+        /* image placeholders – each card gets a unique background */
+        .card-img-drone {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200"><rect width="400" height="200" fill="%23d4e6df"/><text x="50" y="120" font-family="Inter, sans-serif" font-size="26" fill="%231a4b3a" font-weight="500">🚁 Drone</text><text x="50" y="155" font-family="Inter, sans-serif" font-size="15" fill="%233d5e4e">image processing</text></svg>');
+            background-size: cover;
+        }
+        .card-img-postharvest {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200"><rect width="400" height="200" fill="%23dce9e2"/><text x="50" y="120" font-family="Inter, sans-serif" font-size="26" fill="%231a4b3a" font-weight="500">🌾 Post‑harvest</text><text x="50" y="155" font-family="Inter, sans-serif" font-size="15" fill="%233d5e4e">tech &amp; storage</text></svg>');
+            background-size: cover;
+        }
+        .card-img-hydroponic {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200"><rect width="400" height="200" fill="%23cce3d9"/><text x="50" y="120" font-family="Inter, sans-serif" font-size="26" fill="%231a4b3a" font-weight="500">💧 Hydroponic</text><text x="50" y="155" font-family="Inter, sans-serif" font-size="15" fill="%233d5e4e">soilless systems</text></svg>');
+            background-size: cover;
+        }
+        .card-img-litchi {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200"><rect width="400" height="200" fill="%23f0e5d8"/><text x="50" y="120" font-family="Inter, sans-serif" font-size="26" fill="%23a64d2e" font-weight="500">🍒 Litchi picker</text><text x="50" y="155" font-family="Inter, sans-serif" font-size="15" fill="%235a3e2e">automated harvesting</text></svg>');
+            background-size: cover;
+        }
+        .card-img-ai {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200"><rect width="400" height="200" fill="%23d9e6f0"/><text x="50" y="120" font-family="Inter, sans-serif" font-size="26" fill="%231a3b4a" font-weight="500">🧠 AI + IOT</text><text x="50" y="155" font-family="Inter, sans-serif" font-size="15" fill="%232a4a5a">predictive models</text></svg>');
+            background-size: cover;
+        }
+
+        .card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+        .research-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #0f2b20;
+        }
+        .research-card p {
+            color: #3d5a4c;
+            font-size: 0.95rem;
+            flex: 1;
+            margin-bottom: 18px;
+        }
+        .research-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 5px 16px;
+            border-radius: 50px;
+            background: #e6f0ed;
+            color: #1a4b3a;
+            width: fit-content;
+            text-transform: uppercase;
+        }
+        .research-tag.active {
+            background: #1a4b3a;
+            color: white;
+        }
+        .research-tag.ongoing {
+            background: #f0e6d0;
+            color: #7a5d3a;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f261e;
+            color: #cdddd6;
+            padding: 48px 0 28px;
+            margin-top: 80px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: center;
+        }
+        .footer-brand .brand-icon {
+            font-size: 2rem;
+        }
+        .footer-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white;
+        }
+        .footer-brand p {
+            margin-top: 6px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links a {
+            color: #bcd0c6;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social a {
+            color: #bcd0c6;
+            margin-left: 18px;
+            font-size: 1.3rem;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid #2a463a;
+            padding-top: 24px;
+            margin-top: 28px;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        @media (max-width: 700px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-links {
+                gap: 14px;
+            }
+            .footer-social {
+                margin-top: 6px;
+            }
+            .footer-social a {
+                margin-left: 0;
+                margin-right: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- ========================================== -->
-    <!-- NAVIGATION                                 -->
-    <!-- ========================================== -->
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
                 <span class="brand-icon">🌱</span>
                 <span class="brand-text">SPAL</span>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="pi.html">PI</a></li>
@@ -33,48 +350,62 @@
         </div>
     </nav>
 
-    <!-- ========================================== -->
-    <!-- RESEARCH CONTENT                           -->
-    <!-- ========================================== -->
+    <!-- ===== RESEARCH CONTENT ===== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
                 <span class="section-tag">Our Focus</span>
                 <h2>Research Areas</h2>
-                <p>Advancing precision agriculture through cutting-edge technology and AI-driven solutions.</p>
+                <p>Advancing precision agriculture through drone imaging, post‑harvest innovation, hydroponics, and robotics.</p>
             </div>
             <div class="research-grid">
+
+                <!-- 1. Drone-Based Image Processing -->
                 <div class="research-card">
-                    <div class="card-icon">🚁</div>
-                    <h3>Drone-Based Spraying</h3>
-                    <p>Developing autonomous drone systems for targeted pesticide application and precision spraying in agricultural fields.</p>
+                    <div class="card-image card-img-drone"></div>
+                    <h3>Drone‑Based Image Processing</h3>
+                    <p>High‑resolution aerial imaging &amp; computer vision for crop health, pest detection, and variable‑rate spraying.</p>
+                    span class="research-tag ongoing">Ongoing</span>
+                </div>
+
+                <!-- 2. Post‑Harvest Technology -->
+                <div class="research-card">
+                    <div class="card-image card-img-postharvest"></div>
+                    <h3>Post‑Harvest Technology</h3>
+                    <p>Smart storage, quality grading, and supply‑chain traceability using sensors and AI to reduce losses.</p>
                     <span class="research-tag active">Active</span>
                 </div>
+
+                <!-- 3. Hydroponic Systems -->
                 <div class="research-card">
-                    <div class="card-icon">🧠</div>
-                    <h3>AI Disease Detection</h3>
-                    <p>Deep learning models for real-time detection of crop diseases and nutrient deficiencies using image processing.</p>
+                    <div class="card-image card-img-hydroponic"></div>
+                    <h3>Hydroponic &amp; Soilless</h3>
+                    <p>IoT‑controlled nutrient delivery, pH/EC monitoring, and automated climate control for high‑yield vertical farms.</p>
                     <span class="research-tag active">Active</span>
                 </div>
+
+                <!-- 4. Litchi Picker Robot -->
                 <div class="research-card">
-                    <div class="card-icon">🛰️</div>
-                    <h3>IoT &amp; Smart Sensors</h3>
-                    <p>Deploying IoT sensor networks for soil health monitoring, weather prediction, and automated irrigation systems.</p>
-                    <span class="research-tag active">Active</span>
-                </div>
-                <div class="research-card">
-                    <div class="card-icon">📊</div>
-                    <h3>Predictive Modeling</h3>
-                    <p>ARX and machine learning models for predicting engine power, crop yield, and optimizing agricultural machinery.</p>
+                    <div class="card-image card-img-litchi"></div>
+                    <h3>Litchi Picker</h3>
+                    <p>Robotic arm with vision‑guided gripping for selective harvesting of litchi, reducing labour and fruit damage.</p>
                     <span class="research-tag ongoing">Ongoing</span>
                 </div>
+
+                <!-- 5. AI + Predictive Modelling (extra from original) -->
+                <div class="research-card">
+                    <div class="card-image card-img-ai"></div>
+                    <h3>AI &amp; Predictive Models</h3>
+                    <p>Deep learning for disease detection, ARX models for yield forecasting, and sensor fusion for smart farming.</p>
+                    <span class="research-tag active">Active</span>
+                </div>
+
             </div>
+            <!-- tiny note: all five projects displayed with custom images -->
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -103,6 +434,19 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <!-- ===== HAMBURGER SCRIPT ===== -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('open');
+        });
+        // close on link click (mobile)
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+            });
+        });
+    </script>
 </body>
 </html>
