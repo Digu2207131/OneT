@@ -7,86 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <style>
-        .grad-student-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 30px;
-        }
-        .grad-student-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid #eef2f7;
-            transition: 0.3s;
-        }
-        .grad-student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
-        }
-        .grad-student-card .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 15px;
-            border: 3px solid var(--primary);
-            background: var(--light-gray);
-        }
-        .grad-student-card .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .grad-student-card h4 {
-            font-size: 17px;
-            margin-bottom: 4px;
-        }
-        .grad-student-card .role {
-            font-size: 13px;
-            color: var(--gray);
-        }
-        .grad-student-card .bio {
-            font-size: 13px;
-            color: var(--gray);
-            margin-top: 5px;
-        }
-        .alumni-card-simple {
-            background: #f8f9fa;
-            border: 1px dashed var(--primary-light);
-        }
-        .alumni-card-simple .avatar {
-            border-color: var(--secondary);
-        }
-        .section-title {
-            margin-top: 40px;
-            text-align: center;
-            color: var(--primary-dark);
-            font-size: 28px;
-        }
-        .empty-msg {
-            text-align: center;
-            color: var(--gray);
-            padding: 40px;
-            font-style: italic;
-        }
-        @media (max-width: 1024px) {
-            .grad-student-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 600px) {
-            .grad-student-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 <body>
 
+    <!-- ========================================== -->
+    <!-- NAVIGATION                                 -->
+    <!-- ========================================== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-brand">
@@ -107,24 +33,159 @@
         </div>
     </nav>
 
+    <!-- ========================================== -->
+    <!-- PEOPLE CONTENT                             -->
+    <!-- ========================================== -->
     <section class="page-content">
         <div class="container" style="padding: 140px 20px 80px;">
             <div class="section-header">
                 <span class="section-tag">Our People</span>
-                <h2>Team</h2>
+                <h2>Team Member</h2>
                 <p>Meet our researchers driving innovation in precision agriculture.</p>
             </div>
 
-            <!-- ========================================== -->
-            <!-- TEAM CONTAINER – ALL DATA FROM ADMIN      -->
-            <!-- ========================================== -->
-            <div id="team-container">
-                <p class="empty-msg">Loading team members...</p>
+            <!-- Current Members -->
+            <div class="grad-student-grid">
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/faruk.jpeg" alt="Md Faruk Hossain" /></div>
+                    <h4>Md Faruk Hossain</h4>
+                    <p class="role">Research Assistant</p>
+                    <p class="role">Expert area: SolidWorks,AI automation,Sensor intrigation,Statical analysis</p>
+                    <span class="read-more">Read More</span>
+                </div>
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/mehedi.jpeg" alt="Kazi Md Mehedi Hasan" /></div>
+                    <h4>Kazi Md Mehedi Hasan</h4>
+                    <p class="role">Research Assistant</p>
+                    <p class="role">Expert area: SolidWorks,Statical analysis</p>
+                    <span class="read-more">Read More</span>
+                </div>
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/rayhan.jpeg" alt="Rayhan Mahmud" /></div>
+                    <h4>Rayhan Mahmud</h4>
+                    <p class="role">Research Assistant</p>
+                    <span class="read-more">Read More</span>
+                </div>
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/musa.jpeg" alt="Md Musa" /></div>
+                    <h4>Md Musa</h4>
+                    <p class="role">Research Assistant</p>
+                    <span class="read-more">Read More</span>
+                </div>
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/fahim.jpeg" alt="Md Fahim" /></div>
+                    <h4>Md Fahim</h4>
+                    <p class="role">Research Assistant</p>
+                    <span class="read-more">Read More</span>
+                </div>
+                <div class="grad-student-card">
+                    <div class="avatar"><img src="images/digonta.jpg" alt="Digonta Chandra Roy" /></div>
+                    <h4>Digonta Chandra Roy</h4>
+                    <p class="role">Research Assistant</p>
+                    <p class="role">Expert area:Machine Learning, Deep learning,Sensor intrigation,Statical analysis</p>
+                    <span class="read-more">Read More</span>
+                </div>
             </div>
 
+            <!-- Alumni -->
+            <div style="margin-top: 50px; padding-top: 40px; border-top: 2px solid #eef2f7;">
+                <h3 style="text-align: center; color: var(--primary-dark);">🎓 Alumni</h3>
+                
+                <div class="grad-student-grid">
+                    <div class="grad-student-card alumni-card-simple">
+                        <div class="avatar"><img src="images/mamun.jpg" alt="Md Mamunur Rashid" /></div>
+                        <h4>Md Mamunur Rashid</h4>
+                        <p class="role">MS Student</p>
+                        <p class="role">Chungnum National University,South Korea</p>
+                        <span class="read-more">Read-more</span>
+                    </div>
+                    <div class="grad-student-card alumni-card-simple">
+                        <div class="avatar"><img src="images/tapu.jpeg" alt="Md Ashikur Rahman" /></div>
+                        <h4>Md Ashikur Rahman</h4>
+                        <p class="role">MS Student</p>
+                        <p class="role">Chungnum National University,South Korea</p>
+                        <span class="read-more">Read More</span>
+                    </div>
+                    <div class="grad-student-card alumni-card-simple">
+                     <div class="avatar"><img src="images/robin.jpeg" alt="Md Sakib Robin" /></div>
+    <h4>Md Sakib Robin</h4>
+    <p class="role">MS Student</p>
+    <p class="role">Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/pabel.jpeg" alt="Pabel Dey" /></div>
+    <h4>Pabel Dey</h4>
+    <p class="role">MS Student</p>
+    <p class="role">Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/asrakul.jpeg" alt="Md. Asrakul Haque" /></div>
+    <h4>Md. Asrakul Haque</h4>
+    <p class="role">PhD Student</p>
+    <p class="role">University of California, Davis</p>
+    <p class="role">MS from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/samsu.jpeg" alt="Samuzzaman Zaman" /></div>
+    <h4>Samuzzaman Zaman</h4>
+    <p class="role">PhD Student</p>
+    <p class="role">Chungnam National University, South Korea</p>
+    <p class="role">MS from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/razob.jpeg" alt="Md Rozob Ali" /></div>
+    <h4>Md Rozob Ali</h4>
+    <p class="role">PhD Student</p>
+    <p class="role">Chungnam National University, South Korea</p>
+    <p class="role">MS Graduate from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/ayub.jpeg" alt="Md Abu Ayub Siddique" /></div>
+    <h4>Md Abu Ayub Siddique</h4>
+    <p class="role">PhD Graduate</p>
+    <p class="role">University of California, Davis</p>
+    <p class="role">MS Graduate from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/nafiul.jpeg" alt="Md. Nafiul Islam" /></div>
+    <h4>Md. Nafiul Islam</h4>
+    <p class="role">Postdoctoral Scholar</p>
+    <p class="role">Texas A&M University, College Station, Texas</p>
+    <p class="role">MS Graduate from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<div class="grad-student-card alumni-card-simple">
+    <div class="avatar"><img src="images/zafar.jpeg" alt="Zafar Iqbal" /></div>
+    <h4>Zafar Iqbal</h4>
+    <p class="role">Postdoctoral Associate</p>
+    <p class="role">University of Florida</p>
+    <p class="role">Graduate Teaching Assistant at Texas A&M University</p>
+    <p class="role">MS Graduate from Chungnam National University, South Korea</p>
+    <span class="read-more">Read More</span>
+</div>
+
+<!-- REMOVED DUPLICATE Asrakul Haque entry -->
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- FOOTER                                     -->
+    <!-- ========================================== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -153,107 +214,75 @@
         </div>
     </footer>
 
-    <script>
-        // ==========================================
-        // LOAD TEAM DATA FROM ADMIN PANEL
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
+    <style>
+        .grad-student-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .grad-student-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 20px 25px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #eef2f7;
+            transition: 0.3s;
+        }
+        .grad-student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+        }
+        .grad-student-card .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 15px;
+            border: 3px solid var(--primary);
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--primary);
+        }
+        .grad-student-card .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .grad-student-card h4 { font-size: 17px; margin-bottom: 4px; }
+        .grad-student-card .role { font-size: 13px; color: var(--gray); }
+        .grad-student-card .read-more {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .grad-student-card .read-more:hover { text-decoration: underline; }
+        .alumni-card-simple { background: #f8f9fa; border: 1px dashed var(--primary-light); }
+        .alumni-card-simple .avatar { border-color: var(--secondary); }
 
-            function renderTeam() {
-                const container = document.getElementById('team-container');
-                if (!container) return;
-
-                // Get data from localStorage
-                const stored = localStorage.getItem('spal_admin_data');
-                let team = [];
-
-                if (stored) {
-                    try {
-                        const data = JSON.parse(stored);
-                        if (data.team && data.team.length > 0) {
-                            team = data.team;
-                        }
-                    } catch (e) {
-                        console.warn('Error parsing team data:', e);
-                    }
-                }
-
-                // If no data, show message
-                if (team.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-msg">
-                            <p>No team members added yet.</p>
-                            <p style="font-size: 14px; margin-top: 8px;">
-                                <a href="admin/" style="color: var(--primary); font-weight: 600;">Go to Admin Panel</a> to add members.
-                            </p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Separate current and alumni
-                const current = team.filter(m => m.category === 'current');
-                const alumni = team.filter(m => m.category === 'alumni');
-
-                let html = '';
-
-                // Current Members
-                if (current.length > 0) {
-                    html += `<div class="grad-student-grid">`;
-                    current.forEach(m => {
-                        const img = m.image || 'default.jpg';
-                        html += `
-                            <div class="grad-student-card">
-                                <div class="avatar">
-                                    <img src="images/${img}" alt="${m.name}" onerror="this.src='images/default.jpg'" />
-                                </div>
-                                <h4>${m.name}</h4>
-                                <p class="role">${m.role}</p>
-                                <p class="bio">${m.bio}</p>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                }
-
-                // Alumni
-                if (alumni.length > 0) {
-                    html += `
-                        <h3 class="section-title">🎓 Alumni</h3>
-                        <div class="grad-student-grid">
-                    `;
-                    alumni.forEach(m => {
-                        const img = m.image || 'default.jpg';
-                        html += `
-                            <div class="grad-student-card alumni-card-simple">
-                                <div class="avatar">
-                                    <img src="images/${img}" alt="${m.name}" onerror="this.src='images/default.jpg'" />
-                                </div>
-                                <h4>${m.name}</h4>
-                                <p class="role">${m.role}</p>
-                                <p class="bio">${m.bio}</p>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                }
-
-                container.innerHTML = html;
-            }
-
-            // Render on load
-            renderTeam();
-
-            // Re-render when localStorage changes
-            window.addEventListener('storage', function(e) {
-                if (e.key === 'spal_admin_data') {
-                    renderTeam();
-                }
-            });
-
-        });
-    </script>
+        @media (max-width: 1024px) {
+            .grad-student-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .grad-student-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 
     <script src="js/script.js"></script>
+    <script>
+        document.querySelectorAll('.read-more').forEach(el => {
+            el.addEventListener('click', function() {
+                const name = this.closest('.grad-student-card')?.querySelector('h4')?.textContent || 'Team Member';
+                alert(`📋 ${name}\n\nFull profile coming soon!`);
+            });
+        });
+    </script>
 </body>
 </html>
