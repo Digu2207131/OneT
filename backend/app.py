@@ -15,18 +15,69 @@ CORS(app)
 # ==========================================
 # FIREBASE INITIALIZATION
 # ==========================================
-# Use the service account key file
-cred_path = os.getenv('FIREBASE_CREDENTIALS', 'serviceAccountKey.json')
+firebase_ready = False
 
-if os.path.exists(cred_path):
-    cred = credentials.Certificate(cred_path)
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
-    })
-    print('✅ Firebase initialized with service account!')
-else:
-    print(f'⚠️ Firebase credentials not found at {cred_path}')
+def init_firebase():
+    """Initialize Firebase from environment or file"""
+    global firebase_ready
+    
+    # Try 1: Load from environment variable
+    firebase_json = os.getenv('FIREBASE_SERVICE_ACCOUNT')
+    if firebase_json:
+        try:
+            firebase_cred = json.loads(firebase_json)
+            cred = credentials.Certificate(firebase_cred)
+            firebase_admin.initialize_app(cred, {
+                'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
+            })
+            print('✅ Firebase initialized from environment variable!')
+            firebase_ready = True
+            return
+        except Exception as e:
+            print(f'⚠️ Error initializing from environment: {e}')
+    
+    # Try 2: Load from file
+    cred_path = os.getenv('FIREBASE_CREDENTIALS', 'serviceAccountKey.json')
+    if os.path.exists(cred_path):
+        try:
+            cred = credentials.Certificate(cred_path)
+            firebase_admin.initialize_app(cred, {
+                'databaseURL': 'https://spal-lab-data-default-rtdb.firebaseio.com/'
+            })
+            print(f'✅ Firebase initialized from file: {cred_path}')
+            firebase_ready = True
+            return
+        except Exception as e:
+            print(f'⚠️ Error initializing from file: {e}')
+    
+    # Try 3: Load from Firebase config (client SDK)
+    try:
+        firebase_config = {
+            "apiKey": "AIzaSyBcwLsODrVRzw6MlUluBs3U7JaKf1fWm0A",
+            "authDomain": "spal-lab-data.firebaseapp.com",
+            "databaseURL": "https://spal-lab-data-default-rtdb.firebaseio.com",
+            "projectId": "spal-lab-data",
+            "storageBucket": "spal-lab-data.firebasestorage.app",
+            "messagingSenderId": "899013208966",
+            "appId": "1:899013208966:web:0f199c781ea07cd53c9a07"
+        }
+        
+        # Try to initialize with project ID
+        firebase_admin.initialize_app(options={
+            'projectId': firebase_config['projectId'],
+            'databaseURL': firebase_config['databaseURL']
+        })
+        print('✅ Firebase initialized with client config!')
+        firebase_ready = True
+        return
+    except Exception as e:
+        print(f'⚠️ Firebase init error: {e}')
+    
     print('⚠️ Running in local-only mode')
+    firebase_ready = False
+
+# Call initialization
+init_firebase()
 
 # ==========================================
 # DATA FUNCTIONS
@@ -35,45 +86,56 @@ def get_data():
     """Get data from Firebase or local"""
     data = {'team': [], 'publications': [], 'news': [], 'awards': []}
     
-    try:
-        ref = db.reference('spal_data')
-        firebase_data = ref.get()
-        if firebase_data:
-            return firebase_data
-    except Exception as e:
-        print(f'⚠️ Firebase read error: {e}')
+    # Try Firebase first if available
+    if firebase_ready:
+        try:
+            ref = db.reference('spal_data')
+            firebase_data = ref.get()
+            if firebase_data:
+                print('📥 Data loaded from Firebase')
+                return firebase_data
+        except Exception as e:
+            print(f'⚠️ Firebase read error: {e}')
     
     # Fallback to local JSON
     if os.path.exists('data.json'):
         try:
             with open('data.json', 'r') as f:
-                return json.load(f)
-        except:
-            pass
+                local_data = json.load(f)
+                if local_data and local_data.get('team'):
+                    print('📥 Data loaded from local file')
+                    return local_data
+        except Exception as e:
+            print(f'⚠️ Local read error: {e}')
     
     return data
 
 def save_data(data):
     """Save data to Firebase and local"""
-    try:
-        ref = db.reference('spal_data')
-        ref.set(data)
-        print('✅ Saved to Firebase!')
-    except Exception as e:
-        print(f'⚠️ Firebase save error: {e}')
+    # Save to Firebase
+    if firebase_ready:
+        try:
+            ref = db.reference('spal_data')
+            ref.set(data)
+            print('✅ Saved to Firebase!')
+        except Exception as e:
+            print(f'⚠️ Firebase save error: {e}')
     
     # Always save locally as backup
-    with open('data.json', 'w') as f:
-        json.dump(data, f, indent=2)
-    print('✅ Saved to local!')
+    try:
+        with open('data.json', 'w') as f:
+            json.dump(data, f, indent=2)
+        print('✅ Saved to local file!')
+    except Exception as e:
+        print(f'⚠️ Local save error: {e}')
 
 # ==========================================
 # INITIAL DATA
 # ==========================================
-def init_data():
+def init_default_data():
     """Initialize default data if empty"""
     data = get_data()
-    if not data or not data.get('team'):
+    if not data or not data.get('team') or len(data.get('team', [])) == 0:
         default_data = {
             'team': [
                 {'id': 1, 'name': 'Md Faruk Hossain', 'role': 'Research Assistant', 
@@ -116,7 +178,15 @@ def index():
     return jsonify({
         'status': 'SPAL Backend Running',
         'version': '1.0',
+        'firebase_ready': firebase_ready,
         'timestamp': datetime.now().isoformat()
+    })
+
+@app.route('/api/status')
+def status():
+    return jsonify({
+        'firebase_ready': firebase_ready,
+        'data_file_exists': os.path.exists('data.json')
     })
 
 # ==========================================
@@ -141,6 +211,7 @@ def add_team_member():
     if not new_member.get('name'):
         return jsonify({'error': 'Name is required'}), 400
     
+    # Generate ID
     max_id = max([m.get('id', 0) for m in data.get('team', [])]) if data.get('team') else 0
     new_member['id'] = max_id + 1
     new_member['created_at'] = datetime.now().isoformat()
@@ -293,9 +364,9 @@ def delete_award(id):
     return jsonify({'error': 'Award not found'}), 404
 
 # ==========================================
-# INIT DATA
+# INIT DATA ON STARTUP
 # ==========================================
-init_data()
+init_default_data()
 
 # ==========================================
 # RUN
