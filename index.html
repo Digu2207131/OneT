@@ -6,18 +6,477 @@
     <title>SPAL – Smart Precision Agriculture Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #1a3b2b;
+            text-decoration: none;
+        }
+        .brand-icon {
+            font-size: 1.6rem;
+        }
+        .brand-text {
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== DESKTOP MENU ===== */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d3748;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #2b6e4f;
+            border-bottom-color: #2b6e4f;
+        }
+
+        /* ===== HAMBURGER MENU BUTTON ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px 4px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #1a202c;
+            border-radius: 4px;
+            transition: 0.3s;
+            display: block;
+        }
+
+        /* ===== MOBILE MENU (Slide from right) ===== */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                padding: 80px 30px 30px;
+                gap: 6px;
+                box-shadow: -8px 0 30px rgba(0,0,0,0.15);
+                transition: right 0.35s ease;
+                overflow-y: auto;
+                border-left: 1px solid #edf2f7;
+            }
+            .nav-menu.open {
+                display: flex;
+                right: 0;
+            }
+            .nav-menu a {
+                font-size: 1.1rem;
+                padding: 14px 0;
+                border-bottom: 1px solid #f0f0f0;
+                width: 100%;
+                display: block;
+                font-weight: 500;
+            }
+            .nav-menu a:last-child {
+                border-bottom: none;
+            }
+            .nav-menu a.active {
+                color: #2b6e4f;
+                border-bottom-color: #2b6e4f;
+            }
+
+            /* Overlay background */
+            .menu-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.3);
+                z-index: 999;
+            }
+            .menu-overlay.active {
+                display: block;
+            }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #f0f7f4 0%, #e6f0ed 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: #1a4b3a;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 6px 18px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #0f2b20;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        .hero-text h1 .highlight {
+            color: #2b6e4f;
+        }
+        .hero-text p {
+            font-size: 1.05rem;
+            color: #3d5a4c;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .stat-card {
+            background: white;
+            padding: 18px 16px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,40,20,0.08);
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a4b3a;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #4a5a52;
+            font-weight: 500;
+        }
+
+        /* ===== HERO PROFILE CARD ===== */
+        .hero-image {
+            display: flex;
+            justify-content: center;
+        }
+        .hero-profile-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            max-width: 320px;
+            width: 100%;
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .hero-profile-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0,40,20,0.1);
+        }
+        .hero-profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 16px;
+            background: #eef5f2;
+            border: 3px solid #2b6e4f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-profile-avatar .placeholder {
+            font-size: 3.5rem;
+            color: #1a4b3a;
+        }
+        .hero-profile-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f2b20;
+        }
+        .hero-profile-role {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2b6e4f;
+            margin-top: 2px;
+        }
+        .hero-profile-dept {
+            font-size: 0.8rem;
+            color: #4a5a52;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+        .hero-profile-social {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .hero-profile-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #eef5f2;
+            color: #1a4b3a;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .hero-profile-social a:hover {
+            background: #1a4b3a;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-text p {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .hero-badge {
+                margin: 0 auto;
+            }
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .hero-profile-card {
+                margin: 0 auto;
+            }
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 16px 40px;
+            }
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+            .hero-text p {
+                font-size: 0.95rem;
+            }
+            .stat-number {
+                font-size: 1.4rem;
+            }
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            .hero-stats {
+                gap: 10px;
+                max-width: 100%;
+            }
+            .stat-card {
+                padding: 14px 10px;
+            }
+            .hero-profile-card {
+                padding: 24px 20px;
+            }
+            .hero-profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            .hero-profile-card h3 {
+                font-size: 1rem;
+            }
+            .nav-brand {
+                font-size: 1.2rem;
+            }
+            .brand-icon {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f261e;
+            color: #cdddd6;
+            padding: 40px 0 20px;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+        }
+        .footer-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: white;
+        }
+        .footer-brand p {
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-links a {
+            color: #bcd0c6;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social a {
+            color: #bcd0c6;
+            margin-left: 14px;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+        .footer-social a:hover {
+            color: white;
+        }
+        .footer-bottom {
+            border-top: 1px solid #2a463a;
+            padding-top: 16px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+        @media (max-width: 600px) {
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .footer-links {
+                gap: 12px;
+            }
+            .footer-social a {
+                margin-left: 0;
+                margin-right: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
+    <!-- ===== OVERLAY (Mobile menu background) ===== -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- ===== NAVIGATION ===== -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <div class="nav-brand">
+            <a href="index.html" class="nav-brand">
                 <span class="brand-icon">🌱</span>
                 <span class="brand-text">SPAL</span>
-            </div>
-            <ul class="nav-menu">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="pi.html">PI</a></li>
@@ -25,13 +484,10 @@
                 <li><a href="people.html">People</a></li>
                 <li><a href="news.html">News & Media</a></li>
             </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span><span></span><span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -61,7 +517,9 @@
                 <div class="hero-image">
                     <div class="hero-profile-card">
                         <div class="hero-profile-avatar">
-                            <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
+                            <!-- Replace with actual image -->
+                            <span class="placeholder">👨‍🔬</span>
+                            <!-- <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" /> -->
                         </div>
                         <h3>Dr. Md. Shaha Nur Kabir</h3>
                         <p class="hero-profile-role">Professor &amp; Principal Investigator</p>
@@ -80,13 +538,12 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <span class="brand-icon">🌱</span>
-                    <span class="brand-text">SPAL</span>
+                    <span class="brand-text">🌱 SPAL</span>
                     <p>Smart Precision Agriculture Lab</p>
                 </div>
                 <div class="footer-links">
@@ -109,7 +566,60 @@
         </div>
     </footer>
 
+    <!-- ===== SCRIPTS ===== -->
     <script>
+        // ===== HAMBURGER MENU =====
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        const overlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            navMenu.classList.toggle('open');
+            overlay.classList.toggle('active');
+
+            const spans = hamburger.querySelectorAll('span');
+            if (navMenu.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+                document.body.style.overflow = 'hidden';
+            } else {
+                spans[0].style.transform = 'rotate(0) translate(0, 0)';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'rotate(0) translate(0, 0)';
+                document.body.style.overflow = '';
+            }
+        }
+
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // Close menu when clicking overlay
+        overlay.addEventListener('click', function() {
+            if (navMenu.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('open')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Close menu on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+
+        // ===== LOCAL STORAGE DATA LOADER =====
         document.addEventListener('DOMContentLoaded', function() {
             const pageData = localStorage.getItem('spal_page_data');
             if (pageData) {
@@ -125,6 +635,5 @@
             }
         });
     </script>
-    <script src="js/script.js"></script>
 </body>
 </html>
