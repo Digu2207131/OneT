@@ -176,6 +176,11 @@
             gap: 50px;
             align-items: center;
         }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
         .hero-text {
             display: flex;
             flex-direction: column;
@@ -243,6 +248,7 @@
         .hero-image {
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
         .hero-profile-card {
             background: white;
@@ -347,6 +353,15 @@
             .hero-text h1 {
                 font-size: 2.4rem;
             }
+            .hero-content {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-profile-card {
+                margin-top: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -374,6 +389,7 @@
             }
             .hero-profile-card {
                 padding: 24px 20px;
+                margin-top: 30px;
             }
             .hero-profile-avatar {
                 width: 100px;
@@ -387,6 +403,9 @@
             }
             .brand-icon {
                 font-size: 1.3rem;
+            }
+            .hero-content {
+                gap: 40px;
             }
         }
 
@@ -497,19 +516,19 @@
                     <p id="hero-desc">Developing AI-powered drone systems and image processing solutions for sustainable agriculture and crop disease detection.</p>
                     <div class="hero-stats">
                         <div class="stat-card">
-                            <span class="stat-number" id="home_projects">15+</span>
+                            <span class="stat-number" id="home_projects">15</span>
                             <span class="stat-label">Research Projects</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" id="home_pubs">10</span>
+                            <span class="stat-number" id="home_pubs">45</span>
                             <span class="stat-label">Publications</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" id="home_team">6</span>
+                            <span class="stat-number" id="home_team">12</span>
                             <span class="stat-label">Team Members</span>
                         </div>
                         <div class="stat-card">
-                            <span class="stat-number" id="home_ongoing">6</span>
+                            <span class="stat-number" id="home_ongoing">8</span>
                             <span class="stat-label">Ongoing Projects</span>
                         </div>
                     </div>
@@ -517,7 +536,6 @@
                 <div class="hero-image">
                     <div class="hero-profile-card">
                         <div class="hero-profile-avatar">
-                           
                             <img src="images/supervisor.jpg" alt="Dr. Md. Shaha Nur Kabir" />
                         </div>
                         <h3>Dr. Md. Shaha Nur Kabir</h3>
